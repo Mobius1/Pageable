@@ -5,6 +5,8 @@ Pageable transforms a web page into a full page scrolling presentation.
   - Lightweight
   - Performant
   - Easy to set up
+
+ [Demo / Playground](https://codepen.io/Mobius1/pen/mGBXPw/)
 ---
 ## Set up
 
@@ -20,7 +22,7 @@ Define a container element that has at least one descendant element with the `da
 </div>
 ```
 
-Instanciate Pageable and pass a reference to the container in the contructor:
+Instanciate Pageable and pass a reference to the container in the constructor:
 ### JS
 ```javascript
 new Pageable("#container");
