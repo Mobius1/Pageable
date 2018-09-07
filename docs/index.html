@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html >
+	<head>
+		<meta charset="UTF-8">
+		<title>Pageable</title>
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
+<div class="anchors"><ul></ul></div>
+
+<main>
+	<section data-anchor="intro">
+		<div class="text">
+			<h1>Turn your web page into a fullscreen scrolling presentation.</h1>
+			<div class="scroller">
+				<small>Scroll down or swipe up.</small>
+			</div>
+		</div>
+	</section>
+	<section data-anchor="markup">
+		<div class="text">
+			<h2>Markup</h2>
+			<pre class="language-markup">
+			<code>
+&lt;div id="container"&gt;
+	&lt;div data-anchor="page-1"&gt;&lt;/div&gt;
+	&lt;div data-anchor="page-2"&gt;&lt;/div&gt;
+	&lt;div data-anchor="page-3"&gt;&lt;/div&gt;
+	&lt;div data-anchor="page-4"&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code>
+</pre>
+		</div>
+	</section>
+	<section data-anchor="Initialise">
+		<div class="text">
+			<h2>Initialise</h2>
+			<pre class="language-js">
+			<code>
+new Pageable("#container");
+</code>
+</pre>
+		</div>		
+	</section>
+	<section data-anchor="Page 3"><div class="text"></div></section>
+	<section data-anchor="Page 4"><div class="text"></div></section>
+</main>
+		<script src="js/pageable.js"></script>
+		<script src="js/index.js"></script>
+	</body>
+</html>
