@@ -6,7 +6,7 @@ Pageable transforms a web page into a full page scrolling presentation.
   - Performant
   - Easy to set up
 
- [Demo / Playground](https://codepen.io/Mobius1/pen/mGBXPw/)
+ [Demo / Playground](https://codepen.io/Mobius1/debug/mGBXPw/)
 ---
 ## Set up
 
