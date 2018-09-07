@@ -1,6 +1,6 @@
 import utils from './components/utils';
 
-class Pageable {
+export default class Pageable {
 	constructor(container, options) {
 		
 		if ( container === undefined ) {
@@ -11,6 +11,7 @@ class Pageable {
 			pips: true,
 			interval: 300,
 			delay: 0,
+			throttle: 50,
 			orientation: "vertical",
 			easing: (t, b, c, d, s) => -c * (t /= d) * (t - 2) + b,
 			onInit: () => {},
@@ -43,10 +44,6 @@ class Pageable {
 			}
 			
 			this.anchors.push(`#${clean}`);
-			
-			if ( this.horizontal ) {
-				page.style.float = "left";
-			}
 			
 			page.classList.add("pg-page");
 		});		
@@ -81,6 +78,7 @@ class Pageable {
 		this.container.parentNode.insertBefore(this.wrapper, this.container);
 		this.wrapper.appendChild(this.container);
 		
+		this.wrapper.classList.add("pg-wrapper", `pg-${this.config.orientation}`);
 		this.wrapper.classList.add("pg-wrapper");
 		this.container.classList.add("pg-container");
 		
@@ -122,7 +120,7 @@ class Pageable {
 	bind() {
 		this.callbacks = {
 			wheel: this.wheel.bind(this),
-			update: utils.throttle(this.update.bind(this), 50),
+			update: utils.throttle(this.update.bind(this), this.config.throttle),
 			load: this.load.bind(this),
 		};
 		
@@ -224,13 +222,15 @@ class Pageable {
 	}
 	
 	setPips(index) {
-		if ( index === undefined ) {
-			index = this.index;
+		if ( this.config.pips ) {
+			if ( index === undefined ) {
+				index = this.index;
+			}
+
+			this.pips.forEach((pip, i) => {
+				pip.firstElementChild.classList.toggle("active", i == index);
+			});		
 		}
-		
-		this.pips.forEach((pip, i) => {
-			pip.firstElementChild.classList.toggle("active", i == index);
-		});		
 	}
 	
 	wheel(e) {
@@ -252,29 +252,6 @@ class Pageable {
 				this.scrollBy(this.getScrollAmount(oldIndex));	
 			}	
 		}
-	}
-	
-	scrollToPage(page) {
-		this.scrollToIndex(page - 1);
-	}
-	
-	scrollToIndex(index) {
-		if ( index >= 0 && index <= this.pages.length - 1 ) {
-			const oldIndex = this.index;
-			this.index = index;
-
-			const amount = this.getScrollAmount(oldIndex);
-
-			this.scrollBy(amount);
-		}		
-	}
-	
-	scrollToAnchor(id) {
-		const index = this.anchors.indexOf(id);
-		
-		if ( index === this.index ) return false;
-		
-		this.scrollToIndex(index);
 	}
 	
 	getScrollAmount(oldIndex, newIndex) {
@@ -343,6 +320,13 @@ class Pageable {
 
 				// requestAnimationFrame
 				this.frame = requestAnimationFrame(scroll);
+				
+				var event = new CustomEvent('pageable.scroll', {
+					detail: {
+						scrolled: Math.round(offset[this.axis] - scrolled)
+					}
+				});
+				window.dispatchEvent(event);				
 			};
 
 			this.config.onStart.call(this, this.pages[this.index].id);
@@ -358,6 +342,37 @@ class Pageable {
 				location.hash = `#${id}`;
 		}		
 	}
+	
+	scrollToPage(page) {
+		this.scrollToIndex(page - 1);
+	}
+	
+	scrollToIndex(index) {
+		if ( index >= 0 && index <= this.pages.length - 1 ) {
+			const oldIndex = this.index;
+			this.index = index;
+
+			const amount = this.getScrollAmount(oldIndex);
+
+			this.scrollBy(amount);
+		}		
+	}
+	
+	scrollToAnchor(id) {
+		const index = this.anchors.indexOf(id);
+		
+		if ( index < 0 || index === this.index ) return false;
+		
+		this.scrollToIndex(index);
+	}	
+	
+	next() {
+		this.scrollToIndex(this.index+1);
+	}
+	
+	prev() {
+		this.scrollToIndex(this.index-1);
+	}	
 	
 	update() {
 		clearTimeout(this.timer);
@@ -394,9 +409,15 @@ class Pageable {
 		this.scrollPosition = this.data.window[size] * this.index;
 		
 		this.pages.forEach((page, i) => {
+			if ( this.horizontal ) {
+				page.style.float = "left";
+			}			
 			page.style[size] = `${this.data.window[size]}px`;
 			page.style[opp] = `${this.data.window[opp]}px`;
 		});	
+		
+		var event = new Event('pageable.update');
+		window.dispatchEvent(event);		
 	}
 	
 	getScrollOffset() {
@@ -404,5 +425,29 @@ class Pageable {
 			x: this.wrapper.scrollLeft,
 			y: this.wrapper.scrollTop
 		};
+	}
+	
+	orientate(type) {
+		switch(type) {
+			case "vertical":
+				this.horizontal = false;
+				this.axis = "y" 
+				this.container.style.width = ``;
+				break;
+			case "horizontal":
+				this.horizontal = true;
+				this.axis = "x" 
+				this.container.style.height = ``;
+				break;
+			default:
+				return false;
+		}
+		
+		this.wrapper.classList.toggle("pg-vertical", !this.horizontal);
+		this.wrapper.classList.toggle("pg-horizontal", this.horizontal);
+		
+		this.config.orientation = type;
+
+		this.update();
 	}
 }
