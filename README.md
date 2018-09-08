@@ -45,7 +45,7 @@ Define a container element that has at least one descendant element with the `da
 </div>
 ```
 
-Instanciate Pageable and pass a reference to the container in the constructor:
+Instantiate Pageable and pass a reference to the container in the constructor:
 ### JS
 ```javascript
 new Pageable("#container");
@@ -62,25 +62,57 @@ new Pageable("#container", {
     interval: 300,
     delay: 0,
     orientation: "vertical",
-    easing: function(t, b, c, d, s) {
-    	return -c * (t /= d) * (t - 2) + b;
+    easing: function(currentTime, startPos, endPos, interval) {
+    	return -endPos * (currentTime /= interval) * (currentTime - 2) + startPos;
     },
     onInit: function() {
-
+    	// do something when the instance is ready
     },
     onBeforeStart: function() {
-
+    	// do something before scrolling begins
     },
     onStart: function() {
-
+    	// do something when scrolling begins
     },
     onScroll: function() {
-
+    	// do something during scroll
     },
     onFinish: function() {
-
+    	// do something when scrolling ends
     },
 });
+```
+---
+## Methods
+
+### `next()`
+Scroll to next page.
+```javascript
+pageable.next();
+```
+
+### `prev()`
+Scroll to previous page.
+```javascript
+pageable.prev();
+```
+
+### `scrollToPage()`
+Scroll to defined page number.
+```javascript
+pageable.scrollToPage(3);
+```
+
+### `scrollToAnchor()`
+Scroll to defined anchor.
+```javascript
+pageable.scrollToAnchor("#myanchor");
+```
+
+### `orientate()`
+Orientate the instance to either vertical or horizontal.
+```javascript
+pageable.orientate("horizontal");
 ```
 
 ---
