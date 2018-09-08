@@ -9,6 +9,28 @@ Pageable transforms a web page into a full page scrolling presentation.
 
  [Demo / Playground](https://codepen.io/Mobius1/debug/mGBXPw/)
 ---
+
+## Install
+
+### npm
+```
+npm install pageable --save
+```
+
+---
+
+### Browser
+
+Grab the file from one of the CDNs and include it in your page:
+
+```
+https://unpkg.com/pageable@latest/dist/pageable.js
+```
+
+You can replace `latest` with the required release number if needed.
+
+---
+
 ## Set up
 
 Define a container element that has at least one descendant element with the `data-anchor` attribute.
