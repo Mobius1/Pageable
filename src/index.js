@@ -24,15 +24,28 @@ export default class Pageable {
 		this.container = typeof container === "string" ?
 			document.querySelector(container) : container;
 		
+		this.config = Object.assign({}, defaults, options);
+		
+		if ( this.config.anchors && Array.isArray(this.config.anchors) ) {
+			const frag = document.createDocumentFragment();
+			
+			this.config.anchors.forEach(anchor => {
+				const page = document.createElement("div");
+				page.dataset.anchor = anchor;
+				frag.appendChild(page);
+			});
+			
+			this.container.appendChild(frag);
+		}
+		
 		// search for child nodes with the [data-anchor] attribute
 		this.pages = Array.from(this.container.querySelectorAll("[data-anchor]"));
-		
+
 		// none found
 		if ( !this.pages.length ) {
 			return console.error("Pageable:", "No child nodes with the [data-anchor] attribute could be found.");
-		}
+		}			
 		
-		this.config = Object.assign({}, defaults, options);
 		this.horizontal = this.config.orientation === "horizontal";
 		
 		this.anchors = [];
@@ -204,8 +217,6 @@ export default class Pageable {
 			if ( index > -1 ) {
 				this.index = index;
 				this.setPips();
-				
-				this.wrapper[this.scrollAxis[this.axis]] = (this.horizontal ? window.innerWidth : window.innerHeight) * this.index;
 
 				this.config.onFinish.call(this, {
 					id: this.pages[this.index].id,
@@ -280,8 +291,6 @@ export default class Pageable {
 			const st = Date.now();
 			const offset = this.getScrollOffset();
 
-			this.setURL(this.pages[this.index].id);
-
 			this.setPips();		
 
 			// Scroll function
@@ -296,11 +305,11 @@ export default class Pageable {
 					const position = this.data.window[this.size[this.axis]] * this.index;
 
 					this.container.style.transform = ``;
-					
-					this.wrapper[this.scrollAxis[this.axis]] = this.scrollPosition = position;
 
 					this.frame = false;
 					this.scrolling = false;
+					
+					window.location.hash = this.pages[this.index].id;
 
 					this.config.onFinish.call(this, {
 						hash: this.pages[this.index].id,
@@ -335,14 +344,6 @@ export default class Pageable {
 		}, this.config.delay);
 	}
 	
-	setURL(id) {
-		if(history.pushState) {
-				history.pushState(null, '', `#${id}`);
-		} else {
-				location.hash = `#${id}`;
-		}		
-	}
-	
 	scrollToPage(page) {
 		this.scrollToIndex(page - 1);
 	}
@@ -372,7 +373,7 @@ export default class Pageable {
 	
 	prev() {
 		this.scrollToIndex(this.index-1);
-	}	
+	}
 	
 	update() {
 		clearTimeout(this.timer);
