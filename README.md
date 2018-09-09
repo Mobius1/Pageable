@@ -59,11 +59,13 @@ You can pass an object as the second paramater to customise the instance:
 ### JS
 ```javascript
 new Pageable("#container", {
-    pips: true,
-    interval: 300,
-    delay: 0,
-    orientation: "vertical",
+    pips: true, // display the pips
+    interval: 300, the duration in ms of the scroll animation
+    delay: 0, // the delay in ms before the scroll animation starts
+    throttle: 50, // the interval in ms that the resize callback is fired
+    orientation: "vertical", // or horizontal
     easing: function(currentTime, startPos, endPos, interval) {
+    	// the easing function used for the scroll animation
     	return -endPos * (currentTime /= interval) * (currentTime - 2) + startPos;
     },
     onInit: function() {
