@@ -1,0 +1,9 @@
+.text {
+  -webkit-transform: scale(0.9, 0.9);
+          transform: scale(0.9, 0.9);
+  transition: all 500ms;
+}
+.pg-active .text {
+  -webkit-transform: scale(1, 1);
+          transform: scale(1, 1);
+}

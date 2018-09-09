@@ -125,9 +125,6 @@ section:nth-child(6) .text {
 }
 
 .text {
-  -webkit-transform: scale(0.9, 0.9);
-          transform: scale(0.9, 0.9);
-  transition: all 500ms;
   width: 100%;
   height: 100%;
   display: flex;
@@ -136,11 +133,6 @@ section:nth-child(6) .text {
   flex-flow: column;
   background-color: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
-}
-.pg-active .text {
-  opacity: 1;
-  -webkit-transform: scale(1, 1);
-          transform: scale(1, 1);
 }
 
 nav {
