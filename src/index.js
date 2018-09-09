@@ -24,6 +24,10 @@ export default class Pageable {
 		this.container = typeof container === "string" ?
 			document.querySelector(container) : container;
 		
+		if ( !this.container ) {
+			return console.error("Pageable:", "The container could not be found.");
+		}		
+		
 		this.config = Object.assign({}, defaults, options);
 		
 		if ( this.config.anchors && Array.isArray(this.config.anchors) ) {
@@ -217,7 +221,11 @@ export default class Pageable {
 			if ( index > -1 ) {
 				this.index = index;
 				this.setPips();
-
+				
+				this.pages.forEach((page, i) => {
+					page.classList.toggle("pg-active", i === this.index);
+				});
+				
 				this.config.onFinish.call(this, {
 					id: this.pages[this.index].id,
 					hash: this.anchors[this.index],
@@ -310,6 +318,10 @@ export default class Pageable {
 					this.scrolling = false;
 					
 					window.location.hash = this.pages[this.index].id;
+					
+					this.pages.forEach((page, i) => {
+						page.classList.toggle("pg-active", i === this.index);
+					});
 
 					this.config.onFinish.call(this, {
 						hash: this.pages[this.index].id,
@@ -328,14 +340,7 @@ export default class Pageable {
 				this.config.onScroll.call(this, offset[this.axis] - scrolled);	
 
 				// requestAnimationFrame
-				this.frame = requestAnimationFrame(scroll);
-				
-				var event = new CustomEvent('pageable.scroll', {
-					detail: {
-						scrolled: Math.round(offset[this.axis] - scrolled)
-					}
-				});
-				window.dispatchEvent(event);				
+				this.frame = requestAnimationFrame(scroll);	
 			};
 
 			this.config.onStart.call(this, this.pages[this.index].id);
@@ -353,18 +358,12 @@ export default class Pageable {
 			const oldIndex = this.index;
 			this.index = index;
 
-			const amount = this.getScrollAmount(oldIndex);
-
-			this.scrollBy(amount);
+			this.scrollBy(this.getScrollAmount(oldIndex));
 		}		
 	}
 	
 	scrollToAnchor(id) {
-		const index = this.anchors.indexOf(id);
-		
-		if ( index < 0 || index === this.index ) return false;
-		
-		this.scrollToIndex(index);
+		this.scrollToIndex(this.anchors.indexOf(id));
 	}	
 	
 	next() {
