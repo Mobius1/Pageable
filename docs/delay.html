@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html >
+	<head>
+		<meta charset="UTF-8">
+		<title>Pageable</title>
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
+<div class="anchors"><ul></ul></div>
+
+<main>
+	<section data-anchor="Page 1">
+		<div class="text">
+			<h1>Add a delay for effect.</h1>
+			<pre class="language-js">
+			<code>
+new Pageable("main", {
+	interval: 400,
+	delay: 300
+});
+</code>
+</pre>
+		</div>	
+	</section>
+	<section data-anchor="Page 2"><div class="text">Page 2</div></section>
+	<section data-anchor="Page 3"><div class="text">Page 3</div></section>
+	<section data-anchor="Page 4"><div class="text">Page 4</div></section>
+	<section data-anchor="Page 5"><div class="text">Page 5</div></section>
+	<section data-anchor="Page 6"><div class="text">Page 6</div></section>
+	<section data-anchor="Page 7"><div class="text">Page 7</div></section>
+</main>
+		<script src="js/pageable.js"></script>
+		<script src="js/delay.js"></script>
+	</body>
+</html>
