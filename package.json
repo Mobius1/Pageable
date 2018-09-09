@@ -1,6 +1,6 @@
 {
   "name": "pageable",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Create full page scrolling web pages. No jQuery.",
   "main": "dist/pageable.js",
   "scripts": {

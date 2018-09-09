@@ -161,7 +161,7 @@ export default class Pageable {
 				y: e.pageY
 			};
 			
-			this.config.onBeforeStart.call(this, this.pages[this.index].id);
+			this.config.onBeforeStart.call(this, this.index);
 			
 		}, false);
 		
@@ -190,6 +190,7 @@ export default class Pageable {
 						index: this.index
 					});
 				} else {
+					this.oldIndex = oldIndex;
 					this.scrollBy(this.getScrollAmount(oldIndex));	
 				}
 
@@ -228,18 +229,13 @@ export default class Pageable {
 					page.classList.toggle("pg-active", i === this.index);
 				});
 				
-				this.config.onFinish.call(this, {
-					id: this.pages[this.index].id,
-					hash: this.anchors[this.index],
-					page: this.index + 1,
-					index: this.index
-				});
+				this.config.onFinish.call(this, this.getData());
 			}			
 		}
 		
 		this.update();
 		
-		this.config.onInit.call(this, this.pages);			
+		this.config.onInit.call(this, this.getData());
 	}
 	
 	setPips(index) {
@@ -270,6 +266,7 @@ export default class Pageable {
 			}
 			
 			if ( this.index !== oldIndex ) {
+				this.oldIndex = oldIndex;
 				this.scrollBy(this.getScrollAmount(oldIndex));	
 			}	
 		}
@@ -294,7 +291,7 @@ export default class Pageable {
 		
 		this.scrolling = true;
 		
-		this.config.onBeforeStart.call(this, this.pages[this.index].id);
+		this.config.onBeforeStart.call(this, this.oldIndex);
 		
 		this.timer = setTimeout(() => {
 
@@ -325,11 +322,7 @@ export default class Pageable {
 						page.classList.toggle("pg-active", i === this.index);
 					});
 
-					this.config.onFinish.call(this, {
-						hash: this.pages[this.index].id,
-						page: this.index + 1,
-						index: this.index
-					});		
+					this.config.onFinish.call(this, this.getData());		
 
 					return false;
 				}
@@ -338,8 +331,10 @@ export default class Pageable {
 				const scrolled = this.config.easing(ct, 0, amount, this.config.interval);
 				
 				this.container.style.transform = this.horizontal ? `translate3d(${scrolled}px, 0, 0)` : `translate3d(0, ${scrolled}px, 0)`;
+				
+				this.scrollPosition = offset[this.axis] - scrolled;				
 
-				this.config.onScroll.call(this, offset[this.axis] - scrolled);	
+				this.config.onScroll.call(this, this.getData());	
 
 				// requestAnimationFrame
 				this.frame = requestAnimationFrame(scroll);	
@@ -359,7 +354,7 @@ export default class Pageable {
 		if ( index >= 0 && index <= this.pages.length - 1 ) {
 			const oldIndex = this.index;
 			this.index = index;
-
+			this.oldIndex = oldIndex;
 			this.scrollBy(this.getScrollAmount(oldIndex));
 		}		
 	}
@@ -404,7 +399,7 @@ export default class Pageable {
 		// offset for scroll bars
 		this.wrapper.style[`padding-${this.horizontal ? "bottom" : "right"}`] = `${this.bar}px`;
 		
-		// reset scroll position (do this AFTER setting data)
+		// reset scroll position (do this AFTER setting dimensions)
 		this.wrapper[this.scrollAxis[this.axis]] = this.index * this.data.window[size];		
 		
 		this.scrollSize = (this.pages.length * this.data.window[size]) - this.data.window[size];
@@ -420,6 +415,13 @@ export default class Pageable {
 		
 		var event = new Event('pageable.update');
 		window.dispatchEvent(event);		
+	}
+	
+	getData() {
+		return {
+			scrolled: this.scrollPosition,
+			max: this.scrollSize,
+		};
 	}
 	
 	getScrollOffset() {
