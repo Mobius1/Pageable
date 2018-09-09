@@ -16,7 +16,13 @@
 			<code>
 new Pageable("main", {
 	interval: 400,
-	delay: 300
+	delay: 300,
+	onBeforeStart: function() {
+		// remove the active class before scroll starts
+		this.pages.forEach((page, i) => {
+			page.classList.remove("pg-active");
+		});	
+	}	
 });
 </code>
 </pre>

@@ -54,7 +54,7 @@ export default class Pageable {
 		
 		this.anchors = [];
 		
-		this.pages.forEach(page => {
+		this.pages.forEach((page, i) => {
 			const clean = page.dataset.anchor.replace(/\s+/, "-");
 			if ( page.id !== clean ) {
 				page.id = clean;
@@ -63,6 +63,8 @@ export default class Pageable {
 			this.anchors.push(`#${clean}`);
 			
 			page.classList.add("pg-page");
+
+			page.classList.toggle("pg-active", i == 0);
 		});		
 		
 		this.axis = this.horizontal ? "x" : "y";
