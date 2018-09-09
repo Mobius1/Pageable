@@ -60,7 +60,7 @@ You can pass an object as the second paramater to customise the instance:
 ```javascript
 new Pageable("#container", {
     pips: true, // display the pips
-    interval: 300, the duration in ms of the scroll animation
+    interval: 300, // the duration in ms of the scroll animation
     delay: 0, // the delay in ms before the scroll animation starts
     throttle: 50, // the interval in ms that the resize callback is fired
     orientation: "vertical", // or horizontal
