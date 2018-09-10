@@ -70,8 +70,8 @@ export default class Pageable {
 		this.axis = this.horizontal ? "x" : "y";
 		
 		this.mouseAxis = {
-			x: "pageX",
-			y: "pageY"
+			x: "clientX",
+			y: "clientY"
 		};
 		
 		this.scrollAxis = {
@@ -89,6 +89,10 @@ export default class Pageable {
 		this.wrapper = document.createElement("div");
 		
 		this.index = 0;
+
+		this.touch =
+			"ontouchstart" in window ||
+			(window.DocumentTouch && document instanceof DocumentTouch);	
 		
 		this.init();
 	}
@@ -141,62 +145,24 @@ export default class Pageable {
 			wheel: this.wheel.bind(this),
 			update: utils.throttle(this.update.bind(this), this.config.throttle),
 			load: this.load.bind(this),
+			start: this.start.bind(this),
+			stop: this.stop.bind(this),
 		};
 		
 		window.addEventListener("wheel", this.callbacks.wheel, false);
 		window.addEventListener("resize", this.callbacks.update, false);
 		
-		this.down = false;
-		window.addEventListener("mousedown", e => {
-			
-			// prevent firing if not on a page
-			if ( !e.target.closest("[data-anchor]") ) {
-				return false;
-			}
-			
-			e.preventDefault();
-			
-			this.down = {
-				x: e.pageX,
-				y: e.pageY
-			};
-			
-			this.config.onBeforeStart.call(this, this.index);
-			
-		}, false);
+		this.wrapper.addEventListener(
+			this.touch ? "touchstart" : "mousedown",
+			this.callbacks.start,
+			false
+		);	
 		
-		// increment index
-		const inc = () => this.index < this.pages.length - 1 && this.index++;
-		
-		// decrement index
-		const dec = () => 0 < this.index && this.index--;
-		
-		window.addEventListener("mouseup", e => {
-			if ( this.down && !this.scrolling ) {
-				
-				const oldIndex = this.index;
-				
-				if ( e[this.mouseAxis[this.axis]] < this.down[this.axis] ) {
-					e.button === 1 ? dec() : inc();
-				} else if ( e[this.mouseAxis[this.axis]] > this.down[this.axis] ) {
-					e.button === 1 ? inc() : dec();
-				}
-
-				// only scroll if index changed
-				if ( oldIndex === this.index ) {
-					this.config.onFinish.call(this, {
-						hash: this.pages[this.index].id,
-						page: this.index + 1,
-						index: this.index
-					});
-				} else {
-					this.oldIndex = oldIndex;
-					this.scrollBy(this.getScrollAmount(oldIndex));	
-				}
-
-				this.down = false;
-			}
-		}, false);		
+		this.wrapper.addEventListener(
+			this.touch ? "touchend" : "mouseup",
+			this.callbacks.stop,
+			false
+		);		
 		
 		document.addEventListener("DOMContentLoaded", this.callbacks.load, false);
 		
@@ -213,6 +179,68 @@ export default class Pageable {
 				} 
 			}
 		}, false);
+	}
+	
+	start(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		
+		const evt = this.touch ? e.touches[0] : e;
+		
+		// prevent firing if not on a page
+		if ( !evt.target.closest("[data-anchor]") ) {
+			return false;
+		}
+
+		this.down = {
+			x: evt.clientX,
+			y: evt.clientY
+		};
+
+		this.config.onBeforeStart.call(this, this.index);
+	}
+	
+	stop(e) {
+		const evt = this.touch ? e.touches[0] : e;
+		
+		// increment index
+		const inc = () => this.index < this.pages.length - 1 && this.index++;
+		
+		// decrement index
+		const dec = () => 0 < this.index && this.index--;
+		
+		if ( this.down && !this.scrolling ) {
+
+			const oldIndex = this.index;
+
+			if ( this.touch ) {
+				if ( e.changedTouches[0][this.mouseAxis[this.axis]] < this.down[this.axis] ) {
+					inc();
+				} else if ( e.changedTouches[0][this.mouseAxis[this.axis]] > this.down[this.axis] ) {
+					dec();
+				}
+			} else {
+				if ( e[this.mouseAxis[this.axis]] < this.down[this.axis] ) {
+					e.button === 1 ? dec() : inc();
+				} else if ( e[this.mouseAxis[this.axis]] > this.down[this.axis] ) {
+					e.button === 1 ? inc() : dec();
+				}
+			}
+
+			// only scroll if index changed
+			if ( oldIndex === this.index ) {
+				this.config.onFinish.call(this, {
+					hash: this.pages[this.index].id,
+					page: this.index + 1,
+					index: this.index
+				});
+			} else {
+				this.oldIndex = oldIndex;
+				this.scrollBy(this.getScrollAmount(oldIndex));	
+			}
+
+			this.down = false;
+		}		
 	}
 	
 	load() {
