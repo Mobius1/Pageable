@@ -8,6 +8,8 @@ Pageable transforms a web page into a full page scrolling presentation.
   - Performant
   - Easy to set up
 
+# PLEASE NOTE: Touch / mobile support is coming in the next minor release.
+
 ---
 
 ## Demos
