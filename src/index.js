@@ -229,11 +229,7 @@ export default class Pageable {
 
 			// only scroll if index changed
 			if ( oldIndex === this.index ) {
-				this.config.onFinish.call(this, {
-					hash: this.pages[this.index].id,
-					page: this.index + 1,
-					index: this.index
-				});
+				this.config.onFinish.call(this, this.getData());
 			} else {
 				this.oldIndex = oldIndex;
 				this.scrollBy(this.getScrollAmount(oldIndex));	
@@ -447,6 +443,7 @@ export default class Pageable {
 	
 	getData() {
 		return {
+			index: this.index,
 			scrolled: this.scrollPosition,
 			max: this.scrollSize,
 		};
