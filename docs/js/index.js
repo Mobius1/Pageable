@@ -1,28 +1,28 @@
 const anchors = document.querySelector(".anchors");
 
 const pageable = new Pageable("main", {
-	interval: 400,
-	delay: 300,
-	// orientation: "horizontal",
-	// easing: easings.easeOutBounce,
-	onInit: init,
-	onBeforeStart: function(x,y) {
-		console.log("Start:", x,y);
-		this.pages.forEach((page, i) => {
-			page.firstElementChild.classList.remove("active");
-		});	
-	},
-	onScroll: function(y) {
-		console.log("Scroll:", Math.round(y));
-	},
-	onFinish: function(data) {
-		console.log("Finish:", data);
-		this.pages.forEach((page, i) => {
-			page.firstElementChild.classList.toggle("active", i === this.index);
+	// interval: 400,
+	// delay: 300,
+	// // orientation: "horizontal",
+	// // easing: easings.easeOutBounce,
+	// onInit: init,
+	// onBeforeStart: function(x,y) {
+	// 	console.log("Start:", x,y);
+	// 	this.pages.forEach((page, i) => {
+	// 		page.firstElementChild.classList.remove("active");
+	// 	});	
+	// },
+	// onScroll: function(y) {
+	// 	console.log("Scroll:", Math.round(y));
+	// },
+	// onFinish: function(data) {
+	// 	console.log("Finish:", data);
+	// 	this.pages.forEach((page, i) => {
+	// 		page.firstElementChild.classList.toggle("active", i === this.index);
 			
-			anchors.firstElementChild.children[i].firstElementChild.classList.toggle("active", i === this.index);
-		});	
-	},
+	// 		anchors.firstElementChild.children[i].firstElementChild.classList.toggle("active", i === this.index);
+	// 	});	
+	// },
 });
 
 function init(pages) {
