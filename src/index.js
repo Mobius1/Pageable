@@ -19,6 +19,11 @@ export default class Pageable {
 			onStart: () => {},
 			onScroll: () => {},
 			onFinish: () => {},
+			events: {
+				wheel: true,
+				mouse: true,
+				touch: true
+			}
 		};
 		
 		this.container = typeof container === "string" ?
@@ -29,6 +34,7 @@ export default class Pageable {
 		}		
 		
 		this.config = Object.assign({}, defaults, options);
+		this.events = Object.assign({}, defaults.events, options.events);
 		
 		if ( this.config.anchors && Array.isArray(this.config.anchors) ) {
 			const frag = document.createDocumentFragment();
@@ -182,6 +188,21 @@ export default class Pageable {
 	}
 	
 	start(e) {
+		
+		// preventing action here allows us to still have the the event listeners
+		// attached so touch and mouse can be toggled at any time
+		if ( (e.type === "touchstart" && !this.events.touch) ) {
+			return false;
+		}
+		
+		if ( e.type === "mousedown" && !this.events.mouse ) {
+			if ( e.button === 1 ) {
+				e.preventDefault();
+			}
+
+			return false;
+		}		
+		
 		e.preventDefault();
 		e.stopPropagation();
 		
@@ -238,6 +259,29 @@ export default class Pageable {
 			this.down = false;
 		}		
 	}
+
+	wheel(e) {
+		e.preventDefault();
+		
+		if ( this.events.wheel && !this.scrolling ) {
+			const oldIndex = this.index;
+
+			if ( e.deltaY > 0 ) {
+				if ( this.index < this.pages.length - 1 ) {
+					this.index++;
+				}
+			} else {
+				if ( this.index > 0 ) {
+					this.index--;
+				}
+			}
+
+			if ( this.index !== oldIndex ) {
+				this.oldIndex = oldIndex;
+				this.scrollBy(this.getScrollAmount(oldIndex));	
+			}	
+		}
+	}	
 	
 	load() {
 		const id = location.hash;
@@ -271,28 +315,6 @@ export default class Pageable {
 			this.pips.forEach((pip, i) => {
 				pip.firstElementChild.classList.toggle("active", i == index);
 			});		
-		}
-	}
-	
-	wheel(e) {
-		e.preventDefault();
-		if ( !this.scrolling ) {
-			const oldIndex = this.index;
-			
-			if ( e.deltaY > 0 ) {
-				if ( this.index < this.pages.length - 1 ) {
-					this.index++;
-				}
-			} else {
-				if ( this.index > 0 ) {
-					this.index--;
-				}
-			}
-			
-			if ( this.index !== oldIndex ) {
-				this.oldIndex = oldIndex;
-				this.scrollBy(this.getScrollAmount(oldIndex));	
-			}	
 		}
 	}
 	
@@ -374,14 +396,6 @@ export default class Pageable {
 		this.scrollToIndex(page - 1);
 	}
 	
-	scrollToIndex(index) {
-		if ( index >= 0 && index <= this.pages.length - 1 ) {
-			const oldIndex = this.index;
-			this.index = index;
-			this.oldIndex = oldIndex;
-			this.scrollBy(this.getScrollAmount(oldIndex));
-		}		
-	}
 	
 	scrollToAnchor(id) {
 		this.scrollToIndex(this.anchors.indexOf(id));
@@ -394,6 +408,15 @@ export default class Pageable {
 	prev() {
 		this.scrollToIndex(this.index-1);
 	}
+
+	scrollToIndex(index) {
+		if ( index >= 0 && index <= this.pages.length - 1 ) {
+			const oldIndex = this.index;
+			this.index = index;
+			this.oldIndex = oldIndex;
+			this.scrollBy(this.getScrollAmount(oldIndex));
+		}		
+	}	
 	
 	update() {
 		clearTimeout(this.timer);
