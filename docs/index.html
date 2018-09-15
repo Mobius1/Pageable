@@ -83,6 +83,30 @@ pages.orientate("horizontal");
 </code>
 </pre>
 		</div></section>
+	<section data-anchor="Page 6"><div class="text">
+			<h2>Listen</h2>
+			<pre class="language-js">
+			<code>
+const pages = new Pageable("#container");
+
+pages.on("init", data => {
+    // do something when the instance is ready
+});
+
+pages.on("scroll.start", data => {
+    // do something when scrolling starts
+});
+
+pages.on("scroll", data => {
+    // do something during scroll
+});
+
+pages.on("scroll.end", data => {
+    // do something when scrolling ends
+});
+</code>
+</pre>
+		</div></section>	
 </main>
 
 <div id="settings">

@@ -1,11 +1,18 @@
 const anchors = document.querySelector(".anchors");
 
-
 const pageable = new Pageable("main", {
 	onInit: update,
 	onFinish: update,
+	events: {
+		mouse: false
+	}
 });
 
+['init', 'update', 'scroll', 'scroll.before', 'scroll.start', 'scroll.end'].forEach(listener => {
+	pageable.on(listener, data => {
+		console.log(listener);
+	});
+});
 
 const toggle = document.getElementById("settings-open");
 const settings = document.getElementById("settings");
