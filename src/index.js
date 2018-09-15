@@ -512,7 +512,7 @@ class Pageable {
 	 * @return {Void}
 	 */
 	scrollToIndex(index) {
-		if ( index >= 0 && index <= this.pages.length - 1 ) {
+		if ( !this.scrolling && index >= 0 && index <= this.pages.length - 1 ) {
 			const oldIndex = this.index;
 			this.index = index;
 			this.oldIndex = oldIndex;
