@@ -1,8 +1,7 @@
-import utils from './components/utils';
-
-export default class Pageable {
+class Pageable {
 	constructor(container, options) {
 		
+		// missing container parameter
 		if ( container === undefined ) {
 			return console.error("Pageable:", "No container defined.");
 		}
@@ -30,6 +29,7 @@ export default class Pageable {
 		this.container = typeof container === "string" ?
 			document.querySelector(container) : container;
 		
+		// container not found
 		if ( !this.container ) {
 			return console.error("Pageable:", "The container could not be found.");
 		}		
@@ -91,7 +91,7 @@ export default class Pageable {
 			y: "height",
 		};
 		
-		this.bar = utils.getScrollBarWidth();
+		this.bar = this.getScrollBarWidth();
 		
 		this.wrapper = document.createElement("div");
 		
@@ -104,6 +104,10 @@ export default class Pageable {
 		this.init();
 	}
 	
+	/**
+	 * Initialze instance
+	 * @return {Void}
+	 */
 	init() {
 		this.container.parentNode.insertBefore(this.wrapper, this.container);
 		this.wrapper.appendChild(this.container);
@@ -147,10 +151,29 @@ export default class Pageable {
 		this.bind();
 	}
 	
+	/**
+	 * Attach event listeners
+	 * @return {Void}
+	 */
 	bind() {
+		
+		const throttle = (fn, limit, context) => {
+			let wait;
+			return () => {
+					context = context || this;
+					if (!wait) {
+							fn.apply(context, arguments);
+							wait = true;
+							return setTimeout(() => {
+									wait = false;
+							}, limit);
+					}
+			};
+		};
+		
 		this.callbacks = {
 			wheel: this.wheel.bind(this),
-			update: utils.throttle(this.update.bind(this), this.config.throttle),
+			update: throttle(this.update.bind(this), this.config.throttle),
 			load: this.load.bind(this),
 			start: this.start.bind(this),
 			stop: this.stop.bind(this),
@@ -188,6 +211,11 @@ export default class Pageable {
 		}, false);
 	}
 	
+	/**
+	 * Mousedown / touchstart callback
+	 * @param  {Event} e
+	 * @return {Bool}
+	 */
 	start(e) {
 		
 		// preventing action here allows us to still have the the event listeners
@@ -221,7 +249,12 @@ export default class Pageable {
 
 		this.config.onBeforeStart.call(this, this.index);
 	}
-	
+
+	/**
+	 * Mouseup / touchend callback
+	 * @param  {Event} e
+	 * @return {Bool}
+	 */
 	stop(e) {
 		const evt = this.touch ? e.touches[0] : e;
 		
@@ -261,6 +294,11 @@ export default class Pageable {
 		}		
 	}
 
+	/**
+	 * Mousewheel callback
+	 * @param  {Event} e
+	 * @return {Bool}
+	 */
 	wheel(e) {
 		e.preventDefault();
 		
@@ -284,7 +322,12 @@ export default class Pageable {
 		}
 	}	
 	
-	load() {
+	/**
+	 * DOMContentLoaded callback
+	 * @param  {Event} e
+	 * @return {Void}
+	 */	
+	load(e) {
 		const id = location.hash;
 		
 		if ( id ) {
@@ -304,9 +347,18 @@ export default class Pageable {
 		
 		this.update();
 		
-		this.config.onInit.call(this, this.getData());
+		const data = this.getData();
+		
+		this.config.onInit.call(this, data);
+		
+		// emit "init" event
+		this.emit("init", data);
 	}
 	
+	/**
+	 * Update pips classNames
+	 * @param {Number} index
+	 */
 	setPips(index) {
 		if ( this.config.pips ) {
 			if ( index === undefined ) {
@@ -319,6 +371,12 @@ export default class Pageable {
 		}
 	}
 	
+	/**
+	 * Get scroll amount between indexes
+	 * @param  {Number} oldIndex
+	 * @param  {Number} newIndex
+	 * @return {Number} Amount in px
+	 */
 	getScrollAmount(oldIndex, newIndex) {
 		
 		if ( newIndex === undefined ) {
@@ -332,6 +390,11 @@ export default class Pageable {
 		return a - b;
 	}
 	
+	/**
+	 * Perform the scroll
+	 * @param  {Number} amount Amount to scroll
+	 * @return {Void}
+	 */
 	scrollBy(amount) {
 		
 		if ( this.scrolling ) return false;
@@ -339,6 +402,9 @@ export default class Pageable {
 		this.scrolling = true;
 		
 		this.config.onBeforeStart.call(this, this.oldIndex);
+
+		// emit "scroll.before" event
+		this.emit("scroll.before", this.getData());
 		
 		this.timer = setTimeout(() => {
 
@@ -369,7 +435,12 @@ export default class Pageable {
 						page.classList.toggle("pg-active", i === this.index);
 					});
 
-					this.config.onFinish.call(this, this.getData());		
+					const data = this.getData();
+
+					this.config.onFinish.call(this, data);
+					
+					// emit "scroll.end" event
+					this.emit("scroll.end", data);	
 
 					return false;
 				}
@@ -381,35 +452,65 @@ export default class Pageable {
 				
 				this.scrollPosition = offset[this.axis] - scrolled;				
 
-				this.config.onScroll.call(this, this.getData());	
+				const data = this.getData();
+
+				this.config.onScroll.call(this, data);
+				
+				// emit "scroll" event
+				this.emit("scroll", data);
 
 				// requestAnimationFrame
 				this.frame = requestAnimationFrame(scroll);	
 			};
 
 			this.config.onStart.call(this, this.pages[this.index].id);
+
+			// emit "scroll.start" event
+			this.emit("scroll.start", this.getData());
 		
 			this.frame = requestAnimationFrame(scroll);
 		}, this.config.delay);
 	}
 	
+	/**
+	 * Scroll to defined paged
+	 * @param  {Number} page Page number
+	 * @return {Void}
+	 */
 	scrollToPage(page) {
 		this.scrollToIndex(page - 1);
 	}
 	
-	
+	/**
+	 * Scroll to defined anchor
+	 * @param  {String} id Anchor text
+	 * @return {Void}
+	 */
 	scrollToAnchor(id) {
 		this.scrollToIndex(this.anchors.indexOf(id));
 	}	
 	
+	/**
+	 * Scroll to next page
+	 * @return {Function}
+	 */
 	next() {
 		this.scrollToIndex(this.index+1);
 	}
-	
+
+	/**
+	 * Scroll to previous page
+	 * @return {Function}
+	 */
 	prev() {
 		this.scrollToIndex(this.index-1);
 	}
 
+	/**
+	 * Scroll to defined index
+	 * @param  {Number} index
+	 * @return {Void}
+	 */
 	scrollToIndex(index) {
 		if ( index >= 0 && index <= this.pages.length - 1 ) {
 			const oldIndex = this.index;
@@ -419,6 +520,10 @@ export default class Pageable {
 		}		
 	}	
 	
+	/**
+	 * Update the instance
+	 * @return {Void}
+	 */
 	update() {
 		clearTimeout(this.timer);
 		this.data = {
@@ -461,9 +566,16 @@ export default class Pageable {
 			page.style[opp] = `${this.data.window[opp]}px`;
 		});	
 		
-		this.config.onUpdate.call(this, this.getData());		
+		this.config.onUpdate.call(this, this.getData());	
+
+		// emit "update" event
+		this.emit("update", this.getData());	
 	}
 	
+	/**
+	 * Get instance data
+	 * @return {Object}
+	 */
 	getData() {
 		return {
 			index: this.index,
@@ -472,6 +584,10 @@ export default class Pageable {
 		};
 	}
 	
+	/**
+	 * Get scroll offsets
+	 * @return {Object}
+	 */
 	getScrollOffset() {
 		return {
 			x: this.wrapper.scrollLeft,
@@ -479,6 +595,11 @@ export default class Pageable {
 		};
 	}
 	
+	/**
+	 * Orientate the instance
+	 * @param  {String} type
+	 * @return {Void}
+	 */
 	orientate(type) {
 		switch(type) {
 			case "vertical":
@@ -501,5 +622,49 @@ export default class Pageable {
 		this.config.orientation = type;
 
 		this.update();
+	}
+
+	/**
+	 * Add custom event listener
+	 * @param  {String} event
+	 * @param  {Function} callback
+	 * @return {Void}
+	 */
+	on(listener, callback) {
+			this.listeners = this.listeners || {};
+			this.listeners[listener] = this.listeners[listener] || [];
+			this.listeners[listener].push(callback);
+	}
+
+	/**
+	 * Remove custom listener listener
+	 * @param  {String} listener
+	 * @param  {Function} callback
+	 * @return {Void}
+	 */
+	off(listener, callback) {
+			this.listeners = this.listeners || {};
+			if (listener in this.listeners === false) return;
+			this.listeners[listener].splice(this.listeners[listener].indexOf(callback), 1);
+	}
+
+	/**
+	 * Fire custom listener
+	 * @param  {String} listener
+	 * @return {Void}
+	 */
+	emit(listener) {
+			this.listeners = this.listeners || {};
+			if (listener in this.listeners === false) return;
+			for (var i = 0; i < this.listeners[listener].length; i++) {
+					this.listeners[listener][i].apply(this, Array.prototype.slice.call(arguments, 1));
+			}
+	}	
+	
+	getScrollBarWidth() {
+		const db = document.body;
+		const div = document.createElement("div");
+		let t = 0;
+		return div.style.cssText = "width: 100; height: 100; overflow: scroll; position: absolute; top: -9999;", document.body.appendChild(div), t = div.offsetWidth - div.clientWidth, document.body.removeChild(div), t;		
 	}
 }
