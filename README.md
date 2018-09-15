@@ -72,28 +72,31 @@ new Pageable("#container", {
     throttle: 50, // the interval in ms that the resize callback is fired
     orientation: "vertical", // or horizontal
     events: {
-      wheel: true, // enable / disable mousewheel scrolling
-      mouse: true, // enable / disable mouse drag scrolling
-      touch: true, // enable / disable touch / swipe scrolling
+        wheel: true, // enable / disable mousewheel scrolling
+        mouse: true, // enable / disable mouse drag scrolling
+        touch: true, // enable / disable touch / swipe scrolling
     },
     easing: function(currentTime, startPos, endPos, interval) {
-    	// the easing function used for the scroll animation
-    	return -endPos * (currentTime /= interval) * (currentTime - 2) + startPos;
+        // the easing function used for the scroll animation
+        return -endPos * (currentTime /= interval) * (currentTime - 2) + startPos;
     },
     onInit: function() {
-    	// do something when the instance is ready
+        // do something when the instance is ready
     },
+    onUpdate: function() {
+        // do something when the instance updates
+    },    
     onBeforeStart: function() {
-    	// do something before scrolling begins
+        // do something before scrolling begins
     },
     onStart: function() {
-    	// do something when scrolling begins
+        // do something when scrolling begins
     },
     onScroll: function() {
-    	// do something during scroll
+        // do something during scroll
     },
     onFinish: function() {
-    	// do something when scrolling ends
+        // do something when scrolling ends
     },
 });
 ```

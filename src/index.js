@@ -15,6 +15,7 @@ export default class Pageable {
 			orientation: "vertical",
 			easing: (t, b, c, d, s) => -c * (t /= d) * (t - 2) + b,
 			onInit: () => {},
+			onUpdate: () => {},
 			onBeforeStart: () => {},
 			onStart: () => {},
 			onScroll: () => {},
@@ -460,8 +461,7 @@ export default class Pageable {
 			page.style[opp] = `${this.data.window[opp]}px`;
 		});	
 		
-		var event = new Event('pageable.update');
-		window.dispatchEvent(event);		
+		this.config.onUpdate.call(this, this.getData());		
 	}
 	
 	getData() {
