@@ -6,8 +6,8 @@ const list = document.getElementById("listeners");
 const pageable = new Pageable("main", {
 	interval: 400,
 	easing: easings.easeOutCubic,
-	onInit: () => {
-		update();
+	onInit: data => {
+		update(data);
 		new MiniBar('#scroll', {
 			alwaysShowBars: true
 		});
