@@ -1,12 +1,16 @@
-const anchors = document.querySelector(".anchors");
+const anchors = Array.from(document.querySelector(".anchors").firstElementChild.children);
 const listeners = ['init', 'update', 'scroll.before', 'scroll.start', 'scroll', 'scroll.end'];
 const list = document.getElementById("listeners");
 
 
 const pageable = new Pageable("main", {
+	interval: 400,
+	easing: easings.easeOutCubic,
 	onInit: () => {
 		update();
-		new MiniBar('#scroll');
+		new MiniBar('#scroll', {
+			alwaysShowBars: true
+		});
 	},
 	onFinish: update,
 	events: {
@@ -15,27 +19,25 @@ const pageable = new Pageable("main", {
 });
 
 listeners.forEach(listener => {
-	if ( listener !== "init" ) {
-		const item = document.createElement("li");
-		item.textContent = listener;
-		list.appendChild(item);
+	const item = document.createElement("li");
+	item.textContent = listener;
+	list.appendChild(item);
 
-		pageable.on(listener, data => {
-			console.log(listener);
+	pageable.on(listener, data => {
+		console.log(listener);
 
-			item.classList.add("active");
+		item.classList.add("active");
 
-				setTimeout(() => {
-					item.classList.remove("active");
-				}, 200);		
+			setTimeout(() => {
+				item.classList.remove("active");
+			}, 200);		
 
-			if ( listener === "scroll.end" ) {
-				setTimeout(() => {
-					Array.from(list.children).forEach(child => child.classList.remove("active"));
-				}, 400);
-			}
-		});
-	}
+		if ( listener === "scroll.end" ) {
+			setTimeout(() => {
+				Array.from(list.children).forEach(child => child.classList.remove("active"));
+			}, 400);
+		}
+	});
 });
 
 const toggle = document.getElementById("settings-open");
@@ -77,7 +79,7 @@ inputs.forEach(input => {
 		
 		switch(input.id) {
 			case "interval":
-				config.max = 5000;
+				config.max = 2000;
 				config.value = pageable.config.interval;
 				config.onEnd = val => {
 					pageable.config.interval = val
@@ -110,15 +112,18 @@ function toggleEvent(e) {
 		}
 }
 
-function update() {
+function update(data) {
 	selects[0].value = pageable.index + 1;
 	selects[1].value = pageable.anchors[pageable.index];
 	selects[2].value = pageable.horizontal ? "horizontal" : "vertical";
 	
+	inputs[2].checked = pageable.events.wheel;
+	inputs[3].checked = pageable.events.mouse;
+	inputs[4].checked = pageable.events.touch;
 	
-	inputs[0].checked = pageable.events.wheel;
-	inputs[1].checked = pageable.events.mouse;
-	inputs[2].checked = pageable.events.touch;
+	anchors.forEach((anchor, i) => {
+		anchor.firstElementChild.classList.toggle("active", i === data.index);
+	});
 }
 
 function initSelect(select) {

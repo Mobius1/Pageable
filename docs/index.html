@@ -9,7 +9,16 @@
 		<link rel="stylesheet" href="css/style.css">
 	</head>
 	<body>
-<div class="anchors"><ul></ul></div>
+<div class="anchors">
+	<ul>
+		<li><a href="#Page-1" class="active">Page 1</a></li>
+		<li><a href="#Page-2">Page 2</a></li>
+		<li><a href="#Page-3">Page 3</a></li>
+		<li><a href="#Page-4">Page 4</a></li>
+		<li><a href="#Page-5">Page 5</a></li>
+		<li><a href="#Page-6">Page 6</a></li>
+	</ul>
+</div>
 
 <main>
 	<section data-anchor="Page 1">
@@ -43,9 +52,10 @@
 new Pageable("#container");
 </code>
 </pre>
-		</div>		
+		</div>
 	</section>
-	<section data-anchor="Page 4"><div class="text">
+	<section data-anchor="Page 4">
+		<div class="text">
 			<h2>Customize</h2>
 			<pre class="language-js">
 			<code>
@@ -60,8 +70,10 @@ new Pageable("#container", {
 });
 </code>
 </pre>
-		</div></section>
-	<section data-anchor="Page 5"><div class="text">
+		</div>
+	</section>
+	<section data-anchor="Page 5">
+		<div class="text">
 			<h2>Control</h2>
 			<pre class="language-js">
 			<code>
@@ -83,8 +95,10 @@ pages.scrollToAnchor("#page-3");
 pages.orientate("horizontal");
 </code>
 </pre>
-		</div></section>
-	<section data-anchor="Page 6"><div class="text">
+		</div>
+	</section>
+	<section data-anchor="Page 6">
+		<div class="text">
 			<h2>Listen</h2>
 			<pre class="language-js">
 			<code>
@@ -107,68 +121,67 @@ pages.on("scroll.end", data => {
 });
 </code>
 </pre>
-		</div></section>	
+		</div>
+	</section>
 </main>
 
-<div id="settings">
+<div id="settings" class="active">
 	<div class="settings-inner">
-		<a href="#" id="settings-open"><span class="mdi mdi-settings-outline"></span></a>
+		<a href="#" id="settings-open"><span class="mdi"></span></a>
 		<div id="scroll">
-		<h4>Config</h4>
-		<div class="setting">
-			<label for="interval">interval <span class="output"></span></label>
-			<input type="range" id="interval">
+			<h4>Events</h4>
+			<div class="setting">
+				<ul id="listeners"></ul>
+			</div>
+			<h4>Config</h4>
+			<div class="setting">
+				<label for="interval">interval <span class="output"></span></label>
+				<input type="range" id="interval">
+			</div>
+
+			<div class="setting">
+				<label for="delay">delay <span class="output"></span></label>
+				<input type="range" id="delay">
+			</div>
+
+			<h4>Methods</h4>
+			<div class="setting">
+				<button type="button" data-method="prev">prev()</button>
+				<button type="button" data-method="next">next()</button>
+			</div>
+			<div class="setting">
+				<label for="scrollToPage">scrollToPage()</label>
+				<select id="scrollToPage"></select>
+			</div>
+			<div class="setting">
+				<label for="scrollToAnchor">scrollToAnchor()</label>
+				<select id="scrollToAnchor"></select>
+			</div>
+			<div class="setting">
+				<label for="orientate">orientate()</label>
+				<select id="orientate"></select>
+			</div>
+
+			<h4>Controls</h4>
+			<div class="setting">
+				<div class="checkbox">
+					<input type="checkbox" id="wheel" data-event="wheel" name="checkbox" checked>
+					<label for="wheel">mousewheel</label>
+				</div>
+			</div>
+			<div class="setting">
+				<div class="checkbox">
+					<input type="checkbox" id="mouse" data-event="mouse" name="checkbox" checked>
+					<label for="mouse">drag</label>
+				</div>
+			</div>
+			<div class="setting">
+				<div class="checkbox">
+					<input type="checkbox" id="touch" data-event="touch" name="checkbox" checked>
+					<label for="touch">swipe</label>
+				</div>
+			</div>
 		</div>
-		
-		<div class="setting">
-			<label for="delay">delay <span class="output"></span></label>
-			<input type="range" id="delay">
-		</div>
-		
-		<h4>Methods</h4>
-		<div class="setting">
-			<button type="button" data-method="prev">prev()</button>
-			<button type="button" data-method="next">next()</button>
-		</div>
-		<div class="setting">
-			<label for="scrollToPage">scrollToPage()</label>
-			<select id="scrollToPage"></select>
-		</div>
-		<div class="setting">
-			<label for="scrollToAnchor">scrollToAnchor()</label>
-			<select id="scrollToAnchor"></select>
-		</div>
-		<div class="setting">
-			<label for="orientate">orientate()</label>
-			<select id="orientate"></select>
-		</div>		
-		
-		
-		<h4>Listeners</h4>
-		<div class="setting">
-			<ul id="listeners"></ul>
-		</div>
-		
-		<h4>Events</h4>
-		<div class="setting">
-        <div class="checkbox">
-          <input type="checkbox" id="wheel" data-event="wheel" name="checkbox" checked>
-          <label for="wheel">mousewheel</label>
-        </div>
-		</div>
-		<div class="setting">
-        <div class="checkbox">
-          <input type="checkbox" id="mouse" data-event="mouse" name="checkbox" checked>
-          <label for="mouse">drag</label>
-        </div>
-		</div>
-		<div class="setting">
-        <div class="checkbox">
-          <input type="checkbox" id="touch" data-event="touch" name="checkbox" checked>
-          <label for="touch">swipe</label>
-        </div>
-		</div>				
-		</div>	
 	</div>
 </div>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js"></script>
