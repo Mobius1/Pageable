@@ -1,4 +1,6 @@
+@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,400i,700");
+@import url("https://fonts.googleapis.com/css?family=Inconsolata:400,700");
 body {
   margin: 0;
   font-family: "Montserrat";
@@ -12,6 +14,14 @@ pre {
   border-radius: 5px;
 }
 
+.token.string,
+.token.number,
+.token.comment,
+.token.keyword,
+.token.attr-value {
+  opacity: 0.6;
+}
+
 section {
   display: flex;
   align-items: center;
@@ -21,19 +31,19 @@ section {
   position: relative;
 }
 section:nth-child(1) .text {
-  background-color: #3498db;
+  background-color: #3F51B5;
 }
 section:nth-child(2) .text {
-  background-color: #2ecc71;
+  background-color: #673AB7;
 }
 section:nth-child(3) .text {
-  background-color: #9b59b6;
+  background-color: #9C27B0;
 }
 section:nth-child(4) .text {
-  background-color: #f1c40f;
+  background-color: #E91E63;
 }
 section:nth-child(5) .text {
-  background-color: #e67e22;
+  background-color: #F44336;
 }
 section:nth-child(6) .text {
   background-color: #e74c3c;
@@ -131,8 +141,6 @@ section:nth-child(6) .text {
   align-items: center;
   justify-content: center;
   flex-flow: column;
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 nav {
@@ -232,4 +240,204 @@ nav ul li:hover a span {
   width: 10px;
   height: 10px;
   margin: -5px 0px 0px -5px;
+}
+
+#settings-open {
+  color: #fff;
+  font-size: 35px;
+  position: absolute;
+  right: -50px;
+  top: 10px;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#settings-open span {
+  line-height: 0;
+  -webkit-animation: 2000ms linear 0ms forwards infinite spin;
+          animation: 2000ms linear 0ms forwards infinite spin;
+}
+
+#settings {
+  position: fixed;
+  left: 10px;
+  top: 10px;
+  width: 250px;
+  font-family: "Inconsolata";
+  font-size: 14px;
+  -webkit-transform: translate3d(-265px, 0, 0);
+          transform: translate3d(-265px, 0, 0);
+  transition: all 250ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+#settings.active {
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+}
+#settings .settings-inner {
+  border: 3px solid #fff;
+  border-radius: 4px;
+  padding: 0 0px 0 0;
+}
+#settings h4 {
+  margin: 10px 0 5px 0;
+  padding: 6px 15px;
+  color: #fff;
+  text-transform: uppercase;
+}
+#settings button, #settings select {
+  border: 3px solid #fff;
+  border-radius: 4px;
+  background-color: transparent;
+  padding: 6px 12px;
+  font-family: "Inconsolata";
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  width: 125px;
+}
+#settings button:hover, #settings select:hover {
+  background-color: #fff;
+  color: #000;
+}
+#settings select {
+  display: block;
+  margin-top: 5px;
+}
+#settings label {
+  color: #fff;
+  font-weight: bold;
+}
+#settings .setting {
+  padding: 6px 12px;
+}
+#settings .output {
+  float: right;
+}
+
+:not(pre) > code[class*="language-"], pre[class*="language-"] {
+  background: transparent;
+  border: 3px solid #fff;
+}
+
+code {
+  font-weight: bold;
+  font-family: Inconsolata;
+}
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate3d(0, 0, 1, 0deg);
+            transform: rotate3d(0, 0, 1, 0deg);
+  }
+  to {
+    -webkit-transform: rotate3d(0, 0, 1, 360deg);
+            transform: rotate3d(0, 0, 1, 360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    -webkit-transform: rotate3d(0, 0, 1, 0deg);
+            transform: rotate3d(0, 0, 1, 0deg);
+  }
+  to {
+    -webkit-transform: rotate3d(0, 0, 1, 360deg);
+            transform: rotate3d(0, 0, 1, 360deg);
+  }
+}
+.checkbox, .radio {
+  align-items: center;
+  display: flex;
+  min-height: 35px;
+  position: relative;
+}
+
+.radio input,
+.checkbox input {
+  border: 0 none !important;
+  clip: rect(0px, 0px, 0px, 0px) !important;
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  width: 1px !important;
+}
+
+.radio > input + label,
+.checkbox > input + label {
+  cursor: pointer;
+  padding: 3px 0 0 30px;
+  position: relative;
+  color: #fff;
+}
+
+.radio > input:disabled + label,
+.checkbox > input:disabled + label {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.radio > input + label::before,
+.radio > input + label::after,
+.checkbox > input + label::before,
+.checkbox > input + label::after {
+  font-family: "Material Design Icons";
+  font-size: 21px;
+  height: 25px;
+  left: 0;
+  position: absolute;
+  text-align: center;
+  top: 0px;
+  width: 25px;
+  font-weight: normal;
+}
+
+.checkbox > input + label::after {
+  content: "";
+}
+
+.checkbox > input:checked + label::after {
+  content: "";
+}
+
+.radio > input + label::after {
+  content: "";
+}
+
+.radio > input:checked + label::after {
+  content: "";
+}
+
+.rangeable-container {
+  margin: 20px 0 20px 0;
+}
+
+.rangeable-handle {
+  border-color: transparent;
+  width: 18px;
+  height: 18px;
+}
+
+.rangeable-progress {
+  height: 2px;
+  background-color: #fff;
+}
+
+.rangeable-tooltip {
+  background-color: transparent;
+}
+.rangeable-tooltip::before {
+  border-color: transparent;
+}
+
+.rangeable-track {
+  height: 8px;
+  width: 100%;
+  border-radius: 4px;
+  border: 3px solid #fff;
+  box-sizing: border-box;
+  background-color: transparent;
 }

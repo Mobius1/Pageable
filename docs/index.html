@@ -11,7 +11,7 @@
 <div class="anchors"><ul></ul></div>
 
 <main>
-	<section data-anchor="intro">
+	<section data-anchor="Page 1">
 		<div class="text">
 			<h1>Turn your web page into a fullscreen scrolling presentation.</h1>
 			<div class="scroller">
@@ -19,24 +19,24 @@
 			</div>
 		</div>
 	</section>
-	<section data-anchor="markup">
+	<section data-anchor="Page 2">
 		<div class="text">
-			<h2>Markup</h2>
+			<h2>Construct</h2>
 			<pre class="language-markup">
 			<code>
 &lt;div id="container"&gt;
-	&lt;div data-anchor="page-1"&gt;&lt;/div&gt;
-	&lt;div data-anchor="page-2"&gt;&lt;/div&gt;
-	&lt;div data-anchor="page-3"&gt;&lt;/div&gt;
-	&lt;div data-anchor="page-4"&gt;&lt;/div&gt;
+    &lt;div data-anchor="page-1"&gt;&lt;/div&gt;
+    &lt;div data-anchor="page-2"&gt;&lt;/div&gt;
+    &lt;div data-anchor="page-3"&gt;&lt;/div&gt;
+    &lt;div data-anchor="page-4"&gt;&lt;/div&gt;
 &lt;/div&gt;
 </code>
 </pre>
 		</div>
 	</section>
-	<section data-anchor="Initialise">
+	<section data-anchor="Page 3">
 		<div class="text">
-			<h2>Initialise</h2>
+			<h2>Initialize</h2>
 			<pre class="language-js">
 			<code>
 new Pageable("#container");
@@ -44,11 +44,105 @@ new Pageable("#container");
 </pre>
 		</div>		
 	</section>
-	<section data-anchor="Page 3"><div class="text"></div></section>
-	<section data-anchor="Page 4"><div class="text"></div></section>
+	<section data-anchor="Page 4"><div class="text">
+			<h2>Customize</h2>
+			<pre class="language-js">
+			<code>
+new Pageable("#container", {
+    interval: 500,
+    delay: 400,
+    orientation: "horizontal",
+    onScroll: function() {
+        // do something during scroll
+    },
+    // many more
+});
+</code>
+</pre>
+		</div></section>
+	<section data-anchor="Page 5"><div class="text">
+			<h2>Control</h2>
+			<pre class="language-js">
+			<code>
+const pages = new Pageable("#container");
+
+// scroll to previous page
+pages.prev();
+
+// scroll to next page
+pages.next();
+
+// scroll to defined page
+pages.scrollToPage(3);
+
+// scroll to defined anchor
+pages.scrollToAnchor("#page-3");
+
+// switch to horizontal scrolling
+pages.orientate("horizontal");
+</code>
+</pre>
+		</div></section>
 </main>
+
+<div id="settings">
+	<div class="settings-inner">
+		<a href="#" id="settings-open"><span class="mdi mdi-settings-outline"></span></a>
+		<h4>Config</h4>
+		<div class="setting">
+			<label for="interval">interval <span class="output"></span></label>
+			<input type="range" id="interval">
+		</div>
+		
+		<div class="setting">
+			<label for="delay">delay <span class="output"></span></label>
+			<input type="range" id="delay">
+		</div>
+		
+		<h4>Methods</h4>
+		<div class="setting">
+			<button type="button" data-method="prev">prev()</button>
+		</div>
+		<div class="setting">
+			<button type="button" data-method="next">next()</button>
+		</div>
+		<div class="setting">
+			<label for="scrollToPage">scrollToPage()</label>
+			<select id="scrollToPage"></select>
+		</div>
+		<div class="setting">
+			<label for="scrollToAnchor">scrollToAnchor()</label>
+			<select id="scrollToAnchor"></select>
+		</div>
+		<div class="setting">
+			<label for="orientate">orientate()</label>
+			<select id="orientate"></select>
+		</div>		
+		
+		<h4>Events</h4>
+		<div class="setting">
+        <div class="checkbox">
+          <input type="checkbox" id="wheel" data-event="wheel" name="checkbox" checked>
+          <label for="wheel">mousewheel</label>
+        </div>
+		</div>
+		<div class="setting">
+        <div class="checkbox">
+          <input type="checkbox" id="mouse" data-event="mouse" name="checkbox" checked>
+          <label for="mouse">drag</label>
+        </div>
+		</div>
+		<div class="setting">
+        <div class="checkbox">
+          <input type="checkbox" id="touch" data-event="touch" name="checkbox" checked>
+          <label for="touch">swipe</label>
+        </div>
+		</div>
+	</div>
+</div>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js"></script>
 		<script type="text/javascript" src="https://unpkg.com/pageable@latest/dist/pageable.js"></script>
+		<script type="text/javascript" src="https://unpkg.com/rangeable@latest/dist/rangeable.min.js"></script>
 		<script type="text/javascript" src="js/index.js"></script>
 	</body>
 </html>
