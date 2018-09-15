@@ -301,6 +301,11 @@ nav ul li:hover a span {
   background-color: #fff;
   color: #000;
 }
+#settings button {
+  float: left;
+  width: 75px;
+  margin: 0 10px 15px 0;
+}
 #settings select {
   display: block;
   margin-top: 5px;
@@ -314,6 +319,25 @@ nav ul li:hover a span {
 }
 #settings .output {
   float: right;
+}
+
+#listeners {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-flow: column;
+}
+#listeners li {
+  list-style: none;
+  border: 3px solid #fff;
+  border-radius: 3px;
+  color: #fff;
+  padding: 6px 12px;
+  margin: 0 10px 10px 0;
+}
+#listeners li.active {
+  background-color: #fff;
+  color: #000;
 }
 
 :not(pre) > code[class*="language-"], pre[class*="language-"] {

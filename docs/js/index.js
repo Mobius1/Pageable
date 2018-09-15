@@ -1,4 +1,7 @@
 const anchors = document.querySelector(".anchors");
+const listeners = ['init', 'update', 'scroll.before', 'scroll.start', 'scroll', 'scroll.end'];
+const list = document.getElementById("listeners");
+
 
 const pageable = new Pageable("main", {
 	onInit: update,
@@ -8,10 +11,28 @@ const pageable = new Pageable("main", {
 	}
 });
 
-['init', 'update', 'scroll', 'scroll.before', 'scroll.start', 'scroll.end'].forEach(listener => {
-	pageable.on(listener, data => {
-		console.log(listener);
-	});
+listeners.forEach(listener => {
+	if ( listener !== "init" ) {
+		const item = document.createElement("li");
+		item.textContent = listener;
+		list.appendChild(item);
+
+		pageable.on(listener, data => {
+			console.log(listener);
+
+			item.classList.add("active");
+
+				setTimeout(() => {
+					item.classList.remove("active");
+				}, 200);		
+
+			if ( listener === "scroll.end" ) {
+				setTimeout(() => {
+					Array.from(list.children).forEach(child => child.classList.remove("active"));
+				}, 400);
+			}
+		});
+	}
 });
 
 const toggle = document.getElementById("settings-open");
@@ -20,9 +41,13 @@ const inputs = document.querySelectorAll("input");
 const buttons = document.querySelectorAll("button");
 const selects = document.querySelectorAll("select");
 
-document.body.addEventListener("click", e => {
-		settings.classList.toggle("active", settings.contains(e.target));
+toggle.addEventListener("click", e => {
+		settings.classList.toggle("active");
 });
+
+// document.body.addEventListener("click", e => {
+// 		settings.classList.toggle("active", settings.contains(e.target));
+// });
 
 buttons.forEach(button => {
 	button.onclick = toggleMethod;

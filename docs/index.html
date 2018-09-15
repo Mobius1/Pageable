@@ -126,8 +126,6 @@ pages.on("scroll.end", data => {
 		<h4>Methods</h4>
 		<div class="setting">
 			<button type="button" data-method="prev">prev()</button>
-		</div>
-		<div class="setting">
 			<button type="button" data-method="next">next()</button>
 		</div>
 		<div class="setting">
@@ -142,6 +140,12 @@ pages.on("scroll.end", data => {
 			<label for="orientate">orientate()</label>
 			<select id="orientate"></select>
 		</div>		
+		
+		
+		<h4>Listeners</h4>
+		<div class="setting">
+			<ul id="listeners"></ul>
+		</div>
 		
 		<h4>Events</h4>
 		<div class="setting">
@@ -161,7 +165,7 @@ pages.on("scroll.end", data => {
           <input type="checkbox" id="touch" data-event="touch" name="checkbox" checked>
           <label for="touch">swipe</label>
         </div>
-		</div>
+		</div>		
 	</div>
 </div>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js"></script>
