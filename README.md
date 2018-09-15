@@ -3,7 +3,7 @@
 
 Pageable transforms a web page into a full page scrolling presentation.
 
-  - Lightweight (less than 3kb g-zipped)
+  - Lightweight (less than 3kb gzipped)
   - Responsive
   - Performant
   - Touch support

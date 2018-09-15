@@ -179,7 +179,7 @@ class Pageable {
 			stop: this.stop.bind(this),
 		};
 		
-		window.addEventListener("wheel", this.callbacks.wheel, false);
+		this.wrapper.addEventListener("wheel", this.callbacks.wheel, false);
 		window.addEventListener("resize", this.callbacks.update, false);
 		
 		this.wrapper.addEventListener(
