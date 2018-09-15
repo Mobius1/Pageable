@@ -135,4 +135,60 @@ pageable.orientate("horizontal");
 
 ---
 
+## Events
+
+You can listen to Pageable's custom events with the `on(type, callback)` method.
+
+The callback has one argument which returns an object:
+```javascript
+{
+    index: // the current page index
+    scrolled: // the current scroll offset
+    max: // the maximum scroll amount possible
+}
+```
+
+### Examples
+```javascript
+const pages = new Pageable("#container");
+
+pages.on("init", data => {
+    // do something when the instance is ready
+});
+
+pages.on("update", data => {
+    // do something when the instance is updated
+    
+    // this event also fires when the screen size changes
+});
+
+pages.on("scroll.before", data => {
+    // do something before scrolling starts
+    
+    // this event will fire when the defined delay begins
+    
+    // e.g. if the delay is set to 400, this event will
+    // fire 400ms BEFORE the "scroll.start" event fires    
+});
+
+pages.on("scroll.start", data => {
+    // do something when scrolling starts
+    
+    // this event will fire when the defined delay ends
+    
+    // e.g. if the delay is set to 400, this event will
+    // fire 400ms AFTER the "scroll.before" event fires
+});
+
+pages.on("scroll", data => {
+    // do something during scroll
+});
+
+pages.on("scroll.end", data => {
+    // do something when scrolling ends
+});
+```
+
+---
+
 Copyright © 2018 Karl Saunders | BSD & MIT license
