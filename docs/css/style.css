@@ -278,7 +278,7 @@ nav ul li:hover a span {
 #settings .settings-inner {
   border: 3px solid #fff;
   border-radius: 4px;
-  padding: 0 0px 0 0;
+  padding: 15px;
 }
 #settings h4 {
   margin: 10px 0 5px 0;
@@ -319,6 +319,19 @@ nav ul li:hover a span {
 }
 #settings .output {
   float: right;
+}
+
+.mb-bar {
+  background-color: #fff;
+}
+
+.mb-track-y {
+  width: 5px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+#scroll {
+  height: 90vh;
 }
 
 #listeners {

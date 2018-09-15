@@ -4,7 +4,10 @@ const list = document.getElementById("listeners");
 
 
 const pageable = new Pageable("main", {
-	onInit: update,
+	onInit: () => {
+		update();
+		new MiniBar('#scroll');
+	},
 	onFinish: update,
 	events: {
 		mouse: false
