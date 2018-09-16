@@ -106,6 +106,13 @@ new Pageable("#container", {
     },
 });
 ```
+
+---
+
+### Anchors
+
+Any anchor on your page that has a hash that matches the ones in the current `Pageable` instance will trigger scrolling. This allows you to add navigation links without needing to define event listeners or callbacks to get them to trigger a scroll.
+
 ---
 ## Methods
 

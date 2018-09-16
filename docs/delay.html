@@ -13,16 +13,25 @@
 	<section data-anchor="Page 1">
 		<div class="text">
 			<h1>Add a delay for effect.</h1>
+			<pre class="language-css">
+			<code>
+.pg-page {
+    transform: scale(0.9, 0.9);
+    transition: all 500ms;
+}
+.pg-page.pg-active {
+    transform: scale(1, 1);
+}
+</code>
+</pre>			
 			<pre class="language-js">
 			<code>
 new Pageable("main", {
     interval: 400,
     delay: 300,
-    onBeforeStart: function() {
+    onBeforeStart: function(data) {
         // remove the active class before scroll starts
-        this.pages.forEach((page, i) => {
-            page.classList.remove("pg-active");
-        });	
+        this.pages[data.index].classList.remove("pg-active");
     }	
 });
 </code>
