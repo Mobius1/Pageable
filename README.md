@@ -18,6 +18,7 @@ Pageable transforms a web page into a full page scrolling presentation.
 
 ## Demos
   - [Playground](https://mobius1.github.io/Pageable/)
+  - [Adding progress bars](https://mobius1.github.io/Pageable/progress.html)
   - [Fun with real-time orientation](https://mobius1.github.io/Pageable/orientate.html)
   - [Fun with delays](https://mobius1.github.io/Pageable/delay.html)
 

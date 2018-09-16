@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html >
+	<head>
+		<meta charset="UTF-8">
+		<title>Pageable</title>
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/delay.css">
+	</head>
+	<body>
+<main>
+	<section data-anchor="Page 1">
+		<div class="text">
+			<h4>Simple markup</h4>
+			<pre class="language-markup">
+			<code>
+&lt;!-- Radial version --&gt;
+&lt;div class="radial-progress"&gt;
+    &lt;svg class="radial-svg" width="50" height="50" transform="rotate(-90 0 0)"&gt;
+        &lt;circle class="radial-fill" stroke-width="5" r="14" cx="20" cy="20"&gt;&lt;/circle&gt;
+    &lt;/svg&gt;
+&lt;/div&gt;
+
+&lt;!-- Linear version --&gt;
+&lt;div class="linear-progress"&gt;
+    &lt;div class="bar"&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code>
+</pre>
+		</div>
+	</section>
+	<section data-anchor="Page 2">
+		<div class="text">
+			<h4>Create a callback to update the bars</h4>
+<pre class="language-js">
+<code>
+const bar = document.querySelector(".bar");
+const svg = document.querySelector("svg");
+const circle = svg.querySelector("circle");
+const r = circle.getAttribute("r");
+const circ = 2 * Math.PI * r;	
+
+// callback to update the progress bars
+function update(data) {
+    const pos = 1 - ((data.max - data.scrolled) / data.max);
+
+    // update radial progress bar
+    circle.style.strokeDashoffset = circ - (circ * pos);
+    
+    // update linear progress bar
+    bar.style.transform = `scale(${pos}, 1)`;	
+}
+</code>
+</pre>
+		</div>
+	</section>
+	<section data-anchor="Page 3">
+		<div class="text">
+			<h4>Use the callback in the config...</h4>
+<pre class="language-js">
+<code>
+const pages = new Pageable("main", {
+    onInit: update,
+    onScroll: update,
+});
+</code>
+</pre>
+		</div>
+	</section>
+	<section data-anchor="Page 4">
+		<div class="text">
+			<h4>...or use the built-in event emitter</h4>
+<pre class="language-js">
+<code>
+const pages = new Pageable("main");
+
+pages.on("init", update);
+pages.on("scroll", update);
+</code>
+</pre>
+		</div>
+	</section>
+	<section data-anchor="Page 5">
+		<div class="text">
+
+		</div>
+	</section>
+	<section data-anchor="Page 6">
+		<div class="text">
+
+		</div>
+	</section>
+</main>
+
+<div class="page-progress">
+	<svg class="radial-svg" width="50" height="50" transform="rotate(-90 0 0)">
+		<circle class="radial-fill" stroke-width="5" r="14" cx="20" cy="20"></circle>
+	</svg>
+</div>
+
+<div class="progress"><div class="bar" style="transform: scale(0, 1);"></div></div>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js"></script>
+		<script src="https://unpkg.com/pageable@latest/dist/pageable.js"></script>
+		<script src="js/progress.js"></script>
+	</body>
+</html>

@@ -519,3 +519,44 @@ code {
   border-width: 0 3px 3px;
   border-color: transparent #fff #fff;
 }
+
+.progress {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  width: calc(100vw - 20px);
+  height: 5px;
+}
+.progress .bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-transform: scale(0, 1);
+          transform: scale(0, 1);
+  -webkit-transform-origin: 0 0 0;
+          transform-origin: 0 0 0;
+  background-color: #fff;
+}
+
+.page-progress {
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  left: 10px;
+  top: 20px;
+}
+
+svg {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+circle {
+  stroke: #fff;
+  fill: transparent;
+  stroke-dasharray: 87.9645943005 87.9645943005;
+  stroke-dashoffset: 87.9645943005;
+}
