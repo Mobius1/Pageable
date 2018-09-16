@@ -19,6 +19,7 @@
     transform: scale(0.9, 0.9);
     transition: all 500ms;
 }
+
 .pg-page.pg-active {
     transform: scale(1, 1);
 }
@@ -27,12 +28,12 @@
 			<pre class="language-js">
 			<code>
 new Pageable("main", {
-    interval: 400,
+    // delay the scroll by 300ms to allow the transition to complete
     delay: 300,
     onBeforeStart: function(data) {
         // remove the active class before scroll starts
         this.pages[data.index].classList.remove("pg-active");
-    }	
+    }
 });
 </code>
 </pre>
