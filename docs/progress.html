@@ -58,7 +58,6 @@ function update(data) {
 <pre class="language-js">
 <code>
 const pages = new Pageable("main", {
-    onInit: update,
     onScroll: update,
 });
 </code>
@@ -72,7 +71,6 @@ const pages = new Pageable("main", {
 <code>
 const pages = new Pageable("main");
 
-pages.on("init", update);
 pages.on("scroll", update);
 </code>
 </pre>

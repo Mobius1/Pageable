@@ -1,5 +1,5 @@
 /*!
- * Pageable 0.2.1
+ * Pageable 0.2.2
  * http://mobius.ovh/
  *
  * Released under the MIT license
@@ -380,6 +380,10 @@ export default class Pageable {
 			const index = this.anchors.indexOf(id);
 
 			if (index > -1) {
+				
+				this.scrollPosition = this.data.window[this.size[this.axis]] * index;
+				
+				const data = this.getData();
 				this.index = index;
 				this.setPips();
 
@@ -387,7 +391,10 @@ export default class Pageable {
 					page.classList.toggle("pg-active", i === this.index);
 				});
 
-				this.config.onFinish.call(this, this.getData());
+				this.config.onScroll.call(this, data);
+				this.config.onFinish.call(this, data);
+				
+				this.emit("scroll", data);
 			}
 		}
 

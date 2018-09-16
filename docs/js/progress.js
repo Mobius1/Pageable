@@ -6,7 +6,6 @@ const circ = 2 * Math.PI * r;
 
 const pages = new Pageable("main");
 
-pages.on("init", update);
 pages.on("scroll", update);
 
 function update(data) {
