@@ -47,7 +47,7 @@ const buttons = document.querySelectorAll("button");
 const selects = document.querySelectorAll("select");
 
 toggle.addEventListener("click", e => {
-		settings.classList.toggle("active");
+	settings.classList.toggle("active");
 });
 
 // document.body.addEventListener("click", e => {
@@ -110,15 +110,15 @@ selects.forEach(select => {
 });
 	
 function toggleMethod(e) {
-		if ( "method" in this.dataset ) {
-			pageable[this.dataset.method]();
-		}
+	if ( "method" in this.dataset ) {
+		pageable[this.dataset.method]();
+	}
 }
 	
 function toggleEvent(e) {
-		if ( "event" in this.dataset ) {
-			pageable.events[this.dataset.event] = this.checked;
-		}
+	if ( "event" in this.dataset ) {
+		pageable.events[this.dataset.event] = this.checked;
+	}
 }
 
 function update(data) {
@@ -126,9 +126,9 @@ function update(data) {
 	selects[1].value = pageable.anchors[pageable.index];
 	selects[2].value = pageable.horizontal ? "horizontal" : "vertical";
 	
-	inputs[2].checked = pageable.events.wheel;
-	inputs[3].checked = pageable.events.mouse;
-	inputs[4].checked = pageable.events.touch;
+	document.getElementById("wheel").checked = pageable.events.wheel;
+	document.getElementById("mouse").checked = pageable.events.mouse;
+	document.getElementById("touch").checked = pageable.events.touch;
 	
 	anchors.forEach((anchor, i) => {
 		anchor.firstElementChild.classList.toggle("active", i === data.index);
