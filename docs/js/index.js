@@ -89,7 +89,12 @@ inputs.forEach(input => {
 				config.max = 1000;
 				config.value = pageable.config.delay;
 				config.onEnd = val => { pageable.config.delay = val };
-				break;				
+				break;
+			case "swipeThreshold":
+				config.max = 500;
+				config.value = pageable.config.swipeThreshold;
+				config.onEnd = val => { pageable.config.swipeThreshold = val };
+				break;	
 		}
 		
 		new Rangeable(input, config);		
