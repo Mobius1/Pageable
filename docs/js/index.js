@@ -91,6 +91,7 @@ inputs.forEach(input => {
 				config.onEnd = val => { pageable.config.delay = val };
 				break;
 			case "swipeThreshold":
+				config.step = 10;
 				config.max = 500;
 				config.value = pageable.config.swipeThreshold;
 				config.onEnd = val => { pageable.config.swipeThreshold = val };
