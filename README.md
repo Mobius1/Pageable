@@ -77,6 +77,7 @@ new Pageable("#container", {
     delay: 0, // the delay in ms before the scroll animation starts
     throttle: 50, // the interval in ms that the resize callback is fired
     orientation: "vertical", // or horizontal
+    swipeThreshold: 50, // swipe / mouse drag distance (px) before firing the page change event
     events: {
         wheel: true, // enable / disable mousewheel scrolling
         mouse: true, // enable / disable mouse drag scrolling
