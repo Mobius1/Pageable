@@ -95,7 +95,7 @@ inputs.forEach(input => {
 				config.max = 500;
 				config.value = pageable.config.swipeThreshold;
 				config.onEnd = val => { pageable.config.swipeThreshold = val };
-				config.onChange: val => {
+				config.onChange = val => {
 					output.textContent = `${val}px`;
 				};				
 				break;	
