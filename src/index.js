@@ -327,7 +327,7 @@ export default class Pageable {
             
             const data = this.getData();
             
-            // update position so user-defiend callbacks will recieve the new value
+            // update position so user-defined callbacks will recieve the new value
             data.scrolled -= scrolled;
 
             this.config.onScroll.call(this, data);
