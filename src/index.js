@@ -1,5 +1,5 @@
 /*!
- * Pageable 0.3.0
+ * Pageable 0.3.1
  * http://mobius.ovh/
  *
  * Released under the MIT license
@@ -256,7 +256,11 @@ export default class Pageable {
             false
         );
 
-        document.addEventListener("DOMContentLoaded", this.callbacks.load, false);
+        document.onreadystatechange = (e) => {
+            if (document.readyState === "complete") {
+                this.load();
+            }
+        }
 
         // anchor clicks
         document.addEventListener("click", this.callbacks.click, false);
@@ -285,7 +289,6 @@ export default class Pageable {
             this.callbacks.stop,
         );
 
-        document.removeEventListener("DOMContentLoaded", this.callbacks.load);
         document.removeEventListener("click", this.callbacks.click);
     }
 
