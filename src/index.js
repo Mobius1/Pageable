@@ -353,7 +353,7 @@ export default class Pageable {
             
         // free scroll
         if ( this.dragging ) {
-            const scrolled = evt.clientY - this.down.y;
+            const scrolled = evt[this.mouseAxis[this.axis]] - this.down[this.axis];
             const h = this.data.window[this.size[this.axis]];
             const oldIndex = this.index;
             
