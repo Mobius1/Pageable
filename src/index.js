@@ -1,5 +1,5 @@
 /*!
- * Pageable 0.2.3
+ * Pageable 0.3.0
  * http://mobius.ovh/
  *
  * Released under the MIT license
@@ -123,11 +123,12 @@ export default class Pageable {
      */
     init() {
         if (!this.initialised) {
+            const o = this.config;
             this.wrapper = document.createElement("div");
             this.container.parentNode.insertBefore(this.wrapper, this.container);
             this.wrapper.appendChild(this.container);
 
-            this.wrapper.classList.add("pg-wrapper", `pg-${this.config.orientation}`);
+            this.wrapper.classList.add("pg-wrapper", `pg-${o.orientation}`);
             this.wrapper.classList.add("pg-wrapper");
             this.container.classList.add("pg-container");
 
@@ -137,7 +138,32 @@ export default class Pageable {
 
             this.container.style.display = "inline-block";
 
-            if (this.config.pips) {
+            if ( o.navPrevEl ) {
+                if ( typeof o.navPrevEl === "string" ) {
+                    this.navPrevEl = document.querySelector(o.navPrevEl);
+                    console.log(this.navPrevEl)
+                } else if ( o.navPrevEl instanceof Element ) {
+                    this.navPrevEl = o.navPrevEl;
+                }
+                
+                if ( this.navPrevEl ) {
+                    this.navPrevEl.onclick = this.prev.bind(this);
+                }
+            }
+        
+            if ( o.navNextEl ) {
+                if ( typeof o.navNextEl === "string" ) {
+                    this.navNextEl = document.querySelector(o.navNextEl);
+                } else if ( o.navNextEl instanceof Element ) {
+                    this.navNextEl = o.navNextEl;
+                }
+                
+                if ( this.navNextEl ) {
+                    this.navNextEl.onclick = this.next.bind(this);
+                }
+            }            
+
+            if (o.pips) {
                 const nav = document.createElement("nav");
                 const ul = document.createElement("ul");
 
@@ -474,6 +500,15 @@ export default class Pageable {
                     page.classList.toggle("pg-active", i === this.index);
                 });
 
+                // update nav buttons
+                if ( this.navPrevEl ) {
+                    this.navPrevEl.classList.toggle("active", this.index > 0);
+                }
+
+                if ( this.navNextEl ) {
+                    this.navNextEl.classList.toggle("active", this.index < this.pages.length - 1);
+                }                
+
                 this.config.onScroll.call(this, data);
                 this.config.onFinish.call(this, data);
 
@@ -568,7 +603,16 @@ export default class Pageable {
                     this.pages.forEach((page, i) => {
                         page.classList.toggle("pg-active", i === this.index);
                     });
-
+                    
+                    // update nav buttons
+                    if ( this.navPrevEl ) {
+                        this.navPrevEl.classList.toggle("active", this.index > 0);
+                    }
+                
+                    if ( this.navNextEl ) {
+                        this.navNextEl.classList.toggle("active", this.index < this.pages.length - 1);
+                    }
+                                        
                     const data = this.getData();
 
                     this.config.onFinish.call(this, data);
