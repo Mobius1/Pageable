@@ -78,6 +78,9 @@ new Pageable("#container", {
     throttle: 50, // the interval in ms that the resize callback is fired
     orientation: "vertical", // or horizontal
     swipeThreshold: 50, // swipe / mouse drag distance (px) before firing the page change event
+    freeScroll: false, // allow manual scrolling when dragging instead of automatically moving to next page
+    navPrevEl: false, // define an element to use to scroll to the previous page (CSS3 selector string or Element reference)
+    navNextEl: false, // define an element to use to scroll to the next page (CSS3 selector string or Element reference)
     events: {
         wheel: true, // enable / disable mousewheel scrolling
         mouse: true, // enable / disable mouse drag scrolling
