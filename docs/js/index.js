@@ -63,6 +63,8 @@ inputs.forEach(input => {
 		if ( input.id === "freescroll" ) {
 			input.onchange = e => {
 				pageable.config.freeScroll = input.checked;
+				pageable.events.mouse = input.checked;
+				document.getElementById("mouse").checked = input.checked;
 			};
 		} else {
 			input.onchange = toggleEvent;
