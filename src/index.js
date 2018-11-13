@@ -147,6 +147,7 @@ export default class Pageable {
                 }
                 
                 if ( this.navPrevEl ) {
+                    this.navPrevEl.classList.add("pg-nav");
                     this.navPrevEl.onclick = this.prev.bind(this);
                 }
             }
@@ -159,6 +160,7 @@ export default class Pageable {
                 }
                 
                 if ( this.navNextEl ) {
+                    this.navPrevEl.classList.add("pg-nav");
                     this.navNextEl.onclick = this.next.bind(this);
                 }
             }            
@@ -859,12 +861,16 @@ export default class Pageable {
      */
     destroy() {
         if (this.initialised) {
+			// emit "destroy" event
+            this.emit("destroy");					
+					
             this.unbind();
 
             // reset body styling
             document.body.style.margin = ``;
             document.body.style.overflow = ``;
 
+            this.container.style.display = ``;
             this.container.style.height = ``;
             this.container.style.width = ``;
             this.container.classList.remove("pg-container");
@@ -877,6 +883,18 @@ export default class Pageable {
                 page.classList.remove("pg-page");
                 page.classList.remove("pg-active");
             });
+					
+            if ( this.navPrevEl ) {
+                this.navPrevEl.classList.remove("active");
+                this.navPrevEl.classList.remove("pg-nav");
+                this.navPrevEl.onclick = () => {};
+            }
+        
+            if ( this.navNextEl ) {
+                this.navNextEl.classList.remove("active");
+                this.navNextEl.classList.remove("pg-nav");
+                this.navNextEl.onclick = () => {};
+            }					
 
             this.initialised = false;
         }

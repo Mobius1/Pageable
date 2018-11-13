@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html >
+	<head>
+		<meta charset="UTF-8">
+		<title>Pageable</title>
+		<link rel="stylesheet" href="//cdn.materialdesignicons.com/3.0.39/css/materialdesignicons.min.css">
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/gallery.css">
+	</head>
+	<body>
+		<main>
+			<section data-anchor="gallery 1"><div></div></section>
+			<section data-anchor="gallery 2"><div></div></section>
+			<section data-anchor="gallery 3"><div></div></section>
+			<section data-anchor="gallery 4"><div></div></section>
+			<section data-anchor="gallery 5"><div></div></section>
+			<section data-anchor="gallery 6"><div></div></section>
+		</main>
+
+		<!-- nav buttons -->
+		<nav id="nav">
+			<ul>
+				<li class="nav nav-prev"><button type="button"></button></li>
+				<li class="nav nav-next"><button type="button"></button></li>
+			</ul>
+		</nav>
+
+		<!-- progress indicator -->
+		<div class="page-progress">
+			<svg class="radial-svg" width="50" height="50" transform="rotate(-90 0 0)">
+				<circle class="radial-fill" stroke-width="5" r="14" cx="20" cy="20"></circle>
+			</svg>
+		</div>
+
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js"></script>
+		<script src="https://unpkg.com/pageable@latest/dist/pageable.js"></script>
+		<script src="js/gallery.js"></script>
+	</body>
+</html>
