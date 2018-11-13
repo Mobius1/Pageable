@@ -1,5 +1,5 @@
 /*!
- * Pageable 0.3.3
+ * Pageable 0.3.4
  * http://mobius.ovh/
  *
  * Released under the MIT license
@@ -310,8 +310,10 @@ export default class Pageable {
      * @return {Bool}
      */
     start(e) {
+        e.preventDefault();
+        e.stopPropagation();        
 
-        if ( this.scrolling ) {
+        if ( this.scrolling || this.dragging ) {
             return false;
         }
 
@@ -328,9 +330,6 @@ export default class Pageable {
 
             return false;
         }
-
-        e.preventDefault();
-        e.stopPropagation();
 
         const evt = this.touch ? e.touches[0] : e;
 
