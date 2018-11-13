@@ -25,6 +25,7 @@ export default class Pageable {
             onScroll: () => {},
             onFinish: () => {},
             swipeThreshold: 50,
+            freeScroll: false,
             events: {
                 wheel: true,
                 mouse: true,
@@ -197,6 +198,10 @@ export default class Pageable {
             stop: this.stop.bind(this),
             click: this.click.bind(this)
         };
+			
+        if ( this.config.freeScroll ) {
+            this.callbacks.drag = this.drag.bind(this);
+        }
 
         this.wrapper.addEventListener("wheel", this.callbacks.wheel, false);
         window.addEventListener("resize", this.callbacks.update, false);
@@ -206,8 +211,14 @@ export default class Pageable {
             this.callbacks.start,
             false
         );
+			
+        window.addEventListener(
+            this.touch ? "touchmove" : "mousemove",
+            this.callbacks.drag,
+            false
+        );
 
-        this.wrapper.addEventListener(
+        window.addEventListener(
             this.touch ? "touchend" : "mouseup",
             this.callbacks.stop,
             false
@@ -232,7 +243,12 @@ export default class Pageable {
             this.callbacks.start,
         );
 
-        this.wrapper.removeEventListener(
+        window.addEventListener(
+            this.touch ? "touchmove" : "mousemove",
+            this.callbacks.drag
+        )
+
+        window.removeEventListener(
             this.touch ? "touchend" : "mouseup",
             this.callbacks.stop,
         );
@@ -247,12 +263,14 @@ export default class Pageable {
      * @return {Bool}
      */
     click(e) {
-        const anchor = e.target.closest("a");
+        if ( e.target.closest ) {
+            const anchor = e.target.closest("a");
 
-        if (anchor) {
-            if (this.anchors.indexOf(anchor.hash) > -1) {
-                e.preventDefault();
-                this.scrollToAnchor(anchor.hash);
+            if (anchor) {
+                if (this.anchors.indexOf(anchor.hash) > -1) {
+                    e.preventDefault();
+                    this.scrollToAnchor(anchor.hash);
+                }
             }
         }
     }
@@ -286,6 +304,8 @@ export default class Pageable {
         if (!evt.target.closest("[data-anchor]")) {
             return false;
         }
+			
+		this.dragging = this.config.freeScroll;
 
         this.down = {
             x: evt.clientX,
@@ -294,6 +314,18 @@ export default class Pageable {
 
         this.config.onBeforeStart.call(this, this.index);
     }
+	
+		drag(e) {
+			if ( this.dragging ) {
+				const evt = this.touch && e.type === "touchmove" ? e.touches[0] : e;
+
+				const scrolled = this.horizontal ? evt.clientX - this.down.x : evt.clientY - this.down.y;
+
+				this.container.style.transform = this.horizontal ?
+				`translate3d(${scrolled}px, 0, 0)` :
+				`translate3d(0, ${scrolled}px, 0)`;
+			}
+		}
 
     /**
      * Mouseup / touchend callback
@@ -308,6 +340,25 @@ export default class Pageable {
 
         // decrement index
         const dec = () => 0 < this.index && this.index--;
+            
+        // free scroll
+        if ( this.dragging ) {
+            const scrolled = evt.clientY - this.down.y;
+            const h = this.data.window[this.size[this.axis]];
+            const oldIndex = this.index;
+            
+            this.dragging = scrolled;
+            
+            if ( scrolled > 0 ) {
+                dec();
+            } else {
+                inc();
+            }
+            
+            this.scrollBy(this.getScrollAmount(oldIndex) - scrolled);
+            
+            return;
+        }
 
         if (this.down && !this.scrolling) {
             const evt = this.touch ? e.changedTouches[0] : e;
@@ -483,6 +534,7 @@ export default class Pageable {
 
                     this.frame = false;
                     this.scrolling = false;
+					this.dragging = false;
 
                     window.location.hash = this.pages[this.index].id;
 
@@ -501,7 +553,8 @@ export default class Pageable {
                 }
 
                 // Update scroll position
-                const scrolled = this.config.easing(ct, 0, amount, this.config.interval);
+                const start = this.dragging ? this.dragging : 0;
+                const scrolled = this.config.easing(ct, start, amount, this.config.interval);						
 
                 this.container.style.transform = this.horizontal ?
                     `translate3d(${scrolled}px, 0, 0)` :
