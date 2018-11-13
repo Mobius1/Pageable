@@ -1,5 +1,5 @@
 /*!
- * Pageable 0.3.2
+ * Pageable 0.3.3
  * http://mobius.ovh/
  *
  * Released under the MIT license
@@ -224,13 +224,10 @@ export default class Pageable {
             update: throttle(this.update.bind(this), this.config.throttle),
             load: this.load.bind(this),
             start: this.start.bind(this),
+            drag: this.drag.bind(this),
             stop: this.stop.bind(this),
-            click: this.click.bind(this)
+            click: this.click.bind(this),
         };
-			
-        if ( this.config.freeScroll ) {
-            this.callbacks.drag = this.drag.bind(this);
-        }
 
         this.wrapper.addEventListener("wheel", this.callbacks.wheel, false);
         window.addEventListener("resize", this.callbacks.update, false);
