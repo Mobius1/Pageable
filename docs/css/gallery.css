@@ -18,12 +18,12 @@ section {
   color: #fff;
   position: relative;
 }
+section:nth-child(1)::after {
+  position: absolute;
+  font-size: 30px;
+  content: "Swipe, drag or mousewheel";
+}
 section:nth-child(1) div {
-  &::after {
-    position: absolute;
-    font-size: 30px;
-    content: "Swipe, drag or mousewheel";
-  }  
   background-image: url(https://images.unsplash.com/photo-1523978591478-c753949ff840?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=79943bd5886756fc2f8172b3c491aaad);
 }
 section:nth-child(2) div {
