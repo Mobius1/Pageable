@@ -135,6 +135,8 @@ export default class Pageable {
             document.body.style.margin = 0;
             document.body.style.overflow = `hidden`;
 
+            this.container.style.display = "inline-block";
+
             if (this.config.pips) {
                 const nav = document.createElement("nav");
                 const ul = document.createElement("ul");
@@ -212,11 +214,13 @@ export default class Pageable {
             false
         );
 			
-        window.addEventListener(
-            this.touch ? "touchmove" : "mousemove",
-            this.callbacks.drag,
-            false
-        );
+        if ( this.config.freeScroll ) {
+            window.addEventListener(
+                    this.touch ? "touchmove" : "mousemove",
+                    this.callbacks.drag,
+                    false
+            );
+        }
 
         window.addEventListener(
             this.touch ? "touchend" : "mouseup",
@@ -281,6 +285,11 @@ export default class Pageable {
      * @return {Bool}
      */
     start(e) {
+
+        if ( this.scrolling ) {
+            return false;
+        }
+
         // preventing action here allows us to still have the the event listeners
         // attached so touch and mouse can be toggled at any time
         if (e.type === "touchstart" && !this.events.touch) {
@@ -314,22 +323,25 @@ export default class Pageable {
 
         this.config.onBeforeStart.call(this, this.index);
     }
-	
+
+    /**
+     * Mousemove / touchmove callback
+     * @param  {Event} e
+     * @return {Bool}
+     */
     drag(e) {
         if ( this.dragging && !this.scrolling ) {
             const evt = this.touch && e.type === "touchmove" ? e.touches[0] : e;
-
             const scrolled = evt[this.mouseAxis[this.axis]] - this.down[this.axis];
+            const data = this.getData();
 
             this.container.style.transform = this.horizontal ?
             `translate3d(${scrolled}px, 0, 0)` :
             `translate3d(0, ${scrolled}px, 0)`;
             
-            const data = this.getData();
-            
-            // update position so user-defined callbacks will recieve the new value
             data.scrolled -= scrolled;
 
+             // update position so user-defined callbacks will recieve the new value
             this.config.onScroll.call(this, data);
 
             // emit the "scroll" event
@@ -352,17 +364,20 @@ export default class Pageable {
         const dec = () => 0 < this.index && this.index--;
             
         // free scroll
-        if ( this.dragging ) {
+        if ( this.dragging && !this.scrolling ) {
             const scrolled = evt[this.mouseAxis[this.axis]] - this.down[this.axis];
             const h = this.data.window[this.size[this.axis]];
             const oldIndex = this.index;
+			const met = Math.abs(evt[this.mouseAxis[this.axis]] - this.down[this.axis]) >= this.config.swipeThreshold;
             
             this.dragging = scrolled;
-            
-            if ( scrolled > 0 ) {
-                dec();
-            } else {
-                inc();
+					
+            if ( met ) {
+                if ( scrolled > 0 ) {
+                    dec();
+                } else {
+                    inc();
+                }
             }
             
             this.scrollBy(this.getScrollAmount(oldIndex) - scrolled);
