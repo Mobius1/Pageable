@@ -366,6 +366,8 @@ export default class Pageable {
             }
             
             this.scrollBy(this.getScrollAmount(oldIndex) - scrolled);
+
+            this.down = false;
             
             return;
         }
