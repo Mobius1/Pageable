@@ -147,26 +147,15 @@ pages.on("scroll.end", data => {
 			<div class="setting">
 				<label for="swipeThreshold">swipeThreshold <span class="output"></span></label>
 				<input type="range" id="swipeThreshold">
+			</div>
+
+			<div class="setting">
+				<div class="checkbox">
+					<input type="checkbox" id="freescroll" data-event="freescroll" name="checkbox" checked>
+					<label for="freescroll">freeScroll</label>
+				</div>
 			</div>			
-
-			<h4>Methods</h4>
-			<div class="setting">
-				<button type="button" data-method="prev">prev()</button>
-				<button type="button" data-method="next">next()</button>
-			</div>
-			<div class="setting">
-				<label for="scrollToPage">scrollToPage()</label>
-				<select id="scrollToPage"></select>
-			</div>
-			<div class="setting">
-				<label for="scrollToAnchor">scrollToAnchor()</label>
-				<select id="scrollToAnchor"></select>
-			</div>
-			<div class="setting">
-				<label for="orientate">orientate()</label>
-				<select id="orientate"></select>
-			</div>
-
+			
 			<h4>Controls</h4>
 			<div class="setting">
 				<div class="checkbox">
@@ -185,13 +174,25 @@ pages.on("scroll.end", data => {
 					<input type="checkbox" id="touch" data-event="touch" name="checkbox" checked>
 					<label for="touch">swipe</label>
 				</div>
+			</div>				
+
+			<h4>Methods</h4>
+			<div class="setting">
+				<button type="button" data-method="prev">prev()</button>
+				<button type="button" data-method="next">next()</button>
 			</div>
 			<div class="setting">
-				<div class="checkbox">
-					<input type="checkbox" id="freescroll" data-event="freescroll" name="checkbox" checked>
-					<label for="freescroll">freeScroll</label>
-				</div>
-			</div>			
+				<label for="scrollToPage">scrollToPage()</label>
+				<select id="scrollToPage"></select>
+			</div>
+			<div class="setting">
+				<label for="scrollToAnchor">scrollToAnchor()</label>
+				<select id="scrollToAnchor"></select>
+			</div>
+			<div class="setting">
+				<label for="orientate">orientate()</label>
+				<select id="orientate"></select>
+			</div>		
 		</div>
 	</div>
 </div>
