@@ -138,6 +138,11 @@ export default class Pageable {
 
             this.container.style.display = "inline-block";
 
+            // can't have a delay with freeScroll
+            if ( o.freeScroll && o.delay > 0 ) {
+                o.delay = 0;
+            }
+                        
             if ( o.navPrevEl ) {
                 if ( typeof o.navPrevEl === "string" ) {
                     this.navPrevEl = document.querySelector(o.navPrevEl);
