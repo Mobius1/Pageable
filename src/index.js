@@ -141,7 +141,6 @@ export default class Pageable {
             if ( o.navPrevEl ) {
                 if ( typeof o.navPrevEl === "string" ) {
                     this.navPrevEl = document.querySelector(o.navPrevEl);
-                    console.log(this.navPrevEl)
                 } else if ( o.navPrevEl instanceof Element ) {
                     this.navPrevEl = o.navPrevEl;
                 }
