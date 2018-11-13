@@ -60,7 +60,13 @@ buttons.forEach(button => {
 
 inputs.forEach(input => {
 	if ( input.type === "checkbox" ) {
-		input.onchange = toggleEvent;
+		if ( input.id === "freescroll" ) {
+			input.onchange = e => {
+				pageable.config.freeScroll = input.checked;
+			};
+		} else {
+			input.onchange = toggleEvent;
+		}
 	} else {
 		
 		const output = input.previousElementSibling.lastElementChild;
@@ -129,6 +135,7 @@ function update(data) {
 	document.getElementById("wheel").checked = pageable.events.wheel;
 	document.getElementById("mouse").checked = pageable.events.mouse;
 	document.getElementById("touch").checked = pageable.events.touch;
+	document.getElementById("freescroll").checked = pageable.config.freeScroll;
 	
 	anchors.forEach((anchor, i) => {
 		anchor.firstElementChild.classList.toggle("active", i === data.index);
