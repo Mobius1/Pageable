@@ -241,13 +241,11 @@ export default class Pageable {
             false
         );
 			
-        if ( this.config.freeScroll ) {
-            window.addEventListener(
-                    this.touch ? "touchmove" : "mousemove",
-                    this.callbacks.drag,
-                    false
-            );
-        }
+        window.addEventListener(
+            this.touch ? "touchmove" : "mousemove",
+            this.callbacks.drag,
+            false
+        );
 
         window.addEventListener(
             this.touch ? "touchend" : "mouseup",
@@ -360,7 +358,7 @@ export default class Pageable {
      * @return {Bool}
      */
     drag(e) {
-        if ( this.dragging && !this.scrolling ) {
+        if ( this.config.freeScroll && this.dragging && !this.scrolling ) {
             const evt = this.touch && e.type === "touchmove" ? e.touches[0] : e;
             const scrolled = evt[this.mouseAxis[this.axis]] - this.down[this.axis];
             const data = this.getData();
