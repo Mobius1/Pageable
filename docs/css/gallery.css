@@ -114,19 +114,21 @@ section div {
   font-family: "Material Design Icons";
 }
 
-nav {
+.pg-wrapper nav {
   position: fixed;
   z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
+  top: auto;
+  height: auto;
 }
 
-nav ul li a span {
+.pg-wrapper nav ul li a span {
   background: #fff;
 }
 
-nav li {
+.pg-wrapper nav li {
   display: block;
   width: 10px;
   height: 10px;
@@ -134,7 +136,7 @@ nav li {
   position: relative;
 }
 
-nav span:after {
+.pg-wrapper nav span:after {
   background: rgba(255, 255, 255, 0.15);
   position: absolute;
   content: "";
@@ -147,24 +149,24 @@ nav span:after {
   transition: 0.3s;
 }
 
-nav li .active span {
+.pg-wrapper nav li .active span {
   background: #fff;
   position: absolute;
 }
 
-nav li .active span:after {
+.pg-wrapper nav li .active span:after {
   top: -6px;
   left: -6px;
   bottom: -6px;
   right: -6px;
 }
 
-nav ul {
+.pg-wrapper nav ul {
   margin: 0;
   padding: 0;
 }
 
-nav ul li {
+.pg-wrapper nav ul li {
   display: block;
   width: 14px;
   height: 13px;
@@ -172,7 +174,7 @@ nav ul li {
   position: relative;
 }
 
-nav ul li a {
+.pg-wrapper nav ul li a {
   display: block;
   position: relative;
   z-index: 1;
@@ -182,15 +184,15 @@ nav ul li a {
   text-decoration: none;
 }
 
-nav ul li a.active span,
-nav ul li:hover a.active span {
+.pg-wrapper nav ul li a.active span,
+.pg-wrapper nav ul li:hover a.active span {
   height: 12px;
   width: 12px;
   margin: -6px 0 0 -6px;
   border-radius: 100%;
 }
 
-nav ul li a span {
+.pg-wrapper nav ul li a span {
   border-radius: 50%;
   position: absolute;
   z-index: 1;
@@ -204,7 +206,7 @@ nav ul li a span {
   transition: all 0.1s ease-in-out;
 }
 
-nav ul li:hover a span {
+.pg-wrapper nav ul li:hover a span {
   width: 10px;
   height: 10px;
   margin: -5px 0px 0px -5px;
