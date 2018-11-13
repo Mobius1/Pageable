@@ -315,17 +315,27 @@ export default class Pageable {
         this.config.onBeforeStart.call(this, this.index);
     }
 	
-		drag(e) {
-			if ( this.dragging ) {
-				const evt = this.touch && e.type === "touchmove" ? e.touches[0] : e;
+    drag(e) {
+        if ( this.dragging && !this.scrolling ) {
+            const evt = this.touch && e.type === "touchmove" ? e.touches[0] : e;
 
-				const scrolled = this.horizontal ? evt.clientX - this.down.x : evt.clientY - this.down.y;
+            const scrolled = evt[this.mouseAxis[this.axis]] - this.down[this.axis];
 
-				this.container.style.transform = this.horizontal ?
-				`translate3d(${scrolled}px, 0, 0)` :
-				`translate3d(0, ${scrolled}px, 0)`;
-			}
-		}
+            this.container.style.transform = this.horizontal ?
+            `translate3d(${scrolled}px, 0, 0)` :
+            `translate3d(0, ${scrolled}px, 0)`;
+            
+            const data = this.getData();
+            
+            // update position so user-defiend callbacks will recieve the new value
+            data.scrolled -= scrolled;
+
+            this.config.onScroll.call(this, data);
+
+            // emit the "scroll" event
+            this.emit("scroll", data);
+        }
+    }
 
     /**
      * Mouseup / touchend callback
