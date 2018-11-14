@@ -1,5 +1,5 @@
 /*!
- * Pageable 0.3.4
+ * Pageable 0.3.5
  * http://mobius.ovh/
  *
  * Released under the MIT license
@@ -360,7 +360,7 @@ export default class Pageable {
      */
     drag(e) {
         if ( this.config.freeScroll && this.dragging && !this.scrolling ) {
-            const evt = this.touch && e.type === "touchmove" ? e.touches[0] : e;
+            const evt = this.touch && e.type === "touchmove" ? e.touches[0] || e.changedTouches[0] : e;
             const scrolled = evt[this.mouseAxis[this.axis]] - this.down[this.axis];
             const data = this.getData();
 
