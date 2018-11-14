@@ -1,5 +1,5 @@
 /*!
- * Pageable 0.3.5
+ * Pageable 0.3.6
  * http://mobius.ovh/
  *
  * Released under the MIT license
@@ -360,7 +360,7 @@ export default class Pageable {
      */
     drag(e) {
         if ( this.config.freeScroll && this.dragging && !this.scrolling ) {
-            const evt = this.touch && e.type === "touchmove" ? e.touches[0] || e.changedTouches[0] : e;
+            const evt = this.touch && e.type === "touchmove" ? e.touches[0] : e;
             const scrolled = evt[this.mouseAxis[this.axis]] - this.down[this.axis];
             const data = this.getData();
 
@@ -384,7 +384,7 @@ export default class Pageable {
      * @return {Bool}
      */
     stop(e) {
-        const evt = this.touch ? e.touches[0] : e;
+        const evt = this.touch ? e.touches[0] || e.changedTouches[0] : e;
 
         // increment index
         const inc = () => this.index < this.pages.length - 1 && this.index++;
@@ -417,7 +417,6 @@ export default class Pageable {
         }
 
         if (this.down && !this.scrolling) {
-            const evt = this.touch ? e.changedTouches[0] : e;
             const oldIndex = this.index;
             const met = Math.abs(evt[this.mouseAxis[this.axis]] - this.down[this.axis]) >= this.config.swipeThreshold;
 
