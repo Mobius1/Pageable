@@ -451,15 +451,7 @@ export default class Pageable {
         if (this.events.wheel && !this.scrolling) {
             const oldIndex = this.index;
 
-            if (e.deltaY > 0) {
-                if (this.index < this.pages.length - 1) {
-                    this.index++;
-                }
-            } else {
-                if (this.index > 0) {
-                    this.index--;
-                }
-            }
+            0 < e.deltaY ? this.index < this.pages.length - 1 && this.index++ : 0 < this.index && this.index--;
 
             if (this.index !== oldIndex) {
                 this.oldIndex = oldIndex;
