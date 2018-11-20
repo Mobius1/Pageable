@@ -1,10 +1,15 @@
 # Pageable
-[![npm](https://img.shields.io/npm/dt/pageable.svg)](https://www.npmjs.com/package/pageable)
-[![npm version](https://badge.fury.io/js/pageable.svg)](https://badge.fury.io/js/pageable)
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Mobius1/Pageable/blob/master/LICENSE)
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/Mobius1/Pageable.svg)](http://isitmaintained.com/project/Mobius1/Pageable "Average time to resolve an issue")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/Mobius1/Pageable.svg)](http://isitmaintained.com/project/Mobius1/Pageable "Percentage of issues still open")
-![](http://img.badgesize.io/Mobius1/Pageable/master/dist/pageable.js) ![](http://img.badgesize.io/Mobius1/Pageable/master/dist/pageable.js?compression=gzip&label=gzipped)
+
+[![Maintenance](https://img.shields.io/maintenance/yes/2018.svg?style=for-the-badge)](https://github.com/Mobius1/Pageable/)
+[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/Mobius1/Pageable.svg?style=for-the-badge)](https://codeclimate.com/github/Mobius1/Pageable/maintainability)
+![](http://img.badgesize.io/Mobius1/Pageable/master/dist/pageable.min.js?style=for-the-badge) 
+![](http://img.badgesize.io/Mobius1/Pageable/master/dist/pageable.min.js?compression=gzip&label=gzipped&style=for-the-badge)
+[![npm](https://img.shields.io/npm/dt/pageable.svg?style=for-the-badge)](https://www.npmjs.com/package/pageable)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=for-the-badge)](https://github.com/Mobius1/Pageable/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/Mobius1/Pageable.svg?style=for-the-badge)](https://github.com/Mobius1/Pageable/releases)
+[![npm](https://img.shields.io/npm/v/pageable.svg?style=for-the-badge)](https://www.npmjs.com/package/pageable)
+[![GitHub issues](https://img.shields.io/github/issues-raw/Mobius1/Pageable.svg?style=for-the-badge)](https://github.com/Mobius1/Pageable)
+[![GitHub issues](https://img.shields.io/github/issues-closed-raw/Mobius1/Pageable.svg?style=for-the-badge)](https://github.com/Mobius1/Pageable)
 
 Pageable transforms a web page into a full page scrolling presentation.
 
