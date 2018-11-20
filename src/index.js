@@ -142,32 +142,22 @@ export default class Pageable {
             if ( o.freeScroll && o.delay > 0 ) {
                 o.delay = 0;
             }
-                        
-            if ( o.navPrevEl ) {
-                if ( typeof o.navPrevEl === "string" ) {
-                    this.navPrevEl = document.querySelector(o.navPrevEl);
-                } else if ( o.navPrevEl instanceof Element ) {
-                    this.navPrevEl = o.navPrevEl;
+
+            for ( dir of ["Prev", "Next"] ) {
+                const str = `nav${dir}El`;
+                if ( o[str] ) {
+                    if ( typeof o[str] === "string" ) {
+                        this[str] = document.querySelector(o[str]);
+                    } else if ( o[str] instanceof Element ) {
+                        this[str] = o[str];
+                    }
+                    
+                    if ( this[str] ) {
+                        this[str].classList.add("pg-nav");
+                        this[str].onclick = this[dir.toLowerCase()].bind(this);
+                    }
                 }
-                
-                if ( this.navPrevEl ) {
-                    this.navPrevEl.classList.add("pg-nav");
-                    this.navPrevEl.onclick = this.prev.bind(this);
-                }
-            }
-        
-            if ( o.navNextEl ) {
-                if ( typeof o.navNextEl === "string" ) {
-                    this.navNextEl = document.querySelector(o.navNextEl);
-                } else if ( o.navNextEl instanceof Element ) {
-                    this.navNextEl = o.navNextEl;
-                }
-                
-                if ( this.navNextEl ) {
-                    this.navPrevEl.classList.add("pg-nav");
-                    this.navNextEl.onclick = this.next.bind(this);
-                }
-            }            
+            }          
 
             if (o.pips) {
                 const nav = document.createElement("nav");
