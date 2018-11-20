@@ -163,7 +163,7 @@ export default class Pageable {
                 const nav = document.createElement("nav");
                 const ul = document.createElement("ul");
 
-                this.pages.forEach((page, i) => {
+                for ( page of this.pages ) {
                     const li = document.createElement("li");
                     const a = document.createElement("a");
                     const span = document.createElement("span");
@@ -178,7 +178,7 @@ export default class Pageable {
                     li.appendChild(a);
 
                     ul.appendChild(li);
-                });
+                }
 
                 nav.appendChild(ul);
 
@@ -867,24 +867,23 @@ export default class Pageable {
 
             this.wrapper.parentNode.replaceChild(this.container, this.wrapper);
 
-            this.pages.forEach(page => {
+            for ( const page of this.pages ) {
                 page.style.height = ``;
                 page.style.width = ``;
                 page.classList.remove("pg-page");
                 page.classList.remove("pg-active");
-            });
-					
-            if ( this.navPrevEl ) {
-                this.navPrevEl.classList.remove("active");
-                this.navPrevEl.classList.remove("pg-nav");
-                this.navPrevEl.onclick = () => {};
             }
-        
-            if ( this.navNextEl ) {
-                this.navNextEl.classList.remove("active");
-                this.navNextEl.classList.remove("pg-nav");
-                this.navNextEl.onclick = () => {};
-            }					
+
+            for ( dir of ["Prev", "Next"] ) {
+                const str = `nav${dir}El`;
+                if ( o[str] ) {
+                    if ( this[str] ) {
+                        this[str].classList.remove("active");
+                        this[str].classList.remove("pg-nav");
+                        this[str].onclick = () => {};
+                    }
+                }
+            }				
 
             this.initialised = false;
         }
