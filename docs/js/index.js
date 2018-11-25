@@ -1,6 +1,6 @@
 'use strict';
 
-var anchors = Array.from(document.querySelector(".anchors").firstElementChild.children);
+var anchors = [].slice.call(document.querySelector(".anchors").firstElementChild.children);
 var listeners = ['init', 'update', 'scroll.before', 'scroll.start', 'scroll', 'scroll.end'];
 var list = document.getElementById("listeners");
 
