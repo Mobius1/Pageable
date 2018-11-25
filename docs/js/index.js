@@ -1,12 +1,13 @@
-const anchors = Array.from(document.querySelector(".anchors").firstElementChild.children);
-const listeners = ['init', 'update', 'scroll.before', 'scroll.start', 'scroll', 'scroll.end'];
-const list = document.getElementById("listeners");
+'use strict';
 
+var anchors = Array.from(document.querySelector(".anchors").firstElementChild.children);
+var listeners = ['init', 'update', 'scroll.before', 'scroll.start', 'scroll', 'scroll.end'];
+var list = document.getElementById("listeners");
 
-const pageable = new Pageable("main", {
+var pageable = new Pageable("main", {
 	interval: 400,
 	easing: easings.easeOutCubic,
-	onInit: data => {
+	onInit: function onInit(data) {
 		update(data);
 		new MiniBar('#scroll', {
 			alwaysShowBars: true
@@ -18,50 +19,48 @@ const pageable = new Pageable("main", {
 	}
 });
 
-listeners.forEach(listener => {
-	const item = document.createElement("li");
+listeners.forEach(function (listener) {
+	var item = document.createElement("li");
 	item.textContent = listener;
 	list.appendChild(item);
 
-	pageable.on(listener, data => {
+	pageable.on(listener, function (data) {
 		console.log(listener);
 
 		item.classList.add("active");
 
-			setTimeout(() => {
-				item.classList.remove("active");
-			}, 200);		
+		setTimeout(function () {
+			item.classList.remove("active");
+		}, 200);
 
-		if ( listener === "scroll.end" ) {
-			setTimeout(() => {
-				Array.from(list.children).forEach(child => child.classList.remove("active"));
+		if (listener === "scroll.end") {
+			setTimeout(function () {
+				Array.from(list.children).forEach(function (child) {
+					return child.classList.remove("active");
+				});
 			}, 400);
 		}
 	});
 });
 
-const toggle = document.getElementById("settings-open");
-const settings = document.getElementById("settings");
-const inputs = document.querySelectorAll("input");
-const buttons = document.querySelectorAll("button");
-const selects = document.querySelectorAll("select");
+var toggle = document.getElementById("settings-open");
+var settings = document.getElementById("settings");
+var inputs = document.querySelectorAll("input");
+var buttons = document.querySelectorAll("button");
+var selects = document.querySelectorAll("select");
 
-toggle.addEventListener("click", e => {
+toggle.addEventListener("click", function (e) {
 	settings.classList.toggle("active");
 });
 
-// document.body.addEventListener("click", e => {
-// 		settings.classList.toggle("active", settings.contains(e.target));
-// });
-
-buttons.forEach(button => {
+buttons.forEach(function (button) {
 	button.onclick = toggleMethod;
 });
 
-inputs.forEach(input => {
-	if ( input.type === "checkbox" ) {
-		if ( input.id === "freescroll" ) {
-			input.onchange = e => {
+inputs.forEach(function (input) {
+	if (input.type === "checkbox") {
+		if (input.id === "freescroll") {
+			input.onchange = function (e) {
 				pageable.config.freeScroll = input.checked;
 				pageable.events.mouse = input.checked;
 				document.getElementById("mouse").checked = input.checked;
@@ -70,61 +69,65 @@ inputs.forEach(input => {
 			input.onchange = toggleEvent;
 		}
 	} else {
-		
-		const output = input.previousElementSibling.lastElementChild;
-		
-		let config = {
+
+		var output = input.previousElementSibling.lastElementChild;
+
+		var config = {
 			tooltips: false,
 			min: 0,
 			step: 100,
-			onInit: val => {
-				output.textContent = `${val}ms`;
-			},			
-			onChange: val => {
-				output.textContent = `${val}ms`;
-			},			
+			onInit: function onInit(val) {
+				output.textContent = val + 'ms';
+			},
+			onChange: function onChange(val) {
+				output.textContent = val + 'ms';
+			}
 		};
-		
-		switch(input.id) {
+
+		switch (input.id) {
 			case "interval":
 				config.max = 2000;
 				config.value = pageable.config.interval;
-				config.onEnd = val => {
-					pageable.config.interval = val
+				config.onEnd = function (val) {
+					pageable.config.interval = val;
 				};
 				break;
 			case "delay":
 				config.max = 1000;
 				config.value = pageable.config.delay;
-				config.onEnd = val => { pageable.config.delay = val };
+				config.onEnd = function (val) {
+					pageable.config.delay = val;
+				};
 				break;
 			case "swipeThreshold":
 				config.step = 10;
 				config.max = 500;
 				config.value = pageable.config.swipeThreshold;
-				config.onEnd = val => { pageable.config.swipeThreshold = val };
-				config.onChange = val => {
-					output.textContent = `${val}px`;
-				};				
-				break;	
+				config.onEnd = function (val) {
+					pageable.config.swipeThreshold = val;
+				};
+				config.onChange = function (val) {
+					output.textContent = val + 'px';
+				};
+				break;
 		}
-		
-		new Rangeable(input, config);		
+
+		new Rangeable(input, config);
 	}
 });
 
-selects.forEach(select => {
+selects.forEach(function (select) {
 	initSelect(select);
 });
-	
+
 function toggleMethod(e) {
-	if ( "method" in this.dataset ) {
+	if ("method" in this.dataset) {
 		pageable[this.dataset.method]();
 	}
 }
-	
+
 function toggleEvent(e) {
-	if ( "event" in this.dataset ) {
+	if ("event" in this.dataset) {
 		pageable.events[this.dataset.event] = this.checked;
 	}
 }
@@ -133,48 +136,48 @@ function update(data) {
 	selects[0].value = pageable.index + 1;
 	selects[1].value = pageable.anchors[pageable.index];
 	selects[2].value = pageable.horizontal ? "horizontal" : "vertical";
-	
+
 	document.getElementById("wheel").checked = pageable.events.wheel;
 	document.getElementById("mouse").checked = pageable.events.mouse;
 	document.getElementById("touch").checked = pageable.events.touch;
 	document.getElementById("freescroll").checked = pageable.config.freeScroll;
-	
-	anchors.forEach((anchor, i) => {
+
+	anchors.forEach(function (anchor, i) {
 		anchor.firstElementChild.classList.toggle("active", i === data.index);
 	});
 }
 
 function initSelect(select) {
-	if ( select.id === "scrollToPage" ) {
-		pageable.pages.forEach((page, i) => {
-			const option = new Option(i+1, i+1);
+	if (select.id === "scrollToPage") {
+		pageable.pages.forEach(function (page, i) {
+			var option = new Option(i + 1, i + 1);
 			select.add(option);
 		});
-		
-		select.onchange = e => {
+
+		select.onchange = function (e) {
 			pageable.scrollToPage(e.target.value);
-			
+
 			selects[1].value = pageable.anchors[e.target.value - 1];
 		};
-	} else if ( select.id === "scrollToAnchor" ) {
-		pageable.pages.forEach((page, i) => {
-			const option = new Option(`#${page.id}`, `#${page.id}`);
+	} else if (select.id === "scrollToAnchor") {
+		pageable.pages.forEach(function (page, i) {
+			var option = new Option('#' + page.id, '#' + page.id);
 			select.add(option);
 		});
-		
-		select.onchange = e => {
+
+		select.onchange = function (e) {
 			pageable.scrollToAnchor(e.target.value);
-			
+
 			selects[0].value = pageable.anchors.indexOf(e.target.value) + 1;
-		};		
-	} else if ( select.id === "orientate" ) {
-		
-		["vertical", "horizontal"].forEach(type => {
-			const option = new Option(type, type);
+		};
+	} else if (select.id === "orientate") {
+
+		["vertical", "horizontal"].forEach(function (type) {
+			var option = new Option(type, type);
 			select.add(option);
 		});
-		
-		select.onchange = e => {
+
+		select.onchange = function (e) {
 			pageable.orientate(e.target.value);
 		};
 	}
