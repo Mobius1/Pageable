@@ -1,5 +1,5 @@
 /*!
- * Pageable 0.3.7
+ * Pageable 0.3.8
  * http://mobius.ovh/
  *
  * Released under the MIT license
