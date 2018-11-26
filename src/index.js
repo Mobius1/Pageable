@@ -1,6 +1,12 @@
 import SlideShow from "./classes/slideshow";
 import Emitter from "./classes/emitter";
 
+/**
+ * Pageable 0.4.0
+ * 
+ * https://github.com/Mobius1/Pageable
+ * Released under the MIT license
+ */
 export default class Pageable extends Emitter {
     constructor(container, options = {}) {
         super();
