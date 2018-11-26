@@ -30,22 +30,22 @@ section {
   color: #fff;
   position: relative;
 }
-section:nth-child(1) .text, #Page-1-clone .text {
+#Page-1 .text, #Page-1-clone .text {
   background-color: #3F51B5;
 }
-section:nth-child(2) .text {
+#Page-2 .text {
   background-color: #673AB7;
 }
-section:nth-child(3) .text {
+#Page-3 .text {
   background-color: #9C27B0;
 }
-section:nth-child(4) .text {
+#Page-4 .text {
   background-color: #E91E63;
 }
-section:nth-child(5) .text {
+#Page-5 .text {
   background-color: #F44336;
 }
-section:nth-child(6) .text, #Page-6-clone .text {
+#Page-6 .text, #Page-6-clone .text {
   background-color: #4CAF50;
 }
 
