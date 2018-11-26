@@ -30,7 +30,7 @@ section {
   color: #fff;
   position: relative;
 }
-section:nth-child(1) .text {
+section:nth-child(1) .text, #Page-1-clone .text {
   background-color: #3F51B5;
 }
 section:nth-child(2) .text {
@@ -45,7 +45,7 @@ section:nth-child(4) .text {
 section:nth-child(5) .text {
   background-color: #F44336;
 }
-section:nth-child(6) .text {
+section:nth-child(6) .text, #Page-6-clone .text {
   background-color: #4CAF50;
 }
 
