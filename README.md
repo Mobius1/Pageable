@@ -194,6 +194,8 @@ You can calculate the progress of the instance from the data:
 const percentage = data.scrolled / data.max * 100;
 ```
 
+This can be helpful when adding progress indicators (see [Adding Progress Bars](https://mobius1.github.io/Pageable/progress.html)).
+
 ### Examples
 ```javascript
 const pages = new Pageable("#container");
