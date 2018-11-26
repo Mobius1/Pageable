@@ -65,6 +65,8 @@ inputs.forEach(function (input) {
 				pageable.events.mouse = input.checked;
 				document.getElementById("mouse").checked = input.checked;
 			};
+		} else if (input.id === "infinite") {
+			pageable.config.infinite = input.checked;
 		} else {
 			input.onchange = toggleEvent;
 		}
