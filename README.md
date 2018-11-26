@@ -144,6 +144,7 @@ pageable.prev();
 ### `scrollToPage()`
 Scroll to defined page number.
 ```javascript
+// scroll to page 3
 pageable.scrollToPage(3);
 ```
 
@@ -159,6 +160,20 @@ Orientate the instance to either vertical or horizontal.
 pageable.orientate("horizontal");
 ```
 
+### `slideshow()`
+Returns an instance of the slideshow. This requires the `slideshow` option to be set to `true` (`v0.4.0` and above).
+
+The sideshow instance has two methods:
+* `start()` - starts / resumes the slideshow
+* `stop()` - stops / pauses the slideshow
+
+```javascript
+// stop / pause slideshow
+pageable.slideshow().stop();
+
+// start / resume slideshow
+pageable.slideshow().start();
+```
 ---
 
 ## Events
@@ -172,6 +187,11 @@ The callback has one argument which returns an object:
     scrolled: // the current scroll offset
     max: // the maximum scroll amount possible
 }
+```
+
+You can calculate the progress of the instance from the data:
+```javascript
+const percentage = data.scrolled / data.max * 100;
 ```
 
 ### Examples
