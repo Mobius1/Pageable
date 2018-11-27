@@ -114,6 +114,7 @@ export default class Pageable extends Emitter {
 
         this.index = 0;
         this.slideIndex = 0;
+        this.oldIndex = 0;
 
         this.initialised = false;
 
@@ -144,12 +145,7 @@ export default class Pageable extends Emitter {
             document.body.style.overflow = `hidden`;
 
             this.container.style.display = "inline-block";
-
-            // can't have a delay with freeScroll
-            if (o.freeScroll && o.delay > 0) {
-                o.delay = 0;
-            }
-
+					
             for (const dir of ["Prev", "Next"]) {
                 const str = `nav${dir}El`;
                 if (o[str]) {
@@ -202,7 +198,10 @@ export default class Pageable extends Emitter {
 
                 first.id = `${first.id}-clone`;
                 last.id = `${last.id}-clone`;
-
+							
+                first.classList.add("pg-clone");
+                last.classList.add("pg-clone");
+							
                 first.classList.remove("pg-active");
                 last.classList.remove("pg-active");
 
@@ -589,12 +588,10 @@ export default class Pageable extends Emitter {
             return false;
         }
 
-        if (e.type === "mousedown" && !this.events.mouse) {
-            if (e.button === 1) {
-                e.preventDefault();
-            }
-
-            return false;
+        if (e.type === "mousedown") {
+			if ( !this.events.mouse || e.button !== 0 ) {
+            	return false;
+			}
         }
 
         const evt = this._getEvent(e);
@@ -605,6 +602,10 @@ export default class Pageable extends Emitter {
         }
 
         this.dragging = this.config.freeScroll;
+			
+        if ( this.config.slideshow ) {
+            this.slider.stop();
+        }
 
         this.down = {
             x: evt.clientX,
@@ -657,7 +658,7 @@ export default class Pageable extends Emitter {
             this.slider.start();
         }
 
-        const oldIndex = this.index;
+        this.oldIndex = this.index;
         const canChange = this.down && Math.abs(evt[this.mouseAxis[this.axis]] - this.down[this.axis]) >= this.config.swipeThreshold;
 
         // free scroll
@@ -677,7 +678,7 @@ export default class Pageable extends Emitter {
                 }
             }
 
-            this._scrollBy(this._getScrollAmount(oldIndex) - scrolled);
+            this._scrollBy(this._getScrollAmount(this.oldIndex) - scrolled);
 
             this.down = false;
 
@@ -700,11 +701,10 @@ export default class Pageable extends Emitter {
             }
 
             // only scroll if index changed
-            if (oldIndex === this.index) {
+            if (this.oldIndex === this.index) {
                 this.config.onFinish.call(this, this._getData());
             } else {
-                this.oldIndex = oldIndex;
-                this._scrollBy(this._getScrollAmount(oldIndex));
+                this._scrollBy(this._getScrollAmount(this.oldIndex));
             }
 
             this.down = false;
@@ -929,7 +929,7 @@ export default class Pageable extends Emitter {
             this.emit("scroll.start", this._getData());
 
             this.frame = requestAnimationFrame(scroll);
-        }, this.config.delay);
+        }, this.dragging ? 0 : this.config.delay);
     }
 
     /**

@@ -1,4 +1,4 @@
-export default class SlideShow {
+class SlideShow {
     constructor(instance) {
         this.instance = instance;
         this.running = false;
@@ -10,12 +10,18 @@ export default class SlideShow {
             this.running = true;
             this.instance.slideIndex = this.instance.index;
             this.instance.interval = setInterval(() => {
+            this.instance.config.onBeforeStart.call(this.instance, this.instance.slideIndex);
+            setTimeout(() => {
                 if ( this.instance.config.infinite ) {
                     this.instance._overScroll(true);
-                }                
-                this.instance.index < this.instance.pageCount ? this.instance.slideIndex++ : this.instance.slideIndex = 0;
+                }
+                if (this.instance.index < this.instance.pages.length - 1) {
+                        this.instance.slideIndex++;
+                } else {
+                        this.instance.slideIndex = 0;
+                }
                 this.instance.scrollToIndex(this.instance.slideIndex);
-
+            }, this.config.delay || 0);
             }, this.config.interval);
         }
     }
