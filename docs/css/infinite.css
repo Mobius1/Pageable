@@ -23,66 +23,6 @@ section {
   position: relative;
 }
 
-.pg-horizontal nav {
-  width: 100vw;
-  left: 0;
-  bottom: 20px;
-}
-.pg-horizontal nav ul li {
-  float: left;
-}
-
-#nav .nav {
-  position: fixed;
-  top: 50%;
-  -webkit-transform: translate3d(0, -50%, 0);
-          transform: translate3d(0, -50%, 0);
-  width: 50px;
-  height: 50px;
-  opacity: 0;
-  transition: opacity 250ms ease;
-  padding: 20px;
-}
-#nav .nav.active {
-  opacity: 1;
-}
-#nav .nav.nav-prev {
-  left: 0;
-}
-#nav .nav.nav-prev button::after {
-  content: "\FB0E";
-}
-#nav .nav.nav-next {
-  right: 0;
-}
-#nav .nav.nav-next button::after {
-  content: "\FB10";
-}
-#nav .nav button {
-  position: relative;
-  background-color: transparent;
-  padding: 0;
-  border: none;
-  font-size: 20px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-#nav .nav button::after {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  font-size: 49px;
-  color: #fff;
-  font-family: "Material Design Icons";
-}
-
 #page-1 {
   background-color: #3F51B5;
 }
@@ -116,8 +56,11 @@ section {
 }
 
 nav {
+  height: 100vh;
   position: fixed;
+  top: 0;
   z-index: 100;
+  right: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -211,43 +154,11 @@ nav ul li:hover a span {
   margin: -5px 0px 0px -5px;
 }
 
-.progress {
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  width: calc(100vw - 20px);
-  height: 5px;
-}
-.progress .bar {
-  position: absolute;
+.pg-horizontal nav {
+  width: 100vw;
   left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  -webkit-transform: scale(0, 1);
-          transform: scale(0, 1);
-  -webkit-transform-origin: 0 0 0;
-          transform-origin: 0 0 0;
-  background-color: #fff;
+  bottom: 20px;
 }
-
-.page-progress {
-  width: 40px;
-  height: 40px;
-  position: fixed;
-  left: 10px;
-  top: 20px;
-}
-
-svg {
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-}
-
-circle {
-  stroke: #fff;
-  fill: transparent;
-  stroke-dasharray: 87.9645943005 87.9645943005;
-  stroke-dashoffset: 87.9645943005;
+.pg-horizontal nav ul li {
+  float: left;
 }
