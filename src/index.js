@@ -2,7 +2,7 @@ import SlideShow from "./classes/slideshow";
 import Emitter from "./classes/emitter";
 
 /**
- * Pageable 0.4.2
+ * Pageable 0.4.3
  * 
  * https://github.com/Mobius1/Pageable
  * Released under the MIT license
@@ -252,6 +252,8 @@ export default class Pageable extends Emitter {
             drag: this._drag.bind(this),
             stop: this._stop.bind(this),
             click: this._click.bind(this),
+            prev: this.prev.bind(this),
+            next: this.next.bind(this),
         };
 
         this.wrapper.addEventListener("wheel", this.callbacks.wheel, false);
