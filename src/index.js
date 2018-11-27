@@ -2,7 +2,7 @@ import SlideShow from "./classes/slideshow";
 import Emitter from "./classes/emitter";
 
 /**
- * Pageable 0.4.1
+ * Pageable 0.4.2
  * 
  * https://github.com/Mobius1/Pageable
  * Released under the MIT license
@@ -161,7 +161,6 @@ export default class Pageable extends Emitter {
 
                     if (this[str]) {
                         this[str].classList.add("pg-nav");
-                        this[str].onclick = this[dir.toLowerCase()].bind(this);
                     }
                 }
             }
@@ -276,6 +275,13 @@ export default class Pageable extends Emitter {
             false
         );
 
+        if ( this.navPrevEl ) {
+            this.navPrevEl.addEventListener("click", this.callbacks.prev, false);
+    
+        if ( this.navNextEl )
+            this.navNextEl.addEventListener("click", this.callbacks.next, false);
+        }
+
         document.addEventListener("readystatechange", e => {
             if (document.readyState === "loading") {
                 document.addEventListener("DOMContentLoaded", this.events.load);
@@ -314,6 +320,13 @@ export default class Pageable extends Emitter {
             this.touch ? "touchend" : "mouseup",
             this.callbacks.stop
         );
+
+        if ( this.navPrevEl ) {
+            this.navPrevEl.removeEventListener("click", this.callbacks.prev, false);
+    
+        if ( this.navNextEl )
+            this.navNextEl.removeEventListener("click", this.callbacks.next, false);
+        }
 
         document.removeEventListener("click", this.callbacks.click);
     }
@@ -506,6 +519,7 @@ export default class Pageable extends Emitter {
             for (const page of this.pages) {
                 page.style.height = ``;
                 page.style.width = ``;
+                page.style.float = ``;
                 page.classList.remove("pg-page");
                 page.classList.remove("pg-active");
             }
@@ -516,7 +530,6 @@ export default class Pageable extends Emitter {
                 if (this[str]) {
                     this[str].classList.remove("active");
                     this[str].classList.remove("pg-nav");
-                    this[str].onclick = () => {};
                 }
             }
 
