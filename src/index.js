@@ -2,7 +2,7 @@ import SlideShow from "./classes/slideshow";
 import Emitter from "./classes/emitter";
 
 /**
- * Pageable 0.4.0
+ * Pageable 0.4.1
  * 
  * https://github.com/Mobius1/Pageable
  * Released under the MIT license
@@ -284,6 +284,10 @@ export default class Pageable extends Emitter {
             }
         });
 
+        if (document.readyState === "complete") {
+            this._load();
+        }
+
         // anchor clicks
         document.addEventListener("click", this.callbacks.click, false);
     }
@@ -484,6 +488,7 @@ export default class Pageable extends Emitter {
             // emit "destroy" event
             this.emit("destroy");
 
+            // remove event listeners
             this.unbind();
 
             // reset body styling
@@ -497,6 +502,7 @@ export default class Pageable extends Emitter {
 
             this.wrapper.parentNode.replaceChild(this.container, this.wrapper);
 
+            // reset the pages
             for (const page of this.pages) {
                 page.style.height = ``;
                 page.style.width = ``;
@@ -504,6 +510,7 @@ export default class Pageable extends Emitter {
                 page.classList.remove("pg-active");
             }
 
+            // remove event listeners from the nav buttons
             for (const dir of ["Prev", "Next"]) {
                 const str = `nav${dir}El`;
                 if (this[str]) {
@@ -513,9 +520,17 @@ export default class Pageable extends Emitter {
                 }
             }
 
+            // remove cloned nodes
+            if ( this.config.infinite ) {
+                for ( const clone of this.clones ) {
+                    this.container.removeChild(clone);
+                }
+            }
+
+            // kill the slideshow
             if (this.config.slideshow) {
-                clearInterval(this.slideInterval);
-                this.slideInterval = false;
+                this.slider.stop();
+                this.slider = false;
             }
 
             this.initialised = false;
@@ -720,12 +735,12 @@ export default class Pageable extends Emitter {
 
             if (index > -1) {
 
-                this.scrollPosition = this.data.window[this.size[this.axis]] * index;
+				const offset = this.config.infinite ? 1 : 0;
+                this.scrollPosition = this.data.window[this.size[this.axis]] * (index + offset);
 
                 const data = this._getData();
                 this.index = index;
                 this.slideIndex = index;
-                this._setPips();
 
                 this.pages.forEach((page, i) => {
                     page.classList.toggle("pg-active", i === this.index);
@@ -733,9 +748,10 @@ export default class Pageable extends Emitter {
 
                 // update nav buttons
                 this._setNavs();
+				this._setPips();
 
-                this.config.onScroll.call(this, data, "load");
-                this.config.onFinish.call(this, data, "load");
+                this.config.onScroll.call(this, data);
+                this.config.onFinish.call(this, data);
 
                 this.emit("scroll", data);
             }
@@ -745,7 +761,7 @@ export default class Pageable extends Emitter {
 
         const data = this._getData();
 
-        this.config.onInit.call(this, data, "load");
+        this.config.onInit.call(this, data);
 
         // emit "init" event
         this.emit("init", data);

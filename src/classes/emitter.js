@@ -37,7 +37,7 @@ export default class Emitter {
         for (var i = 0; i < this.listeners[listener].length; i++) {
             this.listeners[listener][i].apply(
                 this,
-                Array.prototype.slice.call(arguments, 1)
+                [].slice.call(arguments, 1)
             );
         }
     }
