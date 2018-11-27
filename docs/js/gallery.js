@@ -37,6 +37,10 @@ function init() {
 		interval: 600,
 		freeScroll: true,
 		swipeThreshold: 200,
+		infinite: true,
+		slideshow: {
+			interval: 3000,
+		},
 		orientation: "horizontal",
 		navPrevEl: ".nav-prev",
 		navNextEl: ".nav-next"

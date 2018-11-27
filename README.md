@@ -131,6 +131,20 @@ Any anchor on your page that has a hash that matches the ones in the current `Pa
 ---
 ## Methods
 
+### `destroy()`
+Destroy the instance.
+
+This will remove all event listeners and return the DOM to it's initial state.
+```javascript
+pageable.destroy();
+```
+
+### `init()`
+Initialise the instance after destroying.
+```javascript
+pageable.init();
+```
+
 ### `next()`
 Scroll to next page.
 ```javascript
@@ -160,6 +174,8 @@ pageable.scrollToAnchor("#myanchor");
 Orientate the instance to either vertical or horizontal.
 ```javascript
 pageable.orientate("horizontal");
+// or
+pageable.orientate("vertical");
 ```
 
 ### `slideshow()`
