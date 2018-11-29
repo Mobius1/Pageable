@@ -14,6 +14,9 @@ var pageable = new Pageable("main", {
 			alwaysShowBars: true
 		});
 	},
+	onUpdate: function(...args) {
+		console.log(this, ...args)
+	},
 	onFinish: update,
 	events: {
 		mouse: false
