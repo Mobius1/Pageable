@@ -30,22 +30,22 @@ section {
   color: #fff;
   position: relative;
 }
-#Page-1 .text, #Page-1-clone .text {
+#page-1 .text, #page-1-clone .text {
   background-color: #3F51B5;
 }
-#Page-2 .text {
+#page-2 .text {
   background-color: #673AB7;
 }
-#Page-3 .text {
+#page-3 .text {
   background-color: #9C27B0;
 }
-#Page-4 .text {
+#page-4 .text {
   background-color: #E91E63;
 }
-#Page-5 .text {
+#page-5 .text {
   background-color: #F44336;
 }
-#Page-6 .text, #Page-6-clone .text {
+#page-6 .text, #page-6-clone .text {
   background-color: #4CAF50;
 }
 
