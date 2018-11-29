@@ -4,12 +4,13 @@ var anchors = [].slice.call(document.querySelector(".anchors").firstElementChild
 var listeners = ['init', 'update', 'scroll.before', 'scroll.start', 'scroll', 'scroll.end'];
 var list = document.getElementById("listeners");
 
+var bar = false;
 var pageable = new Pageable("main", {
 	animation: 400,
 	easing: easings.easeOutCubic,
 	onInit: function (data) {
 		update(data);
-		new MiniBar('#scroll', {
+		bar = new MiniBar('#scroll', {
 			alwaysShowBars: true
 		});
 	},
