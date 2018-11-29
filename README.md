@@ -197,69 +197,89 @@ Any anchor on your page that has a hash that matches the ones in the current `Pa
 
 ---
 ## Options
-##### `pips`
+### `pips`
 ###### type: `Boolean`
 ###### default: `true`
 
 Displays the navigation pips.
 
-##### `animation`
+---
+
+### `animation`
 ###### type: `Number`
 ###### default: `300`
 
 Sets the scroll animation duration. Set to `0` to disable animation.
 
+---
+
 **NOTE: This option was known as `interval` in versions prior to `v0.5.0`**
 
-##### `delay`
+### `delay`
 ###### type: `Number`
 ###### default: `0`
 
 Sets the delay in `ms` before the scroll animation starts.
 
-##### `swipeThreshold`
+---
+
+### `swipeThreshold`
 ###### type: `Number`
 ###### default: `50`
 
 Sets the swipe / mouse drag distance in `px` before firing the page change event. If drag / swipe distance is below this threshold then scrolling will not activate.
 
-##### `freeScroll`
+---
+
+### `freeScroll`
 ###### type: `Boolean`
 ###### default: `false`
 
 Sets the ability to drag / scroll freely instead of snapping to the next page.
 
-##### `infinite`
+---
+
+### `infinite`
 ###### type: `Boolean`
 ###### default: `false`
 
 Allow seamless continuous scrolling.
 
-##### `orientation`
+---
+
+### `orientation`
 ###### type: `String`
 ###### default: `'vertical'`
 
 Sets the orientation of the instance. Either `'vertical'` or `'horizontal'`.
 
-##### `throttle`
+---
+
+### `throttle`
 ###### type: `Number`
 ###### default: `50`
 
 Sets the interval in `ms` that the resize callback is fired.
 
-##### `navPrevEl`
+---
+
+### `navPrevEl`
 ###### type: `String|HTMLElement`
 ###### default: `false`
 
 Define an element to use to scroll to the previous page. A valid CSS3 selector string or Element reference.
 
-##### `navNextEl`
+---
+
+### `navNextEl`
 ###### type: `String|HTMLElement`
 ###### default: `false`
 
 Define an element to use to scroll to the next page. A valid CSS3 selector string or Element reference.
 
-##### `slideshow`
+---
+
+### `slideshow`
 ###### type: `Object`
 ###### default: `false`
 
@@ -270,7 +290,9 @@ The object has two properties to further customise the slidewhow:
 * `interval` - length of time in `ms` to display each page.
 * `delay` -  delay in `ms` after the interval has ended and before changing page.
 
-##### `events`
+---
+
+### `events`
 ###### type: `Object`
 
 Define the allowed events.
@@ -281,7 +303,9 @@ Define the allowed events.
 
 All propertied are set to `true` by default.
 
-##### `easing`
+---
+
+### `easing`
 ###### type: `Function`
 
 Define the easing function used for the scroll animation.
@@ -300,38 +324,49 @@ function(currentTime, startPos, endPos, interval) {
 * `endPos` - The end position in `px`
 * `interval` - The duration of the animation in `ms`
 
+---
 
-##### `onInit`
+### `onInit`
 ###### type: `Function`
 ###### default: `noop`
 
 Define a callback to be called when the instance is fully rendered and ready for use.
 
-##### `onUpdate`
+---
+
+### `onUpdate`
 ###### type: `Function`
 ###### default: `noop`
 
 Define a callback to be called when the instance updates.
 
-##### `onBeforeStart`
+---
+
+### `onBeforeStart`
 ###### type: `Function`
 ###### default: `noop`
 
 Define a callback to be called before scrolling begins.
 
-##### `onStart`
+---
+
+### `onStart`
 ###### type: `Function`
 ###### default: `noop`
 
 Define a callback to be called when scrolling begins.
 
-##### `onScroll`
+---
+
+### `onScroll`
 ###### type: `Function`
 ###### default: `noop`
 
 Define a callback to be called while scrolling.
 
-##### `onFinish`
+---
+
+### `onFinish`
 ###### type: `Function`
 ###### default: `noop`
 
@@ -349,11 +384,15 @@ This will remove all event listeners and return the DOM to it's initial state.
 pageable.destroy();
 ```
 
+---
+
 ### `init()`
 Initialise the instance after destroying.
 ```javascript
 pageable.init();
 ```
+
+---
 
 ### `next()`
 Scroll to next page.
@@ -361,11 +400,15 @@ Scroll to next page.
 pageable.next();
 ```
 
+---
+
 ### `prev()`
 Scroll to previous page.
 ```javascript
 pageable.prev();
 ```
+
+---
 
 ### `scrollToPage([page])`
 Scroll to defined page number.
@@ -374,11 +417,15 @@ Scroll to defined page number.
 pageable.scrollToPage(3);
 ```
 
+---
+
 ### `scrollToAnchor([anchor])`
 Scroll to defined anchor.
 ```javascript
 pageable.scrollToAnchor("#myanchor");
 ```
+
+---
 
 ### `orientate([orientation])`
 Orientate the instance to either vertical or horizontal.
@@ -387,6 +434,8 @@ pageable.orientate("horizontal");
 // or
 pageable.orientate("vertical");
 ```
+
+---
 
 ### `slideshow()`
 Returns an instance of the slideshow. This requires the `slideshow` option to be set to `true` (`v0.4.0` and above).
@@ -403,8 +452,12 @@ pageable.slideshow().stop();
 pageable.slideshow().start();
 ```
 
+---
+
 ### `on([event, [callback]])`
 Add custom event listener. See [Events](#events)
+
+---
 
 ### `off([event, [callback]])`
 remove custom event listener. See [Events](#events)
