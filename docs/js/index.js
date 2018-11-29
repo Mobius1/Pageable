@@ -7,7 +7,7 @@ var list = document.getElementById("listeners");
 var pageable = new Pageable("main", {
 	animation: 400,
 	easing: easings.easeOutCubic,
-	onInit: function onInit(data) {
+	onInit: function (data) {
 		update(data);
 		new MiniBar('#scroll', {
 			alwaysShowBars: true
