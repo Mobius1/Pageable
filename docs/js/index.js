@@ -30,7 +30,7 @@ listeners.forEach(function (listener) {
 	list.appendChild(item);
 
 	pageable.on(listener, function (data) {
-		console.log(listener);
+		// console.log(listener);
 
 		item.classList.add("active");
 
