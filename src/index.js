@@ -2,7 +2,7 @@ import SlideShow from "./classes/slideshow";
 import Emitter from "./classes/emitter";
 
 /**
- * Pageable 0.5.1
+ * Pageable 0.5.2
  * 
  * https://github.com/Mobius1/Pageable
  * Released under the MIT license
@@ -131,7 +131,7 @@ export default class Pageable extends Emitter {
      * @return {Void}
      */
     init() {
-        if (!this.initialised) {
+        if (!this.initialised && !this.container.pageable) {
             const o = this.config;
             this.wrapper = document.createElement("div");
             this.container.parentNode.insertBefore(this.wrapper, this.container);
@@ -216,8 +216,17 @@ export default class Pageable extends Emitter {
             this.bind();
 
             this.update();
+            this._load();
+
+            const data = this._getData();
+
+            this.config.onInit.call(this, data);
+
+            // emit "init" event
+            this.emit("init", data);				
 
             this.initialised = true;
+						this.container.pageable = this;
 
             if (o.slideshow && typeof SlideShow === "function") {
                 this.slider = new SlideShow(this);
@@ -283,18 +292,6 @@ export default class Pageable extends Emitter {
 
             if (this.navNextEl)
                 this.navNextEl.addEventListener("click", this.callbacks.next, false);
-        }
-
-        document.addEventListener("readystatechange", e => {
-            if (document.readyState === "loading") {
-                document.addEventListener("DOMContentLoaded", this.events.load);
-            } else {
-                this._load();
-            }
-        });
-
-        if (document.readyState === "complete") {
-            this._load();
         }
 
         // anchor clicks
@@ -551,6 +548,7 @@ export default class Pageable extends Emitter {
             }
 
             this.initialised = false;
+						delete this.container.pageable;
         }
     }
 
@@ -791,13 +789,6 @@ export default class Pageable extends Emitter {
         }
 
         this.update();
-
-        const data = this._getData();
-
-        this.config.onInit.call(this, data);
-
-        // emit "init" event
-        this.emit("init", data);
     }
 
     /**
