@@ -90,6 +90,12 @@ https://unpkg.com/pageable@latest/dist/pageable.js
 
 You can replace `latest` with the required release number if needed.
 
+You can also include the optional stylesheet that applies styling to the nav pips and buttons: 
+
+```
+https://unpkg.com/pageable@latest/dist/pageable.css
+```
+
 ---
 
 ## Set up
@@ -455,12 +461,12 @@ pageable.slideshow().start();
 ---
 
 ### `on([event, [callback]])`
-Add custom event listener. See [Events](#events)
+Add custom event listener. See [Custom Events](#custom-events)
 
 ---
 
 ### `off([event, [callback]])`
-remove custom event listener. See [Events](#events)
+remove custom event listener. See [Custom Events](#custom-events)
 
 ---
 
