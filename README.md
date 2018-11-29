@@ -37,7 +37,7 @@ Pageable transforms a web page into a full page scrolling presentation.
   * [Browser](#browser)
   * [Set up](#set-up)
   * [Anchors](#anchors)
-* [API](#api)
+* [API](#api-reference)
   * [Options](#options)
     * [pips](#pips)
     * [animation](#animation)
@@ -62,13 +62,13 @@ Pageable transforms a web page into a full page scrolling presentation.
     * [init()](#init)
     * [next()](#next)
     * [prev()](#prev)
-    * [scrollToPage()](#scrollToPage)
-    * [scrollToAnchor()](#scrollToAnchor)
-    * [orientate()](#orientate)
-    * [slideshow()](#slideshow)
-    * [on()](#on)
-    * [off()](#off)
-  * [Custom Events](#cusom-events)
+    * [scrollToPage()](#scrolltopagepage)
+    * [scrollToAnchor()](#scrolltoanchoranchor)
+    * [orientate()](#orientateorientation)
+    * [slideshow()](#slideshow-1)
+    * [on()](#onevent-callback)
+    * [off()](#offevent-callback)
+  * [Custom Events](#custom-events)
 ---
 
 ## Install
@@ -190,6 +190,10 @@ new Pageable("#container", {
 ### Anchors
 
 Any anchor on your page that has a hash that matches the ones in the current `Pageable` instance will trigger scrolling. This allows you to add navigation links without needing to define event listeners or callbacks to get them to trigger a scroll.
+
+---
+
+## API Reference
 
 ---
 ## Options
