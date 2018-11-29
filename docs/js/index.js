@@ -9,6 +9,7 @@ var pageable = new Pageable("main", {
 	animation: 400,
 	easing: easings.easeOutCubic,
 	onInit: function (data) {
+		console.log("init")
 		update(data);
 		window.bar = new MiniBar('#scroll', {
 			alwaysShowBars: true
