@@ -2,7 +2,7 @@ import SlideShow from "./classes/slideshow";
 import Emitter from "./classes/emitter";
 
 /**
- * Pageable 0.5.0
+ * Pageable 0.5.1
  * 
  * https://github.com/Mobius1/Pageable
  * Released under the MIT license
