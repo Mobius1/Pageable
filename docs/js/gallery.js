@@ -34,7 +34,7 @@ function init() {
 	pageable = new Pageable("main", {
 		onInit: onInit,
 		onScroll: scroll,
-		interval: 600,
+		animation: 600,
 		freeScroll: true,
 		swipeThreshold: 200,
 		infinite: true,

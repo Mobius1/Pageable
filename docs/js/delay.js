@@ -1,5 +1,5 @@
 const pageable = new Pageable("main", {
-	interval: 400,
+	animation: 400,
 	delay: 300,
 	onBeforeStart: function() {
 		this.pages.forEach((page, i) => {

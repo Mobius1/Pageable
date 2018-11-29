@@ -2,7 +2,7 @@ import SlideShow from "./classes/slideshow";
 import Emitter from "./classes/emitter";
 
 /**
- * Pageable 0.4.3
+ * Pageable 0.5.0
  * 
  * https://github.com/Mobius1/Pageable
  * Released under the MIT license
@@ -18,7 +18,7 @@ export default class Pageable extends Emitter {
 
         const defaults = {
             pips: true,
-            interval: 300,
+            animation: 300,
             delay: 0,
             throttle: 50,
             orientation: "vertical",
@@ -81,7 +81,7 @@ export default class Pageable extends Emitter {
         this.anchors = [];
 
         this.pages.forEach((page, i) => {
-            const clean = page.dataset.anchor.replace(/\s+/, "-");
+            const clean = page.dataset.anchor.replace(/\s+/, "-").toLowerCase();
             if (page.id !== clean) {
                 page.id = clean;
             }
@@ -116,6 +116,7 @@ export default class Pageable extends Emitter {
         this.slideIndex = 0;
         this.oldIndex = 0;
 
+        this.down = false;
         this.initialised = false;
 
         this.touch =
@@ -145,7 +146,7 @@ export default class Pageable extends Emitter {
             document.body.style.overflow = `hidden`;
 
             this.container.style.display = "inline-block";
-					
+
             for (const dir of ["Prev", "Next"]) {
                 const str = `nav${dir}El`;
                 if (o[str]) {
@@ -164,6 +165,7 @@ export default class Pageable extends Emitter {
             if (o.pips) {
                 const nav = document.createElement("nav");
                 const ul = document.createElement("ul");
+                nav.classList.add("pg-pips");
 
                 for (const [index, page] of this.pages.entries()) {
                     const li = document.createElement("li");
@@ -198,10 +200,10 @@ export default class Pageable extends Emitter {
 
                 first.id = `${first.id}-clone`;
                 last.id = `${last.id}-clone`;
-							
+
                 first.classList.add("pg-clone");
                 last.classList.add("pg-clone");
-							
+
                 first.classList.remove("pg-active");
                 last.classList.remove("pg-active");
 
@@ -217,7 +219,7 @@ export default class Pageable extends Emitter {
 
             this.initialised = true;
 
-            if (o.slideshow) {
+            if (o.slideshow && typeof SlideShow === "function") {
                 this.slider = new SlideShow(this);
                 this.slider.start();
             }
@@ -276,11 +278,11 @@ export default class Pageable extends Emitter {
             false
         );
 
-        if ( this.navPrevEl ) {
+        if (this.navPrevEl) {
             this.navPrevEl.addEventListener("click", this.callbacks.prev, false);
-    
-        if ( this.navNextEl )
-            this.navNextEl.addEventListener("click", this.callbacks.next, false);
+
+            if (this.navNextEl)
+                this.navNextEl.addEventListener("click", this.callbacks.next, false);
         }
 
         document.addEventListener("readystatechange", e => {
@@ -322,10 +324,11 @@ export default class Pageable extends Emitter {
             this.callbacks.stop
         );
 
-        if ( this.navPrevEl ) {
+        if (this.navPrevEl) {
             this.navPrevEl.removeEventListener("click", this.callbacks.prev, false);
-    
-        if ( this.navNextEl )
+        }
+
+        if (this.navNextEl) {
             this.navNextEl.removeEventListener("click", this.callbacks.next, false);
         }
 
@@ -535,8 +538,8 @@ export default class Pageable extends Emitter {
             }
 
             // remove cloned nodes
-            if ( this.config.infinite ) {
-                for ( const clone of this.clones ) {
+            if (this.config.infinite) {
+                for (const clone of this.clones) {
                     this.container.removeChild(clone);
                 }
             }
@@ -569,14 +572,18 @@ export default class Pageable extends Emitter {
         }
     }
 
+    _preventDefault(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
     /**
      * Mousedown / touchstart callback
      * @param  {Event} e
      * @return {Bool}
      */
     _start(e) {
-        e.preventDefault();
-        e.stopPropagation();
+        const evt = this._getEvent(e);
 
         if (this.scrolling || this.dragging) {
             return false;
@@ -584,26 +591,33 @@ export default class Pageable extends Emitter {
 
         // preventing action here allows us to still have the the event listeners
         // attached so touch and mouse can be toggled at any time
-        if (e.type === "touchstart" && !this.events.touch) {
-            return false;
+        if (e.type === "touchstart") {
+            if (!this.events.touch) {
+                if (!evt.target.closest("a")) {
+                    this._preventDefault(e);
+                }
+
+                return false;
+            }
         }
 
         if (e.type === "mousedown") {
-			if ( !this.events.mouse || e.button !== 0 ) {
-            	return false;
-			}
+            if (!this.events.mouse || e.button !== 0) {
+                return false;
+            }
         }
-
-        const evt = this._getEvent(e);
 
         // prevent firing if not on a page
         if (!evt.target.closest("[data-anchor]")) {
             return false;
         }
 
+        this._preventDefault(e);
+
         this.dragging = this.config.freeScroll;
-			
-        if ( this.config.slideshow ) {
+
+        // suspend slideshow
+        if (this.config.slideshow) {
             this.slider.stop();
         }
 
@@ -611,6 +625,8 @@ export default class Pageable extends Emitter {
             x: evt.clientX,
             y: evt.clientY
         };
+
+        this.startIndex = this.index;
 
         this.config.onBeforeStart.call(this, this.index);
     }
@@ -654,12 +670,14 @@ export default class Pageable extends Emitter {
         // decrement index
         const dec = () => 0 < this.index && this.index--;
 
+        this.oldIndex = this.index;
+        const diff = Math.abs(evt[this.mouseAxis[this.axis]] - this.down[this.axis]) >= this.config.swipeThreshold;
+        const canChange = this.down && diff;
+
+        // restart slideshow
         if (this.config.slideshow) {
             this.slider.start();
         }
-
-        this.oldIndex = this.index;
-        const canChange = this.down && Math.abs(evt[this.mouseAxis[this.axis]] - this.down[this.axis]) >= this.config.swipeThreshold;
 
         // free scroll
         if (this.dragging && !this.scrolling) {
@@ -701,7 +719,7 @@ export default class Pageable extends Emitter {
             }
 
             // only scroll if index changed
-            if (this.oldIndex === this.index) {
+            if (this.startIndex === this.index) {
                 this.config.onFinish.call(this, this._getData());
             } else {
                 this._scrollBy(this._getScrollAmount(this.oldIndex));
@@ -750,7 +768,7 @@ export default class Pageable extends Emitter {
 
             if (index > -1) {
 
-				const offset = this.config.infinite ? 1 : 0;
+                const offset = this.config.infinite ? 1 : 0;
                 this.scrollPosition = this.data.window[this.size[this.axis]] * (index + offset);
 
                 const data = this._getData();
@@ -763,7 +781,7 @@ export default class Pageable extends Emitter {
 
                 // update nav buttons
                 this._setNavs();
-				this._setPips();
+                this._setPips();
 
                 this.config.onScroll.call(this, data);
                 this.config.onFinish.call(this, data);
@@ -853,7 +871,7 @@ export default class Pageable extends Emitter {
                 const ct = now - st;
 
                 // Cancel after allotted interval
-                if (ct > this.config.interval) {
+                if (ct > this.config.animation) {
                     cancelAnimationFrame(this.frame);
 
                     this.container.style.transform = ``;
@@ -897,7 +915,7 @@ export default class Pageable extends Emitter {
 
                 // Update scroll position
                 const start = this.dragging ? this.dragging : 0;
-                const scrolled = this.config.easing(ct, start, amount, this.config.interval);
+                const scrolled = this.config.easing(ct, start, amount, this.config.animation);
 
                 this.container.style.transform = this.horizontal ?
                     `translate3d(${scrolled}px, 0, 0)` :

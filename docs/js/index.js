@@ -5,7 +5,7 @@ var listeners = ['init', 'update', 'scroll.before', 'scroll.start', 'scroll', 's
 var list = document.getElementById("listeners");
 
 var pageable = new Pageable("main", {
-	interval: 400,
+	animation: 400,
 	easing: easings.easeOutCubic,
 	onInit: function onInit(data) {
 		update(data);
@@ -91,11 +91,11 @@ inputs.forEach(function (input) {
 		};
 
 		switch (input.id) {
-			case "interval":
+			case "animation":
 				config.max = 2000;
-				config.value = pageable.config.interval;
+				config.value = pageable.config.animation;
 				config.onEnd = function (val) {
-					pageable.config.interval = val;
+					pageable.config.animation = val;
 				};
 				break;
 			case "delay":
@@ -112,9 +112,12 @@ inputs.forEach(function (input) {
 				config.onEnd = function (val) {
 					pageable.config.swipeThreshold = val;
 				};
-				config.onChange = function (val) {
+				config.onInit = function(val) {
 					output.textContent = val + 'px';
 				};
+				config.onChange = function(val) {
+					output.textContent = val + 'px';
+				};				
 				break;
 		}
 

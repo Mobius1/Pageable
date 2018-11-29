@@ -1,0 +1,76 @@
+
+$pip-color: #fff;
+$pip-size: 4px;
+$pip-hover-size: 10px;
+$pip-active-size: 14px;
+
+.pg-pips {
+    position: fixed;
+    z-index: 1000;
+
+    ul {
+        margin: 0;
+        padding: 0;
+
+        li {
+            width: $pip-active-size;
+            height: $pip-active-size;
+            margin: $pip-active-size / 2;
+            position: relative;
+
+            &:hover {
+                a {
+                    width: $pip-hover-size;
+                    height: $pip-hover-size;
+                    margin: -#{$pip-hover-size / 2} 0px 0px -#{$pip-hover-size / 2};
+                }
+            }
+
+            a {
+                display: block;
+                z-index: 1;
+                cursor: pointer;
+                text-decoration: none;
+                border-radius: 50%;
+                position: absolute;
+                z-index: 1;
+                height: $pip-size;
+                width: $pip-size;
+                border: 0;
+                background: $pip-color;
+                left: 50%;
+                top: 50%;
+                margin: -#{$pip-size / 2} 0 0 -#{$pip-size / 2};
+            }
+
+            a.active,
+            &:hover a.active {
+                position: absolute;
+                height: $pip-active-size;
+                width: $pip-active-size;
+                margin: -#{$pip-active-size / 2} 0 0 -#{$pip-active-size / 2};
+                border-radius: 100%;
+            }
+        }
+    }
+}
+
+.pg-vertical .pg-pips {
+    right: 10px;
+    top: 50%;
+    transform: translate3d(0, -50%, 0);
+
+    li {
+        display: block;
+    }
+}
+
+.pg-horizontal .pg-pips {
+    bottom: 10px;
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+
+    li {
+        display: inline-block;
+    }
+}

@@ -30,6 +30,46 @@ Pageable transforms a web page into a full page scrolling presentation.
   - [Full-page image gallery](https://mobius1.github.io/Pageable/gallery.html)
 
 ---
+## Contents
+
+* [Getting Started](#getting-started)
+  * [Install](#install)
+  * [Browser](#browser)
+  * [Set up](#set-up)
+  * [Anchors](#anchors)
+* [API](#api)
+  * [Options](#options)
+    * [pips](#pips)
+    * [animation](#animation)
+    * [delay](#delay)
+    * [throttle](#throttle)
+    * [orientation](#orientation)
+    * [swipeThreshold](#swipethreshold)
+    * [freeScroll](#freescroll)
+    * [navPrevEl](#navprevel)
+    * [navNextEl](#navnextel)
+    * [infinite](#infinite)
+    * [easing](#easing)
+    * [events](#events)
+    * [onInit](#oninit)
+    * [onUpdate](#onupdate)
+    * [onBeforeStart](#onbeforestart)
+    * [onStart](#onstart)
+    * [onScroll](#onscroll)
+    * [onFinish](#onfinish)
+  * [Methods](#methods)
+    * [destroy()](#destroy)
+    * [init()](#init)
+    * [next()](#next)
+    * [prev()](#prev)
+    * [scrollToPage()](#scrollToPage)
+    * [scrollToAnchor()](#scrollToAnchor)
+    * [orientate()](#orientate)
+    * [slideshow()](#slideshow)
+    * [on()](#on)
+    * [off()](#off)
+  * [Custom Events](#cusom-events)
+---
 
 ## Install
 
@@ -72,6 +112,28 @@ Instantiate Pageable and pass a reference to the container in the constructor:
 new Pageable("#container");
 ```
 
+The HTML will be transformed in the following way:
+```html
+<div class="pg-wrapper">
+    <div id="container" class="pg-container">
+        <!-- pages -->
+        <div data-anchor="page-1" id="page-1" class="pg-page pg-active"></div>
+        <div data-anchor="page-2" id="page-2" class="pg-page"></div>
+        <div data-anchor="page-3" id="page-3" class="pg-page"></div>
+        <div data-anchor="page-4" id="page-4" class="pg-page"></div>
+        ...
+    </div>
+    <!-- pips will go here -->
+</div>
+```
+
+If `pips` are enabled, their HTML will be appended to the `.pg-wrapper` element after the `.pg-container` element.
+
+The defined anchors will be 'slugified' and used as the page's `id` - e.g. `My Page 1` will be converted to `my-page-1`
+
+Take care not to have another element with a duplicate `id`
+
+
 ---
 
 You can pass an object as the second paramater to customise the instance:
@@ -80,7 +142,7 @@ You can pass an object as the second paramater to customise the instance:
 ```javascript
 new Pageable("#container", {
     pips: true, // display the pips
-    interval: 300, // the duration in ms of the scroll animation
+    animation: 300, // the duration in ms of the scroll animation
     delay: 0, // the delay in ms before the scroll animation starts
     throttle: 50, // the interval in ms that the resize callback is fired
     orientation: "vertical", // or horizontal
@@ -90,7 +152,8 @@ new Pageable("#container", {
     navNextEl: false, // define an element to use to scroll to the next page (CSS3 selector string or Element reference)
     infinite: false, // enable infinite scrolling (from 0.4.0)
     slideshow: { // enable slideshow that cycles through your pages automatically (from 0.4.0)
-        interval: 3000 // time in ms between page change
+        interval: 3000, // time in ms between page change,
+        delay: 0 // delay in ms after the interval has ended and before changing page
     },
     events: {
         wheel: true, // enable / disable mousewheel scrolling
@@ -129,6 +192,149 @@ new Pageable("#container", {
 Any anchor on your page that has a hash that matches the ones in the current `Pageable` instance will trigger scrolling. This allows you to add navigation links without needing to define event listeners or callbacks to get them to trigger a scroll.
 
 ---
+## Options
+##### `pips`
+###### type: `Boolean`
+###### default: `true`
+
+Displays the navigation pips.
+
+##### `animation`
+###### type: `Number`
+###### default: `300`
+
+Sets the scroll animation duration. Set to `0` to disable animation.
+
+**NOTE: This option was known as `interval` in versions prior to `v0.5.0`**
+
+##### `delay`
+###### type: `Number`
+###### default: `0`
+
+Sets the delay in `ms` before the scroll animation starts.
+
+##### `swipeThreshold`
+###### type: `Number`
+###### default: `50`
+
+Sets the swipe / mouse drag distance in `px` before firing the page change event. If drag / swipe distance is below this threshold then scrolling will not activate.
+
+##### `freeScroll`
+###### type: `Boolean`
+###### default: `false`
+
+Sets the ability to drag / scroll freely instead of snapping to the next page.
+
+##### `infinite`
+###### type: `Boolean`
+###### default: `false`
+
+Allow seamless continuous scrolling.
+
+##### `orientation`
+###### type: `String`
+###### default: `'vertical'`
+
+Sets the orientation of the instance. Either `'vertical'` or `'horizontal'`.
+
+##### `throttle`
+###### type: `Number`
+###### default: `50`
+
+Sets the interval in `ms` that the resize callback is fired.
+
+##### `navPrevEl`
+###### type: `String|HTMLElement`
+###### default: `false`
+
+Define an element to use to scroll to the previous page. A valid CSS3 selector string or Element reference.
+
+##### `navNextEl`
+###### type: `String|HTMLElement`
+###### default: `false`
+
+Define an element to use to scroll to the next page. A valid CSS3 selector string or Element reference.
+
+##### `slideshow`
+###### type: `Object`
+###### default: `false`
+
+Enables the slideshow function that cycles through your pages automatically.
+
+The object has two properties to further customise the slidewhow:
+
+* `interval` - length of time in `ms` to display each page.
+* `delay` -  delay in `ms` after the interval has ended and before changing page.
+
+##### `events`
+###### type: `Object`
+
+Define the allowed events.
+
+* `wheel` -  enable / disable mousewheel scrolling
+* `mouse` -  enable / disable mouse drag scrolling
+* `touch` -  enable / disable touch / swipe scrolling
+
+All propertied are set to `true` by default.
+
+##### `easing`
+###### type: `Function`
+
+Define the easing function used for the scroll animation.
+
+The function takes four `arguments`:
+
+```
+function(currentTime, startPos, endPos, interval) {
+    // the default easing function
+    return -endPos * (currentTime /= interval) * (currentTime - 2) + startPos;
+}
+```  
+
+* `currentTime` - The current time in `ms`
+* `startPos` - The start position in `px`
+* `endPos` - The end position in `px`
+* `interval` - The duration of the animation in `ms`
+
+
+##### `onInit`
+###### type: `Function`
+###### default: `noop`
+
+Define a callback to be called when the instance is fully rendered and ready for use.
+
+##### `onUpdate`
+###### type: `Function`
+###### default: `noop`
+
+Define a callback to be called when the instance updates.
+
+##### `onBeforeStart`
+###### type: `Function`
+###### default: `noop`
+
+Define a callback to be called before scrolling begins.
+
+##### `onStart`
+###### type: `Function`
+###### default: `noop`
+
+Define a callback to be called when scrolling begins.
+
+##### `onScroll`
+###### type: `Function`
+###### default: `noop`
+
+Define a callback to be called while scrolling.
+
+##### `onFinish`
+###### type: `Function`
+###### default: `noop`
+
+Define a callback to be called when scrolling finishes.
+
+---
+
 ## Methods
 
 ### `destroy()`
@@ -157,20 +363,20 @@ Scroll to previous page.
 pageable.prev();
 ```
 
-### `scrollToPage()`
+### `scrollToPage([page])`
 Scroll to defined page number.
 ```javascript
 // scroll to page 3
 pageable.scrollToPage(3);
 ```
 
-### `scrollToAnchor()`
+### `scrollToAnchor([anchor])`
 Scroll to defined anchor.
 ```javascript
 pageable.scrollToAnchor("#myanchor");
 ```
 
-### `orientate()`
+### `orientate([orientation])`
 Orientate the instance to either vertical or horizontal.
 ```javascript
 pageable.orientate("horizontal");
@@ -192,9 +398,16 @@ pageable.slideshow().stop();
 // start / resume slideshow
 pageable.slideshow().start();
 ```
+
+### `on([event, [callback]])`
+Add custom event listener. See [Events](#events)
+
+### `off([event, [callback]])`
+remove custom event listener. See [Events](#events)
+
 ---
 
-## Events
+## Custom Events
 
 You can listen to Pageable's custom events with the `on(type, callback)` method.
 

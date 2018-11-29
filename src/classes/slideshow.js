@@ -10,18 +10,18 @@ class SlideShow {
             this.running = true;
             this.instance.slideIndex = this.instance.index;
             this.instance.interval = setInterval(() => {
-            this.instance.config.onBeforeStart.call(this.instance, this.instance.slideIndex);
-            setTimeout(() => {
-                if ( this.instance.config.infinite ) {
-                    this.instance._overScroll(true);
-                }
-                if (this.instance.index < this.instance.pages.length - 1) {
+                this.instance.config.onBeforeStart.call(this.instance, this.instance.slideIndex);
+                setTimeout(() => {
+                    if (this.instance.config.infinite) {
+                        this.instance._overScroll(true);
+                    }
+                    if (this.instance.index < this.instance.pages.length - 1) {
                         this.instance.slideIndex++;
-                } else {
+                    } else {
                         this.instance.slideIndex = 0;
-                }
-                this.instance.scrollToIndex(this.instance.slideIndex);
-            }, this.config.delay || 0);
+                    }
+                    this.instance.scrollToIndex(this.instance.slideIndex);
+                }, this.config.delay || 0);
             }, this.config.interval);
         }
     }
