@@ -338,6 +338,16 @@ function(currentTime, startPos, endPos, interval) {
 
 Define a callback to be called when the instance is fully rendered and ready for use.
 
+The function takes a single argument that returns the data object (See [Custom Events](#custom-events))
+
+```javascript
+new Pageable("#container", {
+    onInit: function(data) {
+        // data.index, data.scrolled, data.max
+    }
+});
+```
+
 ---
 
 ### `onUpdate`
@@ -345,6 +355,8 @@ Define a callback to be called when the instance is fully rendered and ready for
 ###### default: `noop`
 
 Define a callback to be called when the instance updates.
+
+The function takes a single argument that returns the data object (See [Custom Events](#custom-events))
 
 ---
 
@@ -354,6 +366,8 @@ Define a callback to be called when the instance updates.
 
 Define a callback to be called before scrolling begins.
 
+The function takes a single argument that returns the data object (See [Custom Events](#custom-events))
+
 ---
 
 ### `onStart`
@@ -361,6 +375,8 @@ Define a callback to be called before scrolling begins.
 ###### default: `noop`
 
 Define a callback to be called when scrolling begins.
+
+The function takes a single argument that returns the data object (See [Custom Events](#custom-events))
 
 ---
 
@@ -370,6 +386,8 @@ Define a callback to be called when scrolling begins.
 
 Define a callback to be called while scrolling.
 
+The function takes a single argument that returns the data object (See [Custom Events](#custom-events))
+
 ---
 
 ### `onFinish`
@@ -377,6 +395,8 @@ Define a callback to be called while scrolling.
 ###### default: `noop`
 
 Define a callback to be called when scrolling finishes.
+
+The function takes a single argument that returns the data object (See [Custom Events](#custom-events))
 
 ---
 
@@ -474,7 +494,7 @@ remove custom event listener. See [Custom Events](#custom-events)
 
 You can listen to Pageable's custom events with the `on(type, callback)` method.
 
-The callback has one argument which returns an object:
+The callback has one argument which returns the data object:
 ```javascript
 {
     index: // the current page index
