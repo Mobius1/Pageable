@@ -2,7 +2,7 @@ import SlideShow from "./classes/slideshow";
 import Emitter from "./classes/emitter";
 
 /**
- * Pageable 0.5.3
+ * Pageable 0.5.4
  * 
  * https://github.com/Mobius1/Pageable
  * Released under the MIT license
@@ -208,7 +208,7 @@ export default class Pageable extends Emitter {
             this.config.onInit.call(this, data);
 
             // emit "init" event
-            this.emit("init", data);				
+            this.emit("init", data);
 
             this.initialised = true;
             this.container.pageable = this;
@@ -531,7 +531,7 @@ export default class Pageable extends Emitter {
             }
 
             this.initialised = false;
-			delete this.container.pageable;
+            delete this.container.pageable;
         }
     }
 
@@ -966,34 +966,36 @@ export default class Pageable extends Emitter {
             t
         );
     }
-	
-		_toggleInfinite(destroy) {
-			if ( destroy ) {
-				for (const clone of this.clones) {
-						this.container.removeChild(clone);
-				}
-				this.config.infinite = false;
-			} else {
-				this.config.infinite = true;
-				
-				const first = this.pages[0].cloneNode(true);
-				const last = this.pages[this.lastIndex].cloneNode(true);
 
-				first.id = `${first.id}-clone`;
-				last.id = `${last.id}-clone`;
+    _toggleInfinite(destroy) {
+        if (destroy && this.config.infinite) {
+            for (const clone of this.clones) {
+                this.container.removeChild(clone);
+            }
+            this.config.infinite = false;
+        } else if (!this.config.infinite) {
+            this.config.infinite = true;
 
-				first.classList.add("pg-clone");
-				last.classList.add("pg-clone");
+            const first = this.pages[0].cloneNode(true);
+            const last = this.pages[this.lastIndex].cloneNode(true);
 
-				first.classList.remove("pg-active");
-				last.classList.remove("pg-active");
+            first.id = `${first.id}-clone`;
+            last.id = `${last.id}-clone`;
 
-				this.clones = [first, last];
+            first.classList.add("pg-clone");
+            last.classList.add("pg-clone");
 
-				this.container.insertBefore(last, this.pages[0]);
-				this.container.appendChild(first);
-			}
-		}
+            first.classList.remove("pg-active");
+            last.classList.remove("pg-active");
+
+            this.clones = [first, last];
+
+            this.container.insertBefore(last, this.pages[0]);
+            this.container.appendChild(first);
+        }
+
+        this.update();
+    }
 
     /**
      * Limit dragging / swiping
