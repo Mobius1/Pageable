@@ -211,9 +211,9 @@ Displays the navigation pips.
 
 Sets the scroll animation duration. Set to `0` to disable animation.
 
----
-
 **NOTE: This option was known as `interval` in versions prior to `v0.5.0`**
+
+---
 
 ### `delay`
 ###### type: `Number`
