@@ -34,12 +34,12 @@
 					<h2>Construct</h2>
 					<pre class="language-markup">
 					<code>
-		&lt;div id="container"&gt;
-			&lt;div data-anchor="page-1"&gt;&lt;/div&gt;
-			&lt;div data-anchor="page-2"&gt;&lt;/div&gt;
-			&lt;div data-anchor="page-3"&gt;&lt;/div&gt;
-			&lt;div data-anchor="page-4"&gt;&lt;/div&gt;
-		&lt;/div&gt;
+&lt;div id="container"&gt;
+	&lt;div data-anchor="page-1"&gt;&lt;/div&gt;
+	&lt;div data-anchor="page-2"&gt;&lt;/div&gt;
+	&lt;div data-anchor="page-3"&gt;&lt;/div&gt;
+	&lt;div data-anchor="page-4"&gt;&lt;/div&gt;
+&lt;/div&gt;
 		</code>
 		</pre>
 				</div>
@@ -59,15 +59,15 @@
 					<h2>Customize</h2>
 					<pre class="language-js">
 					<code>
-		new Pageable("#container", {
-			animation: 500,
-			delay: 400,
-			orientation: "horizontal",
-			onScroll: function() {
-				// do something during scroll
-			},
-			// many more
-		});
+new Pageable("#container", {
+	animation: 500,
+	delay: 400,
+	orientation: "horizontal",
+	onScroll: function() {
+		// do something during scroll
+	},
+	// many more
+});
 		</code>
 		</pre>
 				</div>
@@ -77,22 +77,22 @@
 					<h2>Control</h2>
 					<pre class="language-js">
 					<code>
-		const pages = new Pageable("#container");
-		
-		// scroll to previous page
-		pages.prev();
-		
-		// scroll to next page
-		pages.next();
-		
-		// scroll to defined page
-		pages.scrollToPage(3);
-		
-		// scroll to defined anchor
-		pages.scrollToAnchor("#page-3");
-		
-		// switch to horizontal scrolling
-		pages.orientate("horizontal");
+const pages = new Pageable("#container");
+
+// scroll to previous page
+pages.prev();
+
+// scroll to next page
+pages.next();
+
+// scroll to defined page
+pages.scrollToPage(3);
+
+// scroll to defined anchor
+pages.scrollToAnchor("#page-3");
+
+// switch to horizontal scrolling
+pages.orientate("horizontal");
 		</code>
 		</pre>
 				</div>
@@ -102,23 +102,23 @@
 					<h2>Listen</h2>
 					<pre class="language-js">
 					<code>
-		const pages = new Pageable("#container");
-		
-		pages.on("init", data => {
-			// do something when the instance is ready
-		});
-		
-		pages.on("scroll.start", data => {
-			// do something when scrolling starts
-		});
-		
-		pages.on("scroll", data => {
-			// do something during scroll
-		});
-		
-		pages.on("scroll.end", data => {
-			// do something when scrolling ends
-		});
+const pages = new Pageable("#container");
+
+pages.on("init", data => {
+	// do something when the instance is ready
+});
+
+pages.on("scroll.start", data => {
+	// do something when scrolling starts
+});
+
+pages.on("scroll", data => {
+	// do something during scroll
+});
+
+pages.on("scroll.end", data => {
+	// do something when scrolling ends
+});
 		</code>
 		</pre>
 				</div>
