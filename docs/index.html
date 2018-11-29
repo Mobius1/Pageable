@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="css/style.css">
 	</head>
 	<body>
+
 		<div class="anchors">
 			<ul>
 				<li><a href="#page-1" class="active">Page 1</a></li>
@@ -32,34 +33,26 @@
 			<section data-anchor="Page 2">
 				<div class="text">
 					<h2>Construct</h2>
-					<pre class="language-markup">
-					<code>
-&lt;div id="container"&gt;
+					<pre class="language-markup"><code>&lt;div id="container"&gt;
 	&lt;div data-anchor="page-1"&gt;&lt;/div&gt;
 	&lt;div data-anchor="page-2"&gt;&lt;/div&gt;
 	&lt;div data-anchor="page-3"&gt;&lt;/div&gt;
 	&lt;div data-anchor="page-4"&gt;&lt;/div&gt;
-&lt;/div&gt;
-		</code>
-		</pre>
+&lt;/div&gt;</code></pre>
 				</div>
 			</section>
 			<section data-anchor="Page 3">
 				<div class="text">
 					<h2>Initialize</h2>
-					<pre class="language-js">
-					<code>
-		new Pageable("#container");
-		</code>
-		</pre>
+					<pre class="language-js"><code>
+new Pageable("#container");
+		</code></pre>
 				</div>
 			</section>
 			<section data-anchor="Page 4">
 				<div class="text">
 					<h2>Customize</h2>
-					<pre class="language-js">
-					<code>
-new Pageable("#container", {
+					<pre class="language-js"><code>new Pageable("#container", {
 	animation: 500,
 	delay: 400,
 	orientation: "horizontal",
@@ -67,17 +60,13 @@ new Pageable("#container", {
 		// do something during scroll
 	},
 	// many more
-});
-		</code>
-		</pre>
+});</code></pre>
 				</div>
 			</section>
 			<section data-anchor="Page 5">
 				<div class="text">
 					<h2>Control</h2>
-					<pre class="language-js">
-					<code>
-const pages = new Pageable("#container");
+					<pre class="language-js"><code>const pages = new Pageable("#container");
 
 // scroll to previous page
 pages.prev();
@@ -92,17 +81,13 @@ pages.scrollToPage(3);
 pages.scrollToAnchor("#page-3");
 
 // switch to horizontal scrolling
-pages.orientate("horizontal");
-		</code>
-		</pre>
+pages.orientate("horizontal");</code></pre>
 				</div>
 			</section>
 			<section data-anchor="Page 6">
 				<div class="text">
 					<h2>Listen</h2>
-					<pre class="language-js">
-					<code>
-const pages = new Pageable("#container");
+					<pre class="language-js"><code>const pages = new Pageable("#container");
 
 pages.on("init", data => {
 	// do something when the instance is ready
@@ -118,9 +103,7 @@ pages.on("scroll", data => {
 
 pages.on("scroll.end", data => {
 	// do something when scrolling ends
-});
-		</code>
-		</pre>
+});</code></pre>
 				</div>
 			</section>
 		</main>
@@ -203,6 +186,8 @@ pages.on("scroll.end", data => {
 				</div>
 			</div>
 		</div>
+		
+
 		
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js"></script>
 		<script type="text/javascript" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/86186/easings.js"></script>
