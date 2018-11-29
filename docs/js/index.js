@@ -95,14 +95,14 @@ inputs.forEach(function (input) {
 				config.max = 2000;
 				config.value = pageable.config.animation;
 				config.onEnd = function (val) {
-					pageable.config.animation = val;
+					pageable.config.animation = parseInt(val, 10);
 				};
 				break;
 			case "delay":
 				config.max = 1000;
 				config.value = pageable.config.delay;
 				config.onEnd = function (val) {
-					pageable.config.delay = val;
+					pageable.config.delay = parseInt(val, 10);
 				};
 				break;
 			case "swipeThreshold":
@@ -110,7 +110,7 @@ inputs.forEach(function (input) {
 				config.max = 500;
 				config.value = pageable.config.swipeThreshold;
 				config.onEnd = function (val) {
-					pageable.config.swipeThreshold = val;
+					pageable.config.swipeThreshold = parseInt(val, 10);
 				};
 				config.onInit = function(val) {
 					output.textContent = val + 'px';
