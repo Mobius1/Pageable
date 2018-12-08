@@ -2,7 +2,7 @@ import SlideShow from "./classes/slideshow";
 import Emitter from "./classes/emitter";
 
 /**
- * Pageable 0.5.4
+ * Pageable 0.5.5
  * 
  * https://github.com/Mobius1/Pageable
  * Released under the MIT license
@@ -685,8 +685,8 @@ export default class Pageable extends Emitter {
         }
 
         if (this.down && !this.scrolling) {
-            const pos = e[this.mouseAxis[this.axis]] < this.down[this.axis];
-            const neg = e[this.mouseAxis[this.axis]] > this.down[this.axis];
+            const pos = evt[this.mouseAxis[this.axis]] < this.down[this.axis];
+            const neg = evt[this.mouseAxis[this.axis]] > this.down[this.axis];
             if (canChange) {
                 if (this.config.infinite) {
                     this._overScroll(pos);
