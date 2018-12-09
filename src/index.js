@@ -249,10 +249,12 @@ export default class Pageable extends Emitter {
             click: this._click.bind(this),
             prev: this.prev.bind(this),
             next: this.next.bind(this),
+            keydown: this._keydown.bind(this),
         };
 
         this.wrapper.addEventListener("wheel", this.callbacks.wheel, false);
         window.addEventListener("resize", this.callbacks.update, false);
+        document.addEventListener("keydown", this.callbacks.keydown, false);
 
         this.wrapper.addEventListener(
             this.touch ? "touchstart" : "mousedown",
@@ -305,6 +307,8 @@ export default class Pageable extends Emitter {
             this.touch ? "touchend" : "mouseup",
             this.callbacks.stop
         );
+
+        document.addEventListener("keydown", this.callbacks.keydown, false);
 
         if (this.navPrevEl) {
             this.navPrevEl.removeEventListener("click", this.callbacks.prev, false);
@@ -556,6 +560,39 @@ export default class Pageable extends Emitter {
     _preventDefault(e) {
         e.preventDefault();
         e.stopPropagation();
+    }
+
+    _keydown(e) {
+
+        if (this.scrolling || this.dragging) {
+            e.preventDefault();
+            return false;
+        }
+
+        var code = false;
+        if (e.key !== undefined) {
+            code = e.key;
+        } else if (e.keyCode !== undefined) {
+            code = e.keyCode;
+        }
+
+        var dir1 = `Arrow${this.axis==="x"?"Left":"Up"}`;
+        var dir2 = `Arrow${this.axis==="x"?"Right":"Down"}`;
+
+        if (code) {
+            switch (code) {
+                case 39:
+                case dir2:
+                    e.preventDefault();
+                    this.next();
+                    break;
+                case 37:
+                case dir1:
+                    e.preventDefault();
+                    this.prev();
+                    break;
+            }
+        }
     }
 
     /**
