@@ -563,7 +563,6 @@ export default class Pageable extends Emitter {
     }
 
     _keydown(e) {
-
         if (this.scrolling || this.dragging) {
             e.preventDefault();
             return false;
@@ -581,15 +580,19 @@ export default class Pageable extends Emitter {
 
         if (code) {
             switch (code) {
-                case 39:
-                case dir2:
-                    e.preventDefault();
-                    this.next();
-                    break;
+                case 33:
                 case 37:
                 case dir1:
+                case "PageUp":
                     e.preventDefault();
                     this.prev();
+                    break;
+                case 34:
+                case 39:
+                case dir2:
+                case "PageDown":
+                    e.preventDefault();
+                    this.next();
                     break;
             }
         }
