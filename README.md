@@ -18,6 +18,7 @@ Pageable transforms a web page into a full page scrolling presentation.
   - Performant
   - Touch support
   - Easy to set up
+  - IE10+
 
 ---
 
