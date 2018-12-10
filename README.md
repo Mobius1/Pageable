@@ -85,7 +85,7 @@ npm install pageable --save
 Grab the file from one of the CDNs and include it in your page:
 
 ```
-https://unpkg.com/pageable@latest/dist/pageable.js
+https://unpkg.com/pageable@latest/dist/pageable.min.js
 ```
 
 You can replace `latest` with the required release number if needed.
@@ -93,7 +93,7 @@ You can replace `latest` with the required release number if needed.
 You can also include the optional stylesheet that applies styling to the nav pips and buttons: 
 
 ```
-https://unpkg.com/pageable@latest/dist/pageable.css
+https://unpkg.com/pageable@latest/dist/pageable.min.css
 ```
 
 ---
