@@ -4,7 +4,7 @@
  Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
 
- Version: 0.6.0
+ Version: 0.6.1
 
 */
 (function(root, factory) {
@@ -102,7 +102,7 @@
     };
 
     /**
-     * Pageable 0.6.0
+     * Pageable 0.6.1
      * 
      * https://github.com/Mobius1/Pageable
      * Released under the MIT license
@@ -288,7 +288,7 @@
             this.lastIndex = this.pageCount - 1;
 
             if (o.infinite) {
-                this._toggleInfinite();
+                this._toggleInfinite(false, true);
             }
 
             this.bind();
@@ -1099,13 +1099,13 @@
         return div.style.cssText = "width: 100; height: 100; overflow: scroll; position: absolute; top: -9999;", db.appendChild(div), t = div.offsetWidth - div.clientWidth, db.removeChild(div), t;
     };
 
-    Pageable.prototype._toggleInfinite = function(destroy) {
+    Pageable.prototype._toggleInfinite = function(destroy, force) {
         if (destroy && this.config.infinite) {
             this.clones.forEach(function(clone) {
                 this.container.removeChild(clone);
             }, this);
             this.config.infinite = false;
-        } else if (!this.config.infinite) {
+        } else if (!this.config.infinite || force) {
             this.config.infinite = true;
 
             var first = this.pages[0].cloneNode(true);
