@@ -4,7 +4,7 @@
  Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
 
- Version: 0.6.1
+ Version: 0.6.2
 
 */
 (function(root, factory) {
@@ -102,7 +102,7 @@
     };
 
     /**
-     * Pageable 0.6.1
+     * Pageable 0.6.2
      * 
      * https://github.com/Mobius1/Pageable
      * Released under the MIT license

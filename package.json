@@ -1,8 +1,8 @@
 {
   "name": "pageable",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Create full page scrolling web pages. No jQuery.",
-  "main": "dist/pageable.js",
+  "main": "dist/pageable.min.js",
   "scripts": {
     "test": "./node_modules/.bin/karma start --single-run --reporters=progress"
   },
