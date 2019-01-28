@@ -134,6 +134,7 @@
             freeScroll: false,
             slideshow: false,
             infinite: false,
+            childSelector: '[data-anchor]',
             events: {
                 wheel: true,
                 mouse: true,
@@ -163,12 +164,12 @@
             this.container.appendChild(frag);
         }
 
-        // search for child nodes with the [data-anchor] attribute
-        this.pages = this.container.querySelectorAll("[data-anchor]");
+        // search for child nodes using the child selector
+        this.pages = this.container.querySelectorAll(this.config.childSelector);
 
         // none found
         if (!this.pages.length) {
-            return console.error("Pageable:", "No child nodes with the [data-anchor] attribute could be found.");
+            return console.error("Pageable:", "No child nodes matching the selector " + this.config.childSelector + " could be found.");
         }
 
         this.horizontal = this.config.orientation === "horizontal";
@@ -724,7 +725,7 @@
         }
 
         // prevent firing if not on a page
-        if (!evt.target.closest("[data-anchor]")) {
+        if (!evt.target.closest(this.childSelector)) {
             return false;
         }
 
