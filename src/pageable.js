@@ -177,7 +177,11 @@
         this.anchors = [];
 
         this.pages.forEach(function(page, i) {
-            var clean = page.dataset.anchor.replace(/\s+/, "-").toLowerCase();
+            if (typeof page.dataset.anchor !== 'undefined') {
+                var clean = page.dataset.anchor.replace(/\s+/, "-").toLowerCase();
+            } else {
+                var clean = page.classList.value.replace(/\s+/, "-").toLowerCase();
+            }
             if (page.id !== clean) {
                 page.id = clean;
             }
