@@ -27,6 +27,7 @@ function update(data) {
 	document.getElementById("wheel").checked = this.events.wheel;
 	document.getElementById("mouse").checked = this.events.mouse;
 	document.getElementById("touch").checked = this.events.touch;
+	document.getElementById("keydown").checked = this.events.keydown;
 	document.getElementById("freescroll").checked = this.config.freeScroll;
 
 	anchors.forEach(function (anchor, i) {
@@ -44,7 +45,6 @@ function init() {
 		list.appendChild(item);
 
 		that.on(listener, function (data) {
-			// console.log(listener);
 
 			item.classList.add("active");
 
@@ -91,7 +91,6 @@ function init() {
 			}
 		} else {
 			var output = input.previousElementSibling.lastElementChild;
-			console.log(output)
 	
 			var config = {
 				tooltips: false,
