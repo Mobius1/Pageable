@@ -40,6 +40,7 @@ Pageable transforms a web page into a full page scrolling presentation.
   * [Anchors](#anchors)
 * [API](#api-reference)
   * [Options](#options)
+    * [childSelector](#childselector)
     * [pips](#pips)
     * [animation](#animation)
     * [delay](#delay)
@@ -148,6 +149,7 @@ You can pass an object as the second paramater to customise the instance:
 ### JS
 ```javascript
 new Pageable("#container", {
+    childSelector: "[data-anchor]" // CSS3 selector string for the pages
     pips: true, // display the pips
     animation: 300, // the duration in ms of the scroll animation
     delay: 0, // the delay in ms before the scroll animation starts
@@ -205,6 +207,14 @@ Any anchor on your page that has a hash that matches the ones in the current `Pa
 
 ---
 ## Options
+### `childSelector`
+###### type: `Boolean`
+###### default: `true`
+
+A CSS3 selector string for selecting the nodes to be used as pages
+
+---
+
 ### `pips`
 ###### type: `Boolean`
 ###### default: `true`
