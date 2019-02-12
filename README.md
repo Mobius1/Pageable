@@ -166,6 +166,7 @@ new Pageable("#container", {
         wheel: true, // enable / disable mousewheel scrolling
         mouse: true, // enable / disable mouse drag scrolling
         touch: true, // enable / disable touch / swipe scrolling
+        keydown: true, // enable / disable keyboard navigation
     },
     easing: function(currentTime, startPos, endPos, interval) {
         // the easing function used for the scroll animation
@@ -307,8 +308,9 @@ Define the allowed events.
 * `wheel` -  enable / disable mousewheel scrolling
 * `mouse` -  enable / disable mouse drag scrolling
 * `touch` -  enable / disable touch / swipe scrolling
+* `keydown` -  enable / disable keyboard navigation
 
-All propertied are set to `true` by default.
+All properties are set to `true` by default.
 
 ---
 

@@ -4,7 +4,7 @@
  Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
 
- Version: 0.6.2
+ Version: 0.6.3
 
 */
 (function(root, factory) {
@@ -102,7 +102,7 @@
     };
 
     /**
-     * Pageable 0.6.2
+     * Pageable 0.6.3
      * 
      * https://github.com/Mobius1/Pageable
      * Released under the MIT license
@@ -138,7 +138,8 @@
             events: {
                 wheel: true,
                 mouse: true,
-                touch: true
+                touch: true,
+                keydown: true,
             }
         };
 
@@ -332,13 +333,17 @@
             stop: this._stop.bind(this),
             click: this._click.bind(this),
             prev: this.prev.bind(this),
-            next: this.next.bind(this),
-            keydown: this._keydown.bind(this)
+            next: this.next.bind(this)
         };
+
+        // Issue #15
+        if ( this.config.events.keydown ) {
+            this.callbacks.keydown = this._keydown.bind(this);
+            document.addEventListener("keydown", this.callbacks.keydown, false);
+        }
 
         this.wrapper.addEventListener("wheel", this.callbacks.wheel, false);
         window.addEventListener("resize", this.callbacks.update, false);
-        document.addEventListener("keydown", this.callbacks.keydown, false);
 
         this.wrapper.addEventListener(this.touch ? "touchstart" : "mousedown", this.callbacks.start, false);
 
@@ -370,7 +375,9 @@
 
         window.removeEventListener(this.touch ? "touchend" : "mouseup", this.callbacks.stop);
 
-        document.addEventListener("keydown", this.callbacks.keydown, false);
+        if ( this.config.events.keydown && this.callbacks.keydown ) {
+            document.removeEventListener("keydown", this.callbacks.keydown);
+        }
 
         if (this.navPrevEl) {
             this.navPrevEl.removeEventListener("click", this.callbacks.prev, false);
