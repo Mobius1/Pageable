@@ -4,7 +4,7 @@
  Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
 
- Version: 0.6.3
+ Version: 0.6.4
 
 */
 (function(root, factory) {
@@ -102,7 +102,7 @@
     };
 
     /**
-     * Pageable 0.6.3
+     * Pageable 0.6.4
      * 
      * https://github.com/Mobius1/Pageable
      * Released under the MIT license
@@ -178,10 +178,11 @@
         this.anchors = [];
 
         this.pages.forEach(function(page, i) {
+            var clean = "";
             if (typeof page.dataset.anchor !== 'undefined') {
-                var clean = page.dataset.anchor.replace(/\s+/, "-").toLowerCase();
+                clean = page.dataset.anchor.replace(/\s+/, "-").toLowerCase();
             } else {
-                var clean = page.classList.value.replace(/\s+/, "-").toLowerCase();
+                clean = page.classList.value.replace(/\s+/, "-").toLowerCase();
             }
             if (page.id !== clean) {
                 page.id = clean;
@@ -333,14 +334,11 @@
             stop: this._stop.bind(this),
             click: this._click.bind(this),
             prev: this.prev.bind(this),
-            next: this.next.bind(this)
+            next: this.next.bind(this),
+            keydown: this._keydown.bind(this)
         };
 
-        // Issue #15
-        if ( this.config.events.keydown ) {
-            this.callbacks.keydown = this._keydown.bind(this);
-            document.addEventListener("keydown", this.callbacks.keydown, false);
-        }
+        document.addEventListener("keydown", this.callbacks.keydown, false);
 
         this.wrapper.addEventListener("wheel", this.callbacks.wheel, false);
         window.addEventListener("resize", this.callbacks.update, false);
@@ -375,9 +373,7 @@
 
         window.removeEventListener(this.touch ? "touchend" : "mouseup", this.callbacks.stop);
 
-        if ( this.config.events.keydown && this.callbacks.keydown ) {
-            document.removeEventListener("keydown", this.callbacks.keydown);
-        }
+        document.removeEventListener("keydown", this.callbacks.keydown);
 
         if (this.navPrevEl) {
             this.navPrevEl.removeEventListener("click", this.callbacks.prev, false);
@@ -670,37 +666,39 @@
 
     Pageable.prototype._keydown = function(e) {
 
-        if (this.scrolling || this.dragging) {
-            e.preventDefault();
-            return false;
-        }
+        if (this.config.events.keydown) {
+            if (this.scrolling || this.dragging) {
+                e.preventDefault();
+                return false;
+            }
 
-        var code = false;
-        if (e.key !== undefined) {
-            code = e.key;
-        } else if (e.keyCode !== undefined) {
-            code = e.keyCode;
-        }
+            var code = false;
+            if (e.key !== undefined) {
+                code = e.key;
+            } else if (e.keyCode !== undefined) {
+                code = e.keyCode;
+            }
 
-        var dir1 = "Arrow" + (this.axis === "x" ? "Left" : "Up");
-        var dir2 = "Arrow" + (this.axis === "x" ? "Right" : "Down");
+            var dir1 = "Arrow" + (this.axis === "x" ? "Left" : "Up");
+            var dir2 = "Arrow" + (this.axis === "x" ? "Right" : "Down");
 
-        if (code) {
-            switch (code) {
-                case 33:
-                case 37:
-                case dir1:
-                case "PageUp":
-                    e.preventDefault();
-                    this.prev();
-                    break;
-                case 34:
-                case 39:
-                case dir2:
-                case "PageDown":
-                    e.preventDefault();
-                    this.next();
-                    break;
+            if (code) {
+                switch (code) {
+                    case 33:
+                    case 37:
+                    case dir1:
+                    case "PageUp":
+                        e.preventDefault();
+                        this.prev();
+                        break;
+                    case 34:
+                    case 39:
+                    case dir2:
+                    case "PageDown":
+                        e.preventDefault();
+                        this.next();
+                        break;
+                }
             }
         }
     };
