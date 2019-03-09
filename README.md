@@ -37,10 +37,10 @@ Pageable transforms a web page into a full page scrolling presentation.
   * [Install](#install)
   * [Browser](#browser)
   * [Set up](#set-up)
-  * [Anchors](#anchors)
 * [API](#api-reference)
   * [Options](#options)
     * [childSelector](#childselector)
+    * [anchors](#anchors)
     * [pips](#pips)
     * [animation](#animation)
     * [delay](#delay)
@@ -135,6 +135,8 @@ The HTML will be transformed in the following way:
 </div>
 ```
 
+If you don't set the `[data-anchor]` attribute then you must set the anchors with the `[anchors](#anchors)` option.
+
 If `pips` are enabled, their HTML will be appended to the `.pg-wrapper` element after the `.pg-container` element.
 
 The defined anchors will be 'slugified' and used as the page's `id` - e.g. `My Page 1` will be converted to `my-page-1`
@@ -150,6 +152,7 @@ You can pass an object as the second paramater to customise the instance:
 ```javascript
 new Pageable("#container", {
     childSelector: "[data-anchor]" // CSS3 selector string for the pages
+    anchors: [], // define the page anchors
     pips: true, // display the pips
     animation: 300, // the duration in ms of the scroll animation
     delay: 0, // the delay in ms before the scroll animation starts
@@ -212,6 +215,14 @@ Any anchor on your page that has a hash that matches the ones in the current `Pa
 ###### default: `true`
 
 A CSS3 selector string for selecting the nodes to be used as pages
+
+---
+
+### `anchors`
+###### type: `Array`
+###### default: `undefined`
+
+An array of strings to use as the page anchors. Make sure the number of anchors used is equal to the number of pages.
 
 ---
 
