@@ -37,10 +37,11 @@ Pageable transforms a web page into a full page scrolling presentation.
   * [Install](#install)
   * [Browser](#browser)
   * [Set up](#set-up)
+  * [Anchors](#anchors)
 * [API](#api-reference)
   * [Options](#options)
     * [childSelector](#childselector)
-    * [anchors](#anchors)
+    * [anchors](#anchors-1)
     * [pips](#pips)
     * [animation](#animation)
     * [delay](#delay)
@@ -135,7 +136,7 @@ The HTML will be transformed in the following way:
 </div>
 ```
 
-If you don't set the `[data-anchor]` attribute then you must set the anchors with the `[anchors](#anchors)` option.
+If you don't set the `[data-anchor]` attribute then you must set the anchors with the `[anchors](#anchors-1)` option.
 
 If `pips` are enabled, their HTML will be appended to the `.pg-wrapper` element after the `.pg-container` element.
 
