@@ -4,7 +4,7 @@
  Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
 
- Version: 0.6.5
+ Version: 0.6.6
 
 */
 (function(root, factory) {
@@ -102,7 +102,7 @@
     };
 
     /**
-     * Pageable 0.6.5
+     * Pageable 0.6.6
      * 
      * https://github.com/Mobius1/Pageable
      * Released under the MIT license
@@ -153,18 +153,6 @@
         this.config = extend(defaults, options);
         this.events = this.config.events;
 
-        if (this.config.anchors && Array.isArray(this.config.anchors)) {
-            var frag = document.createDocumentFragment();
-
-            this.config.anchors.forEach(function(anchor) {
-                var page = document.createElement("div");
-                page.dataset.anchor = anchor;
-                frag.appendChild(page);
-            });
-
-            this.container.appendChild(frag);
-        }
-
         // search for child nodes using the child selector
         this.pages = this.container.querySelectorAll(this.config.childSelector);
 
@@ -182,7 +170,11 @@
             if (typeof page.dataset.anchor !== 'undefined') {
                 clean = page.dataset.anchor.replace(/\s+/, "-").toLowerCase();
             } else {
-                clean = page.classList.value.replace(/\s+/, "-").toLowerCase();
+                if ( Array.isArray(that.config.anchors) && that.config.anchors.length ) {
+                    clean = that.config.anchors[i].replace(/\s+/, "-").toLowerCase();
+                } else {
+                    clean = page.classList.value.replace(/\s+/, "-").toLowerCase();
+                }
             }
             if (page.id !== clean) {
                 page.id = clean;
