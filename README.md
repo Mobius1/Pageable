@@ -525,15 +525,11 @@ The callback has one argument which returns the data object:
     index: // the current page index
     scrolled: // the current scroll offset
     max: // the maximum scroll amount possible
+    percent: // the scroll position as a percentage of the maximum scroll (v0.6.7 and above)
 }
 ```
 
-You can calculate the progress of the instance from the data:
-```javascript
-const percentage = data.scrolled / data.max * 100;
-```
-
-This can be helpful when adding progress indicators (see [Adding Progress Bars](https://mobius1.github.io/Pageable/progress.html)).
+The `percent` property can be helpful when adding progress indicators (see [Adding Progress Bars](https://mobius1.github.io/Pageable/progress.html)).
 
 ### Examples
 ```javascript

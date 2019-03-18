@@ -4,7 +4,7 @@
  Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
 
- Version: 0.6.6
+ Version: 0.6.7
 
 */
 (function(root, factory) {
@@ -102,7 +102,7 @@
     };
 
     /**
-     * Pageable 0.6.6
+     * Pageable 0.6.7
      * 
      * https://github.com/Mobius1/Pageable
      * Released under the MIT license
@@ -933,10 +933,14 @@
      * @return {Object}
      */
     Pageable.prototype._getData = function() {
+        const scrolled = this.config.infinite ? this.scrollPosition - this.data.window[this.size[this.axis]] : this.scrollPosition;
+        const max = this.config.infinite ? this.scrollSize - this.data.window[this.size[this.axis]] * 2 : this.scrollSize; 
+
         return {
             index: this.index,
-            scrolled: this.config.infinite ? this.scrollPosition - this.data.window[this.size[this.axis]] : this.scrollPosition,
-            max: this.config.infinite ? this.scrollSize - this.data.window[this.size[this.axis]] * 2 : this.scrollSize
+            percent: scrolled / max * 100,
+            scrolled: scrolled,
+            max: max
         };
     };
 
