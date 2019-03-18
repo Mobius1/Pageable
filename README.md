@@ -136,7 +136,7 @@ The HTML will be transformed in the following way:
 </div>
 ```
 
-If you don't set the `[data-anchor]` attribute then you must set the anchors with the `[anchors](#anchors-1)` option.
+If you don't set the `[data-anchor]` attribute then you must set the anchors with the [`anchors`](#anchors-1) option.
 
 If `pips` are enabled, their HTML will be appended to the `.pg-wrapper` element after the `.pg-container` element.
 
@@ -343,7 +343,7 @@ Define the easing function used for the scroll animation.
 
 The function takes four `arguments`:
 
-```
+```javascript
 function(currentTime, startPos, endPos, interval) {
     // the default easing function
     return -endPos * (currentTime /= interval) * (currentTime - 2) + startPos;
