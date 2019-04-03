@@ -1,6 +1,6 @@
 # Pageable
 
-[![Maintenance](https://img.shields.io/maintenance/yes/2018.svg?style=for-the-badge)](https://github.com/Mobius1/Pageable/)
+[![Maintenance](https://img.shields.io/maintenance/yes/2019.svg?style=for-the-badge)](https://github.com/Mobius1/Pageable/)
 [![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/Mobius1/Pageable.svg?style=for-the-badge)](https://codeclimate.com/github/Mobius1/Pageable/maintainability)
 ![](http://img.badgesize.io/Mobius1/Pageable/master/dist/pageable.min.js?style=for-the-badge) 
 ![](http://img.badgesize.io/Mobius1/Pageable/master/dist/pageable.min.js?compression=gzip&label=gzipped&style=for-the-badge)
