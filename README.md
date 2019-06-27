@@ -31,6 +31,13 @@ Pageable transforms a web page into a full page scrolling presentation.
   - [Full-page image gallery](https://mobius1.github.io/Pageable/gallery.html)
 
 ---
+
+If this project helps you then you can grab me a coffee or beer to say thanks.
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=42AR2ZMBHWVTW&source=url)
+
+---
+
 ## Contents
 
 * [Getting Started](#getting-started)
@@ -571,6 +578,12 @@ pages.on("scroll.end", data => {
     // do something when scrolling ends
 });
 ```
+
+---
+
+If this project helps you then you can grab me a coffee or beer to say thanks.
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=42AR2ZMBHWVTW&source=url)
 
 ---
 
